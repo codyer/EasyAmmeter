@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">电费助手</string>
+    <string name="please_input_hint">请输入电表数据</string>
+    <string name="please_input_last_hint">请输入上月电表数据</string>
+    <string name="please_input_this_hint">请输入本月电表数据</string>
+    <string name="please_input_wrong_hint">本月电表数据不能小于上月电表数据</string>
+    <string name="please_input_price_hint">请输入本次缴纳金额</string>
+
+    <string name="public_use">本月公摊电量：</string>
+    <string name="last_month">上月总表读数：</string>
+    <string name="this_month">本月总表读数：</string>
+    <string name="use">本月总用电量：</string>
+    <string name="total_price">总表应缴电费：</string>
+    <string name="degree"> 度</string>
+    <string name="yuan"> 元</string>
+
+    <string name="last_month_sub">上月分表读数：</string>
+    <string name="this_month_sub">本月分表读数：</string>
+    <string name="use_sub">本月使用电量：</string>
+
+    <string name="private_use_price_sub">分表电费：</string>
+    <string name="public_use_price_sub">公摊电费：</string>
+    <string name="total_price_sub">应缴电费：</string>
+
+    <string name="save">保存并关闭</string>
+    <string name="save_and_clear">保存并复制</string>
+    <string name="calculate">计算电费</string>
+    <string name="default_value">0度</string>
+    <string name="make_ok">开始计算</string>
+    <string name="share">分享</string>
+    <string name="edit">编辑</string>
+</resources>
