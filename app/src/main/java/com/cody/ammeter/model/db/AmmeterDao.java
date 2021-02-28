@@ -52,6 +52,9 @@ public interface AmmeterDao {
     @Query("SELECT * FROM ammeters WHERE id > 1")
     List<Ammeter> getTenantAmmeters();
 
+    @Query("SELECT * FROM ammeters WHERE isLeave =:leave order by id DESC")
+    LiveData<List<Ammeter>> liveAmmeters(boolean leave);
+
     @Query("SELECT * FROM ammeters WHERE isLeave =:leave and id > 1")
     List<Ammeter> getTenantAmmeters(boolean leave);
 

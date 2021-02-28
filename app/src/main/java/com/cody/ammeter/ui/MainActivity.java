@@ -46,7 +46,7 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
             mMainAmmeter = ammeter;
             AmmeterHelper.setUnSettlementMoney(ammeter.getOldBalance() - ammeter.getNewBalance());
             getBinding().setBalance(String.format(getString(R.string.format_yuan), ammeter.getNewBalance()));
-            getBinding().setAmmeter(String.format(getString(R.string.format_du), ammeter.getNewAmmeter()));
+            getBinding().setAmmeter(String.format(getString(R.string.format_du), ammeter.getNewAmmeter() - ammeter.getOldAmmeter()));
             getBinding().setUsed(String.format(getString(R.string.price_used_hint), ammeter.getOldBalance() - ammeter.getNewBalance()));
             hideLoading();
         });
@@ -86,7 +86,7 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
             case R.id.settlement:
                 long time = new Date().getTime();
                 if (mMainAmmeter != null) {
-                    if (mMainAmmeter.getNewAmmeter() > mMainAmmeter.getOldAmmeter()) {
+                    if (mMainAmmeter.getNewAmmeter() < mMainAmmeter.getOldAmmeter()) {
                         showToast(mMainAmmeter.getName() + getString(R.string.please_input_wrong_hint));
                         return;
                     } else if ((time - mMainAmmeter.getAmmeterSetTime().getTime()) * 1.0 / (1000 * 60 * 60) > 24) {

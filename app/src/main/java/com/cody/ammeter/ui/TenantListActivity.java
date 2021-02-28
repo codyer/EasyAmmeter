@@ -101,6 +101,7 @@ public class TenantListActivity extends AbsPageListActivity<ToolbarLitActivityBi
     protected void onBaseReady(Bundle savedInstanceState) {
         super.onBaseReady(savedInstanceState);
         setSupportActionBar(getBinding().toolbar);
+        setTitle(R.string.my_tenant);
     }
 
     @Override

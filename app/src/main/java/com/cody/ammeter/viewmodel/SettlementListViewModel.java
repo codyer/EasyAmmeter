@@ -47,7 +47,7 @@ public class SettlementListViewModel extends AbsPageListViewModel<FriendlyViewDa
             if (tenant.isArrears()) {
                 tenant.setValue("最新电量未设定\n或者设定错误");
             } else {
-                tenant.setValue(String.format("已使用：%.2f度\n%s", input.getNewAmmeter() - input.getOldAmmeter(),
+                tenant.setValue(String.format("已使用：%.2f度\n上次结算时间：%s", input.getNewAmmeter() - input.getOldAmmeter(),
                         TimeUtil.getDateFormatShort(input.getAmmeterSetTime())));
             }
             return tenant;

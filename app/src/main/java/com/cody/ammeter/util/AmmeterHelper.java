@@ -1,16 +1,23 @@
 package com.cody.ammeter.util;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import com.cody.ammeter.model.Repository;
 import com.cody.ammeter.model.db.table.Ammeter;
 import com.cody.ammeter.model.db.table.Payment;
 import com.cody.ammeter.model.db.table.Settlement;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -31,6 +38,13 @@ public class AmmeterHelper {
 
     public static void setUnSettlementMoney(final float unSettlementMoney) {
         sUnSettlementMoney = unSettlementMoney;
+    }
+
+    /**
+     * 所有在用的电表数据
+     */
+    public static LiveData<List<Ammeter>> getAllAmmeter() {
+        return Repository.liveAmmeters();
     }
 
     public interface CallBack<T> {
@@ -70,7 +84,7 @@ public class AmmeterHelper {
                 sub.setNewBalance(sub.getNewBalance() - price * (sharingAmmeter + sub.getNewAmmeter() - sub.getOldAmmeter()));
                 sub.setOldAmmeter(sub.getNewAmmeter());
             }
-            mainAmmeter.setOldBalance(mainAmmeter.getNewAmmeter());
+            mainAmmeter.setOldAmmeter(mainAmmeter.getNewAmmeter());
             mainAmmeter.setOldBalance(mainAmmeter.getNewBalance());
             Repository.insertSettlement(settlements);
 
@@ -155,5 +169,60 @@ public class AmmeterHelper {
             Repository.updateAmmeter(ammeter);
             sHandler.post(() -> callBack.onResult(true));
         });
+    }
+
+
+    public static boolean copy(Context context) {
+        if (context == null) return false;
+        StringBuffer info = getShareInfo();
+        ClipboardManager manager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        if (manager != null) {
+            try {
+                manager.setPrimaryClip(ClipData.newPlainText("ammeter_info", info));
+                Log.d("DataHelper", info.toString());
+                return true;
+            } catch (Exception e) {
+                //
+                return false;
+            }
+        }
+        return false;
+    }
+
+  /*  private void share() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, DataHelper.getShareInfo().toString());
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, null));
+    }
+*/
+    public static StringBuffer getShareInfo() {
+        StringBuffer info = new StringBuffer();
+        info.append("本次电费详情:(时间：").append(getDateString()).append(")\n");
+        /*AmmeterViewData item;
+        for (int i = 0; i < mAmmeters.size(); i++) {
+            item = mAmmeters.get(i);
+            if (item.isSubMeter()) {
+                info.append("房间【").append(item.getName())
+                        .append("】应缴电费：").append(item.getTotalPrice().getValue()).append("元\n（公摊电费：")
+                        .append(item.getPublicPrice().getValue()).append("元，分表电费：")
+                        .append(item.getPrivatePrice().getValue()).append("元，用电：")
+                        .append(item.getKilowattHour()).append("度，当前读数：")
+                        .append(item.getThisMonth().getValue()).append("度)；\n ------------ \n");
+            } else {
+                info.append("总缴电费：").append(item.getTotalPrice().getValue()).append("元\n（总用电：")
+                        .append(item.getKilowattHour()).append("度").append("，公摊度数：")
+                        .append(item.getPublicPrice().getValue()).append("度，上月总表读数：")
+                        .append(item.getLastMonth().getValue()).append("度，本月总表读数：")
+                        .append(item.getThisMonth().getValue()).append("度)；\n ------------ \n");
+            }
+        }*/
+        return info;
+    }
+
+    public static String getDateString() {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy/M/d HH:mm:ss", Locale.CHINA);
+        return df.format(new Date(System.currentTimeMillis()));
     }
 }

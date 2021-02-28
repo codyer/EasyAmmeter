@@ -43,19 +43,11 @@
             android:onClick="@{onClickListener::onClick}"
             android:theme="@style/ThemeOverlay.AppCompat.Light" />
 
-        <com.cody.component.app.widget.friendly.FriendlyLayout
-            android:id="@+id/friendlyView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_weight="1"
-            bind:onClickListener="@{onClickListener}"
-            bind:viewData="@{viewData}">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </com.cody.component.app.widget.friendly.FriendlyLayout>
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
 
         <Button
             android:id="@+id/settlement"
@@ -64,6 +56,6 @@
             android:padding="@dimen/dimen_large"
             bind:onClickListener="@{onClickListener}"
             android:textSize="@dimen/ui_font_bigger"
-            android:text="@string/settlement"/>
+            android:text="@string/submit_settlement" />
     </LinearLayout>
 </layout>

@@ -8,7 +8,7 @@
     <string name="last_month">上月总表读数：</string>
     <string name="this_month">本月总表读数：</string>
     <string name="use">本月总用电量：</string>
-    <string name="total_price">总表应缴电费：</string>
+    <string name="total_price">总表使用电费：</string>
     <string name="degree"> 度</string>
     <string name="yuan"> 元</string>
 
@@ -37,6 +37,7 @@
     <string name="title_payment">缴费金额</string>
     <string name="title_balance">当前余额</string>
     <string name="ammeter">电表</string>
+    <string name="used_ammeter">已用电量</string>
     <string name="title_ammeter">电表读数</string>
     <string name="please_input_payment_hint">请输入本次缴费金额</string>
     <string name="please_input_balance_hint">请输入当前余额</string>
@@ -49,6 +50,7 @@
     <string name="my_tenant">我的租客</string>
     <string name="settlement_success">结算成功！</string>
     <string name="settlement">结算</string>
+    <string name="submit_settlement">确认结算</string>
     <string name="number_0">0</string>
     <string name="number_9">9</string>
     <string name="number_8">8</string>

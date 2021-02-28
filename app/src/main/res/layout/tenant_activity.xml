@@ -70,7 +70,7 @@
 
                 <TextView
                     style="@style/itemCardTitle"
-                    android:text="@string/title_ammeter" />
+                    android:text="@string/used_ammeter" />
 
                 <TextView
                     style="@style/itemCardSubTitle"

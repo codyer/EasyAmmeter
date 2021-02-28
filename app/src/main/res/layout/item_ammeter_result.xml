@@ -8,8 +8,16 @@
         <import type="android.view.View" />
 
         <variable
+            name="price"
+            type="Float" />
+
+        <variable
+            name="sharing"
+            type="Float" />
+
+        <variable
             name="ammeter"
-            type="com.cody.ammeter.AmmeterViewData" />
+            type="com.cody.ammeter.model.db.table.Ammeter" />
     </data>
 
     <FrameLayout
@@ -27,14 +35,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
+                tools:background="@color/uiColorPrimaryAccent"
+                android:background="@{ammeter.oldAmmeter>ammeter.newAmmeter ?@color/uiColorPrimaryAccent:@color/color1}"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
+                    style="@style/itemTitle"
                     android:padding="20dp"
+                    android:layout_margin="10dp"
                     android:minEms="2"
                     android:text="@{ammeter.name}"
                     android:textSize="40sp"
@@ -48,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:visibility="gone"
-                    android:visibility="@{ammeter.subMeter?View.GONE:View.VISIBLE}"
+                    android:visibility="@{ammeter.id>1?View.GONE:View.VISIBLE}"
                     android:orientation="vertical">
 
                     <RelativeLayout
@@ -61,7 +70,7 @@
 
                         <TextView
                             style="@style/itemNumber"
-                            android:text='@{ammeter.lastMonth + " 度"}'
+                            android:text='@{ammeter.oldAmmeter + " 度"}'
                             tools:text="22.34 度" />
 
                     </RelativeLayout>
@@ -76,7 +85,7 @@
 
                         <TextView
                             style="@style/itemNumber"
-                            android:text='@{ammeter.thisMonth + " 度"}'
+                            android:text='@{ammeter.newAmmeter + " 度"}'
                             tools:text="22.34 度" />
 
                     </RelativeLayout>
@@ -91,7 +100,7 @@
 
                         <TextView
                             style="@style/itemNumber"
-                            android:text='@{ammeter.kilowattHour + " 度"}'
+                            android:text='@{(ammeter.newAmmeter - ammeter.oldAmmeter) + " 度"}'
                             tools:text="22.34 度" />
 
                     </RelativeLayout>
@@ -106,7 +115,7 @@
 
                         <TextView
                             style="@style/itemNumberBig"
-                            android:text='@{ammeter.totalPrice + " 元"}'
+                            android:text='@{(price * (sharing + ammeter.newAmmeter - ammeter.oldAmmeter)) + " 元"}'
                             tools:text="22.34 元" />
 
                     </RelativeLayout>
@@ -117,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     tools:visibility="visible"
-                    android:visibility="@{ammeter.subMeter?View.VISIBLE:View.GONE}"
+                    android:visibility="@{ammeter.id > 1?View.VISIBLE:View.GONE}"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -131,17 +140,17 @@
                         <TextView
                             style="@style/itemTitle"
                             tools:text="上月：20 ; "
-                            android:text='@{"上月：" + ammeter.lastMonth +" ; "}' />
+                            android:text='@{"上月：" + ammeter.oldAmmeter +" ; "}' />
 
                         <TextView
                             style="@style/itemTitle"
                             tools:text="本月：20 ; "
-                            android:text='@{"本月：" + ammeter.thisMonth+" ; "}' />
+                            android:text='@{"本月：" + ammeter.newAmmeter+" ; "}' />
 
                         <TextView
                             style="@style/itemTitle"
                             tools:text="使用：20度"
-                            android:text='@{"使用：" + ammeter.kilowattHour +"度"}' />
+                            android:text='@{"使用：" + (ammeter.newAmmeter-ammeter.oldAmmeter) +"度"}' />
 
                     </LinearLayout>
 
@@ -155,7 +164,7 @@
 
                         <TextView
                             style="@style/itemNumber"
-                            android:text='@{ammeter.privatePrice + " 元"}'
+                            android:text='@{(price * (ammeter.newAmmeter - ammeter.oldAmmeter)) + " 元"}'
                             tools:text="22.34 元" />
 
                     </RelativeLayout>
@@ -170,7 +179,7 @@
 
                         <TextView
                             style="@style/itemNumber"
-                            android:text='@{ammeter.publicPrice + " 元"}'
+                            android:text='@{(price * sharing) + " 元"}'
                             app:layout_constraintRight_toRightOf="parent"
                             tools:text="22.34 元" />
                     </RelativeLayout>
@@ -185,7 +194,7 @@
 
                         <TextView
                             style="@style/itemNumberBig"
-                            android:text='@{ammeter.totalPrice + " 元"}'
+                            android:text='@{(price * (sharing + ammeter.newAmmeter - ammeter.oldAmmeter)) + " 元"}'
                             tools:text="22.34 元" />
 
                     </RelativeLayout>

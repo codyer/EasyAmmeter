@@ -61,7 +61,7 @@ public class TenantActivity extends BaseActionbarActivity<TenantActivityBinding>
             } else {
                 getBinding().setBalance(String.format("已欠费：%.2f元", Math.abs(ammeter.getNewBalance())));
             }
-            getBinding().setAmmeter(String.format(getString(R.string.format_du), ammeter.getNewAmmeter()));
+            getBinding().setAmmeter(String.format(getString(R.string.format_du), ammeter.getNewAmmeter() - ammeter.getOldAmmeter()));
             hideLoading();
         });
     }

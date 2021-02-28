@@ -193,4 +193,8 @@ public class Repository {
         ammeter.setAmmeterSetTime(new Date());
         AmmeterDatabase.getInstance().getAmmeterDao().update(ammeter);
     }
+
+    public static LiveData<List<Ammeter>> liveAmmeters() {
+        return AmmeterDatabase.getInstance().getAmmeterDao().liveAmmeters(false);
+    }
 }
