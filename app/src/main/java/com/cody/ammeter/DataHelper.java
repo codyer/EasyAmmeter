@@ -1,4 +1,4 @@
-package com.cody.helper;
+package com.cody.ammeter;
 
 import android.annotation.SuppressLint;
 import android.content.ClipData;
@@ -32,19 +32,19 @@ public class DataHelper {
     private static final String AMMETER_PUBLIC_PRICE = "ammeter_public_price_";
     private static final String AMMETER_PRIVATE_PRICE = "ammeter_private_price_";
     private static final String AMMETER_TOTAL_PRICE = "ammeter_total_price_";
-    private static List<Ammeter> mAmmeters;
+    private static List<AmmeterViewData> mAmmeters;
     private static final MutableLiveData<Boolean> sLiveData = new MutableLiveData<>(false);
 
     public static MutableLiveData<Boolean> getLiveData() {
         return sLiveData;
     }
 
-    public static List<Ammeter> getAllAmmeters(Context context) {
+    public static List<AmmeterViewData> getAllAmmeters(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        List<Ammeter> ammeters = new ArrayList<>();
-        Ammeter item;
+        List<AmmeterViewData> ammeters = new ArrayList<>();
+        AmmeterViewData item;
         for (int i = 1; i < NAME.length; i++) {
-            item = new Ammeter();
+            item = new AmmeterViewData();
             item.setSubMeter(true);
             item.getIsUsed().setValue(preferences.getBoolean(AMMETER_IS_USED + i, false));
             item.setName(preferences.getString(AMMETER_NAME + i, NAME[i]));
@@ -58,18 +58,18 @@ public class DataHelper {
         return ammeters;
     }
 
-    public static List<Ammeter> getAmmeters(Context context) {
+    public static List<AmmeterViewData> getAmmeters(Context context) {
         if (mAmmeters == null) {
             mAmmeters = initData(context);
         }
         return mAmmeters;
     }
 
-    public static boolean save(Context context, List<Ammeter> ammeters) {
+    public static boolean save(Context context, List<AmmeterViewData> ammeters) {
         SharedPreferences preferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
         @SuppressLint("CommitPrefEdits")
         SharedPreferences.Editor editor = preferences.edit();
-        Ammeter item;
+        AmmeterViewData item;
         for (int i = 0; i < ammeters.size(); i++) {
             item = ammeters.get(i);
             if (item.getIsUsed().getValue() != null && item.getIsUsed().getValue()) {
@@ -87,11 +87,11 @@ public class DataHelper {
         return true;
     }
 
-    public static boolean saveChoose(Context context, List<Ammeter> ammeters) {
+    public static boolean saveChoose(Context context, List<AmmeterViewData> ammeters) {
         SharedPreferences preferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
         @SuppressLint("CommitPrefEdits")
         SharedPreferences.Editor editor = preferences.edit();
-        Ammeter item;
+        AmmeterViewData item;
         for (int i = 1; i < NAME.length; i++) {
             item = ammeters.get(i - 1);
             editor.putBoolean(AMMETER_IS_USED + i, item.getIsUsed().getValue() != null && item.getIsUsed().getValue());
@@ -123,7 +123,7 @@ public class DataHelper {
     public static StringBuffer getShareInfo() {
         StringBuffer info = new StringBuffer();
         info.append("本次电费详情:(时间：").append(getDateString()).append(")\n");
-        Ammeter item;
+        AmmeterViewData item;
         for (int i = 0; i < mAmmeters.size(); i++) {
             item = mAmmeters.get(i);
             if (item.isSubMeter()) {
@@ -157,13 +157,13 @@ public class DataHelper {
         Toast.makeText(context, toast, Toast.LENGTH_LONG).show();
     }
 
-    private static List<Ammeter> initData(Context context) {
+    private static List<AmmeterViewData> initData(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        List<Ammeter> ammeters = new ArrayList<>();
-        Ammeter item;
+        List<AmmeterViewData> ammeters = new ArrayList<>();
+        AmmeterViewData item;
         for (int i = 0; i < NAME.length; i++) {
             if (i == 0 || preferences.getBoolean(AMMETER_IS_USED + i, false)) {
-                item = new Ammeter();
+                item = new AmmeterViewData();
                 item.setSubMeter(i != 0);
                 item.getIsUsed().setValue(true);
                 item.setName(preferences.getString(AMMETER_NAME + i, NAME[i]));

@@ -8,7 +8,7 @@
 
         <variable
             name="ammeter"
-            type="com.cody.helper.Ammeter" />
+            type="com.cody.ammeter.AmmeterViewData" />
     </data>
 
     <FrameLayout
@@ -156,13 +156,13 @@
 
                         <EditText
                             style="@style/itemNumber"
-                            android:hint="@string/please_input_hint"
+                            android:hint="@string/please_input_ammeter_hint"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@={ammeter.thisMonth}"
                             android:textColorHint="#999999"
-                            android:autofillHints="@string/please_input_hint" />
+                            android:autofillHints="@string/please_input_ammeter_hint" />
 
                         <TextView
                             style="@style/itemTitleBig"

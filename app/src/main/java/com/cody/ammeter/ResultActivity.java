@@ -1,4 +1,4 @@
-package com.cody.helper;
+package com.cody.ammeter;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +8,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cody.helper.databinding.ItemAmmeterResultBinding;
-import com.cody.helper.databinding.ListActivityBinding;
+
+import com.cody.ammeter.databinding.ItemAmmeterResultBinding;
+import com.cody.ammeter.databinding.ListActivityBinding;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class ResultActivity extends AppCompatActivity {
         }
         ListActivityBinding binding = ListActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        final List<Ammeter> ammeters = DataHelper.getAmmeters(this);
+        final List<AmmeterViewData> ammeters = DataHelper.getAmmeters(this);
         binding.ok.setText(R.string.save_and_clear);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         binding.recyclerView.setAdapter(new AmmeterAdapter(ammeters, this));
@@ -89,10 +90,10 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     static class AmmeterAdapter extends RecyclerView.Adapter<ItemAmmeterViewHolder> {
-        private List<Ammeter> mAmmeters;
+        private List<AmmeterViewData> mAmmeters;
         private final LifecycleOwner mLifecycleOwner;
 
-        public AmmeterAdapter(final List<Ammeter> ammeters, final LifecycleOwner lifecycleOwner) {
+        public AmmeterAdapter(final List<AmmeterViewData> ammeters, final LifecycleOwner lifecycleOwner) {
             mAmmeters = ammeters;
             mLifecycleOwner = lifecycleOwner;
         }
@@ -122,7 +123,7 @@ public class ResultActivity extends AppCompatActivity {
             mItemBinding = binding;
         }
 
-        void bindTo(final LifecycleOwner lifecycleOwner, final Ammeter ammeter) {
+        void bindTo(final LifecycleOwner lifecycleOwner, final AmmeterViewData ammeter) {
             mItemBinding.setLifecycleOwner(lifecycleOwner);
             mItemBinding.setAmmeter(ammeter);
         }

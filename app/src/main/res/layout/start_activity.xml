@@ -9,7 +9,7 @@
 
         <variable
             name="ammeter"
-            type="com.cody.helper.Ammeter" />
+            type="com.cody.ammeter.AmmeterViewData" />
     </data>
 
     <LinearLayout
@@ -57,7 +57,7 @@
                 android:enabled="@{!ammeter.subMeter}"
                 android:text="@={ammeter.lastMonth}"
                 tools:text="88.32"
-                android:autofillHints="@string/please_input_hint" />
+                android:autofillHints="@string/please_input_ammeter_hint" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -84,7 +84,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:autofillHints="@string/please_input_hint"
+                android:autofillHints="@string/please_input_ammeter_hint"
                 android:gravity="center"
                 android:text="@={ammeter.thisMonth}"
                 style="@style/itemNumberBig"
@@ -118,7 +118,7 @@
                 android:layout_weight="2"
                 android:text="@={ammeter.totalPrice}"
                 style="@style/itemNumberBig"
-                android:hint="@string/please_input_price_hint"
+                android:hint="@string/please_input_payment_hint"
                 android:gravity="center"
                 tools:text="88.32" />
 

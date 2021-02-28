@@ -1,10 +1,8 @@
 <resources>
     <string name="app_name">电费助手</string>
-    <string name="please_input_hint">请输入电表数据</string>
     <string name="please_input_last_hint">请输入上月电表数据</string>
     <string name="please_input_this_hint">请输入本月电表数据</string>
     <string name="please_input_wrong_hint">本月电表数据不能小于上月电表数据</string>
-    <string name="please_input_price_hint">请输入本次缴纳金额</string>
 
     <string name="public_use">本月公摊电量：</string>
     <string name="last_month">上月总表读数：</string>
@@ -29,4 +27,47 @@
     <string name="make_ok">开始计算</string>
     <string name="share">分享</string>
     <string name="edit">编辑</string>
+    <string name="waiting">请等待…</string>
+
+    <string name="check_out">退租</string>
+    <string name="title_payment">缴费金额</string>
+    <string name="title_balance">当前余额</string>
+    <string name="ammeter">电表</string>
+    <string name="title_ammeter">电表读数</string>
+    <string name="please_input_payment_hint">请输入本次缴费金额</string>
+    <string name="please_input_balance_hint">请输入当前余额</string>
+    <string name="please_input_ammeter_hint">请输入当前电表数据</string>
+    <string name="new_ammeter_hint">新户入住前\n请确保所有之前的电费已经进行结算！</string>
+    <string name="balance">余额</string>
+    <string name="recharge_payment">充值缴费</string>
+    <string name="payment_record">缴费记录</string>
+    <string name="ammeter_check_in">租客入住</string>
+    <string name="my_tenant">我的租客</string>
+    <string name="settlement_success">结算成功！</string>
+    <string name="settlement">结算</string>
+    <string name="number_0">0</string>
+    <string name="number_9">9</string>
+    <string name="number_8">8</string>
+    <string name="number_7">7</string>
+    <string name="number_6">6</string>
+    <string name="number_5">5</string>
+    <string name="number_4">4</string>
+    <string name="delete">删除</string>
+    <string name="number_3">3</string>
+    <string name="number_2">2</string>
+    <string name="number_1">1</string>
+    <string name="dot">.</string>
+    <string name="deleteAll">清空</string>
+    <string name="format_yuan">%.2f元</string>
+    <string name="format_du">%.2f度</string>
+    <string name="success_set_payment">成功缴费:金额%.2f元</string>
+    <string name="success_set_balance">当前余额:%.2f元</string>
+    <string name="success_set_ammeter">电表数据:%.2f度</string>
+    <string name="success_new_ammeter">新户入住成功，电表当前为%.2f度</string>
+    <string name="price_used_hint">当前有%.2f元电费未结算</string>
+    <string name="only_10_count">最多只支持十位数输入</string>
+    <string name="save_2_decimal">小数点后最多支持输入两位数</string>
+    <string name="check_out_info_total">当前还有%.2f元费用没有结算，确认是否强制退租？</string>
+    <string name="check_out_info">当前租户还欠费%.2f元，是否已经结清？</string>
+    <string name="check_out_success">租户退租成功！</string>
 </resources>

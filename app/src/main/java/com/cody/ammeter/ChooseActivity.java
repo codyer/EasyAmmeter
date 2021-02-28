@@ -1,4 +1,4 @@
-package com.cody.helper;
+package com.cody.ammeter;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,8 +6,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cody.helper.databinding.ItemChooseBinding;
-import com.cody.helper.databinding.ListActivityBinding;
+
+import com.cody.ammeter.databinding.ItemChooseBinding;
+import com.cody.ammeter.databinding.ListActivityBinding;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ChooseActivity extends AppCompatActivity {
-    private List<Ammeter> mAmmeters;
+    private List<AmmeterViewData> mAmmeters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +61,10 @@ public class ChooseActivity extends AppCompatActivity {
     }
 
     static class AmmeterAdapter extends RecyclerView.Adapter<ItemAmmeterViewHolder> {
-        private List<Ammeter> mAmmeters;
+        private List<AmmeterViewData> mAmmeters;
         private final LifecycleOwner mLifecycleOwner;
 
-        public AmmeterAdapter(final List<Ammeter> ammeters, final LifecycleOwner lifecycleOwner) {
+        public AmmeterAdapter(final List<AmmeterViewData> ammeters, final LifecycleOwner lifecycleOwner) {
             mAmmeters = ammeters;
             mLifecycleOwner = lifecycleOwner;
         }
@@ -93,7 +94,7 @@ public class ChooseActivity extends AppCompatActivity {
             mItemBinding = binding;
         }
 
-        void bindTo(final LifecycleOwner lifecycleOwner, final Ammeter ammeter) {
+        void bindTo(final LifecycleOwner lifecycleOwner, final AmmeterViewData ammeter) {
             mItemBinding.setLifecycleOwner(lifecycleOwner);
             mItemBinding.setAmmeter(ammeter);
         }

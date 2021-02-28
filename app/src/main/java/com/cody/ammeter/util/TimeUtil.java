@@ -1,0 +1,26 @@
+package com.cody.ammeter.util;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+public class TimeUtil {
+    private static final SimpleDateFormat TIME_SHORT = new SimpleDateFormat("HH:mm:ss SSS", Locale.CHINA);
+    private static final SimpleDateFormat TIME_LONG = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS", Locale.CHINA);
+
+    private static String formatData(Date date, SimpleDateFormat format) {
+        if (date == null) {
+            return "";
+        }
+        return format.format(date);
+    }
+
+    public static String getDateFormatShort(Date date) {
+        return formatData(date, TIME_SHORT);
+    }
+
+    public static String getDateFormatLong(Date date) {
+        return formatData(date, TIME_LONG);
+    }
+
+}

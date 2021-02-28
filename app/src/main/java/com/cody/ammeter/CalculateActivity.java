@@ -1,4 +1,4 @@
-package com.cody.helper;
+package com.cody.ammeter;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cody.helper.databinding.ItemAmmeterBinding;
-import com.cody.helper.databinding.ListActivityBinding;
+
+import com.cody.ammeter.databinding.ItemAmmeterBinding;
+import com.cody.ammeter.databinding.ListActivityBinding;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class CalculateActivity extends AppCompatActivity {
     private static final int CODE = 0x008;
     private ListActivityBinding mBinding;
-    private List<Ammeter> mAmmeters;
+    private List<AmmeterViewData> mAmmeters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class CalculateActivity extends AppCompatActivity {
                     Intent intent = new Intent(CalculateActivity.this, ResultActivity.class);
                     startActivity(intent);
                 } else {
-                    DataHelper.showToast(CalculateActivity.this, R.string.please_input_hint);
+                    DataHelper.showToast(CalculateActivity.this, R.string.please_input_ammeter_hint);
                 }
             }
         });
@@ -66,7 +67,7 @@ public class CalculateActivity extends AppCompatActivity {
     }
 
     private void checkItem() {
-        Ammeter item = mAmmeters.get(0);
+        AmmeterViewData item = mAmmeters.get(0);
         float temp = item.getKilowattHour();
         for (int i = 1; i < mAmmeters.size(); i++) {
             temp -= mAmmeters.get(i).getKilowattHour();
@@ -108,15 +109,15 @@ public class CalculateActivity extends AppCompatActivity {
     }
 
     private boolean calculate() {
-        Ammeter total = mAmmeters.get(0);
+        AmmeterViewData total = mAmmeters.get(0);
         float publicUse = total.getKilowattHour();
         if (total.getTotalPrice().getValue() == null || TextUtils.isEmpty(total.getTotalPrice().getValue())) {
-            DataHelper.showToast(this, R.string.please_input_price_hint);
+            DataHelper.showToast(this, R.string.please_input_payment_hint);
             return false;
         }
         float averagePricePerDegree = Float.parseFloat(total.getTotalPrice().getValue()) / total.getKilowattHour();
         int count = 0;
-        Ammeter item;
+        AmmeterViewData item;
 
         for (int i = 1; i < mAmmeters.size(); i++) {
             item = mAmmeters.get(i);
@@ -149,10 +150,10 @@ public class CalculateActivity extends AppCompatActivity {
     }
 
     static class AmmeterAdapter extends RecyclerView.Adapter<ItemAmmeterViewHolder> {
-        private List<Ammeter> mAmmeters;
+        private List<AmmeterViewData> mAmmeters;
         private final LifecycleOwner mLifecycleOwner;
 
-        public AmmeterAdapter(final List<Ammeter> ammeters, final LifecycleOwner lifecycleOwner) {
+        public AmmeterAdapter(final List<AmmeterViewData> ammeters, final LifecycleOwner lifecycleOwner) {
             mAmmeters = ammeters;
             mLifecycleOwner = lifecycleOwner;
         }
@@ -182,7 +183,7 @@ public class CalculateActivity extends AppCompatActivity {
             mItemBinding = binding;
         }
 
-        void bindTo(final LifecycleOwner lifecycleOwner, final Ammeter ammeter) {
+        void bindTo(final LifecycleOwner lifecycleOwner, final AmmeterViewData ammeter) {
             mItemBinding.setLifecycleOwner(lifecycleOwner);
             mItemBinding.setAmmeter(ammeter);
             ammeter.getThisMonth().observe(lifecycleOwner, new Observer<String>() {

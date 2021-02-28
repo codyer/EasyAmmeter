@@ -1,4 +1,4 @@
-package com.cody.helper;
+package com.cody.ammeter;
 
 import android.text.TextUtils;
 
@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 /**
  * 电表
  */
-public class Ammeter {
+public class AmmeterViewData {
     private final MutableLiveData<Boolean> mIsUsed = new MutableLiveData<>(false);// 被使用了，有人住
     private boolean mIsSubMeter = true;// 是否为分表
     private String mName;// 电表名，对应房间名 --> 春夏秋冬 总

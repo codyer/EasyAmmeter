@@ -3,4 +3,28 @@
     <color name="colorPrimary">#03DAC5</color>
     <color name="colorPrimaryDark">#03DAC5</color>
     <color name="colorAccent">#008577</color>
+
+    <color name="color1">#3DDC84</color>
+    <color name="color2">#FF3E96</color>
+    <color name="color3">#FF7256</color>
+    <color name="color4">#9932CC</color>
+    <color name="color5">#4876FF</color>
+    <color name="color6">#00EEEE</color>
+
+    <color name="color7">@color/uiColorPrimaryAccent</color>
+    <color name="color8">#7B68EE</color>
+    <color name="color9">#FFD700</color>
+    <color name="color10">#CD5C5C</color>
+    <color name="color11">#F4A460</color>
+    <color name="color12">#00EEEE</color>
+    <color name="color13">#FF6347</color>
+    <color name="color14">#9932CC</color>
+    <color name="color15">#4876FF</color>
+    <color name="color16">#90EE90</color>
+    <color name="color17">#8968CD</color>
+    <color name="color18">#9A32CD</color>
+    <color name="color19">#EE7AE9</color>
+    <color name="color20">#FF3E96</color>
+    <color name="color21">#FF7256</color>
+    <color name="color22">#FFA500</color>
 </resources>

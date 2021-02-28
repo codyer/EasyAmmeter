@@ -1,10 +1,53 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+
+    <!-- Base application theme. -->
+    <style name="AmmeterTheme" parent="AppTheme">
+        <!--导航栏颜色-->
         <item name="colorPrimary">@color/colorPrimary</item>
+        <!--通知栏颜色-->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <!--控件选中后颜色-->
+        <item name="colorAccent">@color/uiColorPrimaryAccent</item>
+    </style>
+
+    <style name="itemHorizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="itemCard">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/ui_font_huge</item>
+        <item name="android:textColor">@color/uiColorWhite</item>
+    </style>
+
+    <style name="itemCardTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/ui_font_huge</item>
+        <item name="android:textColor">@color/uiColorWhite</item>
+    </style>
+
+    <style name="itemCardSubTitle" parent="itemCardTitle">
+        <item name="android:textSize">@dimen/ui_font_large</item>
+    </style>
+
+    <style name="itemCardOne" parent="itemCard">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="itemCardTwo" parent="itemCard">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
     </style>
 
     <style name="itemTitle">
@@ -26,7 +69,7 @@
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_alignParentEnd">true</item>
         <item name="android:gravity">center_vertical|end</item>
-        <item name="android:hint">@string/please_input_hint</item>
+        <item name="android:hint">@string/please_input_ammeter_hint</item>
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
         <item name="android:maxLength">10</item>
