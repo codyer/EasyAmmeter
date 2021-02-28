@@ -7,9 +7,10 @@ import java.util.Objects;
 public class ItemTenant extends ItemViewDataHolder {
     public static final int TYPE_LEAVE = DEFAULT_TYPE + 1;
     private long mId;
-    private boolean mIsArrears;
+    private boolean mIsArrears;// 未设定或者欠费
     private String mName;
     private String mValue;
+    private long mTime;
 
     public long getId() {
         return mId;
@@ -43,19 +44,28 @@ public class ItemTenant extends ItemViewDataHolder {
         mValue = value;
     }
 
+    public long getTime() {
+        return mTime;
+    }
+
+    public void setTime(final long time) {
+        mTime = time;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof ItemTenant)) return false;
-        final ItemTenant tenant = (ItemTenant) o;
-        return mId == tenant.mId &&
-                mIsArrears == tenant.mIsArrears &&
-                Objects.equals(mName, tenant.mName) &&
-                Objects.equals(mValue, tenant.mValue);
+        final ItemTenant that = (ItemTenant) o;
+        return mId == that.mId &&
+                mIsArrears == that.mIsArrears &&
+                mTime == that.mTime &&
+                Objects.equals(mName, that.mName) &&
+                Objects.equals(mValue, that.mValue);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), mId, mIsArrears, mName, mValue);
+        return Objects.hash(super.hashCode(), mId, mIsArrears, mName, mValue, mTime);
     }
 }

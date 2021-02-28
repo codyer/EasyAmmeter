@@ -29,6 +29,10 @@
     <string name="edit">编辑</string>
     <string name="waiting">请等待…</string>
 
+    <string name="modify_name_success">租户名成功修改</string>
+    <string name="modify_name">修改租户名</string>
+    <string name="name_err">租户名太短</string>
+    <string name="name_max_length">租户名不能超过4个字</string>
     <string name="check_out">退租</string>
     <string name="title_payment">缴费金额</string>
     <string name="title_balance">当前余额</string>
@@ -70,4 +74,5 @@
     <string name="check_out_info_total">当前还有%.2f元费用没有结算，确认是否强制退租？</string>
     <string name="check_out_info">当前租户还欠费%.2f元，是否已经结清？</string>
     <string name="check_out_success">租户退租成功！</string>
+    <string name="time_long">请更新%s的电表数据，已超过24小时未更新。</string>
 </resources>

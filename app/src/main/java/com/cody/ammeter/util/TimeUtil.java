@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class TimeUtil {
-    private static final SimpleDateFormat TIME_SHORT = new SimpleDateFormat("HH:mm:ss SSS", Locale.CHINA);
+    private static final SimpleDateFormat TIME_SHORT = new SimpleDateFormat("MM-dd HH:mm:ss", Locale.CHINA);
     private static final SimpleDateFormat TIME_LONG = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS", Locale.CHINA);
 
     private static String formatData(Date date, SimpleDateFormat format) {

@@ -124,6 +124,7 @@ public class Repository {
             ammeter.setId(Ammeter.UN_TENANT_ID);
             ammeter.setName(Ammeter.UN_TENANT_NAME);
             ammeter.setCheckInTime(new Date());
+            ammeter.setAmmeterSetTime(new Date());
             AmmeterDatabase.getInstance().getAmmeterDao().insert(ammeter);
         }
         return ammeter;
@@ -184,5 +185,12 @@ public class Repository {
 
     public static void insertPayment(final Payment payment) {
         AmmeterDatabase.getInstance().getPaymentDao().insert(payment);
+    }
+
+    public static void updateAmmeter(final long ammeterId, final float value) {
+        Ammeter ammeter = AmmeterDatabase.getInstance().getAmmeterDao().getAmmeter(ammeterId);
+        ammeter.setNewAmmeter(value);
+        ammeter.setAmmeterSetTime(new Date());
+        AmmeterDatabase.getInstance().getAmmeterDao().update(ammeter);
     }
 }

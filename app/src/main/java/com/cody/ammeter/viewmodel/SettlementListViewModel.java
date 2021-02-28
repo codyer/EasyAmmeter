@@ -6,6 +6,7 @@ import android.os.Looper;
 
 import com.cody.ammeter.model.db.AmmeterDao;
 import com.cody.ammeter.model.db.AmmeterDatabase;
+import com.cody.ammeter.util.TimeUtil;
 import com.cody.component.handler.RequestStatusUtil;
 import com.cody.component.handler.data.FriendlyViewData;
 import com.cody.component.handler.data.ItemViewDataHolder;
@@ -24,6 +25,9 @@ public class SettlementListViewModel extends AbsPageListViewModel<FriendlyViewDa
 
     public SettlementListViewModel() {
         super(new FriendlyViewData());
+        mAmmeterDao = AmmeterDatabase
+                .getInstance()
+                .getAmmeterDao();
     }
 
     @SuppressLint("DefaultLocale")
@@ -39,10 +43,12 @@ public class SettlementListViewModel extends AbsPageListViewModel<FriendlyViewDa
             tenant.setItemType(ItemTenant.DEFAULT_TYPE);
             tenant.setName(input.getName());
             tenant.setArrears(input.getNewAmmeter() < input.getOldAmmeter());
+            tenant.setTime(input.getAmmeterSetTime().getTime());
             if (tenant.isArrears()) {
-                tenant.setValue("最新电量未设定");
+                tenant.setValue("最新电量未设定\n或者设定错误");
             } else {
-                tenant.setValue(String.format("已使用：%.2f度", input.getNewBalance()));
+                tenant.setValue(String.format("已使用：%.2f度\n%s", input.getNewAmmeter() - input.getOldAmmeter(),
+                        TimeUtil.getDateFormatShort(input.getAmmeterSetTime())));
             }
             return tenant;
         });

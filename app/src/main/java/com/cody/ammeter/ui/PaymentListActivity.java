@@ -103,6 +103,7 @@ public class PaymentListActivity extends AbsPageListActivity<ToolbarLitActivityB
     protected void onBaseReady(Bundle savedInstanceState) {
         super.onBaseReady(savedInstanceState);
         setSupportActionBar(getBinding().toolbar);
+        setTitle(R.string.payment_record);
     }
 
     @Override

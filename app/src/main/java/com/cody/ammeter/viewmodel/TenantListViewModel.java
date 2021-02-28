@@ -24,6 +24,9 @@ public class TenantListViewModel extends AbsPageListViewModel<FriendlyViewData, 
 
     public TenantListViewModel() {
         super(new FriendlyViewData());
+        mAmmeterDao = AmmeterDatabase
+                .getInstance()
+                .getAmmeterDao();
     }
 
     @SuppressLint("DefaultLocale")
@@ -40,6 +43,7 @@ public class TenantListViewModel extends AbsPageListViewModel<FriendlyViewData, 
             tenant.setItemType(input.isLeave() ? ItemTenant.TYPE_LEAVE : ItemTenant.DEFAULT_TYPE);
             tenant.setName(input.getName() + (input.isLeave() ? "(已退租)" : ""));
             tenant.setArrears(input.getNewBalance() < 0f);
+            tenant.setTime(input.getAmmeterSetTime().getTime());
             if (tenant.isArrears()) {
                 tenant.setValue(String.format("已欠费：%.2f元", Math.abs(input.getNewBalance())));
             } else {

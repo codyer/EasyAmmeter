@@ -46,6 +46,9 @@ public interface AmmeterDao {
     @Query("SELECT * FROM ammeters WHERE id == 1")
     Ammeter getMainAmmeter();
 
+    @Query("SELECT * FROM ammeters WHERE id =:id")
+    Ammeter getAmmeter(long id);
+
     @Query("SELECT * FROM ammeters WHERE id > 1")
     List<Ammeter> getTenantAmmeters();
 

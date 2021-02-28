@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="onClickListener"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="viewData"
+            type="com.cody.component.handler.livedata.StringLiveData" />
+
+        <variable
+            name="oldName"
+            type="java.lang.String" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/uiColorSecondaryBackground"
+            android:minHeight="?attr/actionBarSize"
+            android:onClick="@{onClickListener::onClick}"
+            android:theme="@style/ThemeOverlay.AppCompat.Light" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/uiColorPrimaryDark"
+            android:textSize="@dimen/ui_font_biggest"
+            tools:text="@string/app_name"
+            android:text="@{oldName}"
+            tools:ignore="NestedWeights" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:maxLength="10"
+            android:background="@null"
+            android:maxLines="1"
+            android:gravity="center_horizontal"
+            android:textSize="50sp"
+            android:textColor="@color/uiColorGray3"
+            android:text="@={viewData}"
+            tools:text="租户1"
+            android:inputType="text" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dimen_large"
+            bind:onClickListener="@{onClickListener}"
+            android:textSize="@dimen/ui_font_bigger"
+            android:text="@string/ui_str_confirm" />
+    </LinearLayout>
+</layout>

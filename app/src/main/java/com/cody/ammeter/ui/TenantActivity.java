@@ -56,7 +56,7 @@ public class TenantActivity extends BaseActionbarActivity<TenantActivityBinding>
             if (ammeter == null) return;
             mTenantAmmeter = ammeter;
             setTitle(ammeter.getName() + (ammeter.isLeave() ? "(已退租)" : ""));
-            if (ammeter.getNewBalance() < 0f) {
+            if (ammeter.getNewBalance() > 0f) {
                 getBinding().setBalance(String.format(getString(R.string.format_yuan), ammeter.getNewBalance()));
             } else {
                 getBinding().setBalance(String.format("已欠费：%.2f元", Math.abs(ammeter.getNewBalance())));
@@ -79,7 +79,7 @@ public class TenantActivity extends BaseActionbarActivity<TenantActivityBinding>
                 this.finish(); // back button
                 return true;
             case R.id.edit:
-                showToast("修改");
+                ModifyActivity.start(this, mTenantAmmeter.getName());
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -143,24 +143,33 @@ public class TenantActivity extends BaseActionbarActivity<TenantActivityBinding>
     protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         float value = InputActivity.getActivityResult(resultCode, data);
-        if (value < 0) return;
-        switch (requestCode) {
-            case InputActivity.INPUT_TYPE_AMMETER:
-                mTenantAmmeter.setNewAmmeter(value);
-                mTenantAmmeter.setAmmeterSetTime(new Date());
-                showLoading();
-                AmmeterHelper.updateAmmeter(mTenantAmmeter, result -> {
-                    hideLoading();
-                    showToast(mTenantAmmeter.getName() + String.format(getString(R.string.success_set_ammeter), value));
-                });
-                break;
-            case InputActivity.INPUT_TYPE_PAYMENT:
-                showLoading();
-                AmmeterHelper.addPayment(mTenantAmmeter, value, result -> {
-                    hideLoading();
-                    showToast(mTenantAmmeter.getName() + String.format(getString(R.string.success_set_payment), value));
-                });
-                break;
+        String name = ModifyActivity.getActivityResult(requestCode, resultCode, data);
+        if (value >= 0f) {
+            switch (requestCode) {
+                case InputActivity.INPUT_TYPE_AMMETER:
+                    mTenantAmmeter.setNewAmmeter(value);
+                    mTenantAmmeter.setAmmeterSetTime(new Date());
+                    showLoading();
+                    AmmeterHelper.updateAmmeter(mTenantAmmeter, result -> {
+                        hideLoading();
+                        showToast(mTenantAmmeter.getName() + String.format(getString(R.string.success_set_ammeter), value));
+                    });
+                    break;
+                case InputActivity.INPUT_TYPE_PAYMENT:
+                    showLoading();
+                    AmmeterHelper.addPayment(mTenantAmmeter, value, result -> {
+                        hideLoading();
+                        showToast(mTenantAmmeter.getName() + String.format(getString(R.string.success_set_payment), value));
+                    });
+                    break;
+            }
+        }
+        if (name != null) {
+            showLoading();
+            AmmeterHelper.updateTenantName(mTenantAmmeter, name, result -> {
+                hideLoading();
+                showToast(R.string.modify_name_success);
+            });
         }
     }
 

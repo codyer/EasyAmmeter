@@ -27,14 +27,13 @@ public class PaymentListViewModel extends AbsPageListViewModel<FriendlyViewData,
     public PaymentListViewModel(long ammeterId) {
         super(new FriendlyViewData());
         mAmmeterId = ammeterId;
+        mPaymentDao = AmmeterDatabase.getInstance().getPaymentDao();
     }
 
     @SuppressLint("DefaultLocale")
     @Override
     protected DataSource.Factory<Integer, ItemViewDataHolder> createDataSourceFactory() {
-        mPaymentDao = AmmeterDatabase
-                .getInstance()
-                .getPaymentDao();
+        mPaymentDao = AmmeterDatabase.getInstance().getPaymentDao();
         return mPaymentDao.getDataSource(mAmmeterId).map(input -> {
             ItemPayment payment = new ItemPayment();
             payment.setId(input.getId());

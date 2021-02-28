@@ -84,6 +84,17 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
                 TenantListActivity.start(this);
                 break;
             case R.id.settlement:
+                long time = new Date().getTime();
+                if (mMainAmmeter != null) {
+                    if (mMainAmmeter.getNewAmmeter() > mMainAmmeter.getOldAmmeter()) {
+                        showToast(mMainAmmeter.getName() + getString(R.string.please_input_wrong_hint));
+                        return;
+                    } else if ((time - mMainAmmeter.getAmmeterSetTime().getTime()) * 1.0 / (1000 * 60 * 60) > 24) {
+                        // 数据超过一天无效
+                        showToast(String.format(getString(R.string.time_long), mMainAmmeter.getName()));
+                        return;
+                    }
+                }
                 SettlementListActivity.start(this);
                 break;
         }

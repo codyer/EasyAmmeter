@@ -97,7 +97,8 @@ public class AmmeterHelper {
     /**
      * 修改租户信息
      */
-    public static void updateTenantName(Ammeter ammeter, CallBack<Boolean> callBack) {
+    public static void updateTenantName(Ammeter ammeter, String name, CallBack<Boolean> callBack) {
+        ammeter.setName(name);
         sExecutor.submit(() -> {
             Repository.updateAmmeter(ammeter);
             sHandler.post(() -> callBack.onResult(true));
@@ -137,6 +138,13 @@ public class AmmeterHelper {
     public static void updateAmmeter(Ammeter ammeter, CallBack<Boolean> callBack) {
         sExecutor.submit(() -> {
             Repository.updateAmmeter(ammeter);
+            sHandler.post(() -> callBack.onResult(true));
+        });
+    }
+
+    public static void updateAmmeter(long ammeterId, float value, CallBack<Boolean> callBack) {
+        sExecutor.submit(() -> {
+            Repository.updateAmmeter(ammeterId, value);
             sHandler.post(() -> callBack.onResult(true));
         });
     }
