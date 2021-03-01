@@ -15,6 +15,7 @@ package com.cody.ammeter.model.db;
 
 import com.cody.ammeter.model.db.table.Settlement;
 
+import java.util.Date;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -41,10 +42,16 @@ public interface SettlementDao {
     @Query("SELECT * FROM settlements WHERE id = :id")
     Settlement getSettlement(long id);
 
-    @Query("select * from settlements WHERE ammeterId =:ammeterId order by id DESC")
+    @Query("select * from settlements WHERE time =:time order by id ASC")
+    DataSource.Factory<Integer, Settlement> getDataSource(Date time);
+
+    @Query("select * from settlements WHERE ammeterId =:ammeterId order by id ASC")
     DataSource.Factory<Integer, Settlement> getDataSource(long ammeterId);
 
-    @Query("SELECT count(*) FROM settlements WHERE ammeterId =:ammeterId ")
+    @Query("SELECT count(*) FROM settlements WHERE time =:time")
+    LiveData<Long> liveCount(Date time);
+
+    @Query("SELECT count(*) FROM settlements WHERE ammeterId =:ammeterId")
     LiveData<Long> liveCount(long ammeterId);
 
     @Query("DELETE FROM settlements")

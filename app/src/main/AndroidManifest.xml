@@ -31,6 +31,10 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.HistoryListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.TenantActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />

@@ -18,6 +18,7 @@ public class Settlement {
     @PrimaryKey(autoGenerate = true)
     private long id; // 结算 id
     private long ammeterId;// 电表id
+    private String name;// 电表id
     private float oldAmmeter;// 上一次电表数据
     private float newAmmeter;// 新的电表数据
 //    @Ignore
@@ -48,6 +49,14 @@ public class Settlement {
 
     public void setAmmeterId(final long ammeterId) {
         this.ammeterId = ammeterId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
     }
 
     public float getOldAmmeter() {

@@ -2,6 +2,8 @@ package com.cody.ammeter.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.cody.ammeter.R;
@@ -13,7 +15,10 @@ import com.cody.component.app.activity.BaseActionbarActivity;
 import java.util.Date;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 /**
  * 房东详情
@@ -53,6 +58,25 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.history, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish(); // back button
+                return true;
+            case R.id.history:
+                HistoryListActivity.start(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected int getToolbarId() {
         return R.id.toolbar;
     }
@@ -66,19 +90,19 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.newBalance:
-                InputActivity.start(this, InputActivity.INPUT_TYPE_BALANCE, Ammeter.UN_TENANT_NAME);
+                InputActivity.start(this, InputActivity.INPUT_TYPE_BALANCE, Ammeter.UN_TENANT_NAME, mMainAmmeter.getNewBalance());
                 break;
             case R.id.newAmmeter:
-                InputActivity.start(this, InputActivity.INPUT_TYPE_AMMETER, Ammeter.UN_TENANT_NAME);
+                InputActivity.start(this, InputActivity.INPUT_TYPE_AMMETER, Ammeter.UN_TENANT_NAME, mMainAmmeter.getOldAmmeter());
                 break;
             case R.id.rechargePayment:
-                InputActivity.start(this, InputActivity.INPUT_TYPE_PAYMENT, Ammeter.UN_TENANT_NAME);
+                InputActivity.start(this, InputActivity.INPUT_TYPE_PAYMENT, Ammeter.UN_TENANT_NAME, mMainAmmeter.getNewBalance());
                 break;
             case R.id.paymentRecord:
                 PaymentListActivity.start(this, Ammeter.UN_TENANT_ID);
                 break;
             case R.id.checkIn:
-                InputActivity.start(this, InputActivity.INPUT_TYPE_NEW_TENANT, Ammeter.UN_TENANT_NAME);
+                InputActivity.start(this, InputActivity.INPUT_TYPE_NEW_TENANT, Ammeter.UN_TENANT_NAME, 0f);
                 break;
             case R.id.myTenant:
                 TenantListActivity.start(this);
@@ -89,13 +113,37 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
                     if (mMainAmmeter.getNewAmmeter() < mMainAmmeter.getOldAmmeter()) {
                         showToast(mMainAmmeter.getName() + getString(R.string.please_input_wrong_hint));
                         return;
+                    } else if ((time - mMainAmmeter.getCheckInTime().getTime()) * 1.0 / (1000 * 60 * 60) > 24) {
+                        // 数据超过一天无效
+                        showToast(String.format(getString(R.string.balance_time_long), mMainAmmeter.getName()));
+                        return;
                     } else if ((time - mMainAmmeter.getAmmeterSetTime().getTime()) * 1.0 / (1000 * 60 * 60) > 24) {
                         // 数据超过一天无效
                         showToast(String.format(getString(R.string.time_long), mMainAmmeter.getName()));
                         return;
                     }
                 }
-                SettlementListActivity.start(this);
+                showLoading();
+                LiveData<Long> longLiveData = AmmeterHelper.liveTenantCount();
+                longLiveData.observeForever(new Observer<Long>() {
+                    @Override
+                    public void onChanged(final Long count) {
+                        longLiveData.removeObserver(this);
+                        if (count > 0) {
+                            hideLoading();
+                            SettlementListActivity.start(MainActivity.this);
+                        } else {
+                            mMainAmmeter.setOldAmmeter(mMainAmmeter.getNewAmmeter());
+                            mMainAmmeter.setOldBalance(mMainAmmeter.getNewBalance());
+                            AmmeterHelper.updateAmmeter(mMainAmmeter, result -> hideLoading());
+                            new AlertDialog.Builder(MainActivity.this).setMessage(R.string.add_tenant_hint)
+                                    .setPositiveButton(R.string.ui_str_confirm, (dialog, which) -> {
+                                        getBinding().checkIn.performClick();
+                                    }).setNegativeButton(R.string.ui_str_cancel, null)
+                                    .create().show();
+                        }
+                    }
+                });
                 break;
         }
     }
@@ -108,6 +156,7 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
         switch (requestCode) {
             case InputActivity.INPUT_TYPE_BALANCE:
                 mMainAmmeter.setNewBalance(value);
+                mMainAmmeter.setCheckInTime(new Date());
                 showLoading();
                 AmmeterHelper.updateAmmeter(mMainAmmeter, result -> {
                     hideLoading();

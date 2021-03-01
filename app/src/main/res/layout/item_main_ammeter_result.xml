@@ -7,16 +7,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="price"
-            type="java.lang.Float" />
-
-        <variable
-            name="sharing"
-            type="java.lang.Float" />
-
-        <variable
-            name="ammeter"
-            type="com.cody.ammeter.model.db.table.Ammeter" />
+            name="viewData"
+            type="com.cody.ammeter.viewmodel.ItemAmmeter" />
     </data>
 
     <RelativeLayout
@@ -35,14 +27,24 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 tools:background="@color/color6"
-                android:background="@{ammeter.oldAmmeter>ammeter.newAmmeter ?@color/color6:@color/color1}"
+                android:background="@{viewData.oldAmmeter>viewData.newAmmeter ?@color/color6:@color/color1}"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:baselineAligned="false">
+                android:orientation="horizontal">
 
-                <RelativeLayout
+                <TextView
+                    style="@style/itemStart"
+                    android:padding="20dp"
+                    android:layout_margin="10dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewData.name}"
+                    android:textSize="20sp"
+                    android:maxLength="4"
+                    tools:text="春哈春哈" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView
@@ -52,38 +54,42 @@
                         android:paddingBottom="2dp"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
+                        android:layout_gravity="end|top"
                         android:text="@string/main_ammeter" />
 
-                    <TextView
-                        style="@style/itemTitle"
-                        android:padding="20dp"
-                        android:layout_margin="10dp"
-                        android:text="@{ammeter.name}"
-                        android:layout_centerInParent="true"
-                        android:gravity="center"
-                        android:textSize="20sp"
-                        android:maxLength="4"
-                        tools:text="春彻底的" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                </RelativeLayout>
+                        <TextView
+                            style="@style/itemStart"
+                            android:text="@string/last_month" />
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:orientation="vertical">
+                        <TextView
+                            style="@style/itemEnd"
+                            tools:text="204353度"
+                            android:layout_gravity="end"
+                            android:text='@{viewData.oldAmmeter +"度"}' />
 
-                    <TextView
-                        style="@style/itemStart"
-                        tools:text="上次电表读数：204353"
-                        android:text='@{"上次电表读数：" + ammeter.oldAmmeter}' />
+                    </RelativeLayout>
 
-                    <TextView
-                        style="@style/itemStart"
-                        tools:text="当前电表读数：207565"
-                        android:text='@{"当前电表读数：" + ammeter.newAmmeter}' />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                    <LinearLayout
+                        <TextView
+                            style="@style/itemStart"
+                            android:text="@string/this_month" />
+
+                        <TextView
+                            style="@style/itemEnd"
+                            tools:text="204353度"
+                            android:layout_gravity="end"
+                            android:text='@{viewData.newAmmeter +"度"}' />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -92,14 +98,14 @@
                             android:text="@string/use" />
 
                         <TextView
-                            style="@style/itemStart"
+                            style="@style/itemEnd"
                             tools:text="20度"
                             android:layout_gravity="end"
-                            android:text='@{(ammeter.newAmmeter-ammeter.oldAmmeter) +"度"}' />
+                            android:text='@{(viewData.newAmmeter-viewData.oldAmmeter) +"度"}' />
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -108,13 +114,13 @@
                             android:text="@string/public_use" />
 
                         <TextView
-                            style="@style/itemStart"
-                            android:text='@{sharing + " 度"}'
+                            style="@style/itemEnd"
+                            android:text='@{viewData.sharing + " 度"}'
                             tools:text="22.34 度" />
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -123,13 +129,13 @@
                             android:text="@string/price" />
 
                         <TextView
-                            style="@style/itemStart"
-                            android:text='@{String.format("%.2f元/度",price)}'
+                            style="@style/itemEnd"
+                            android:text='@{String.format("%.2f元/度",viewData.price)}'
                             tools:text="22.34元/度" />
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -138,15 +144,16 @@
                             android:text="@string/total_price" />
 
                         <TextView
-                            style="@style/itemStart"
-                            android:text='@{String.format("%.2f元",(price * (sharing + ammeter.newAmmeter - ammeter.oldAmmeter)))}'
+                            style="@style/itemEnd"
+                            android:text='@{String.format("%.2f元",(viewData.price * (viewData.newAmmeter - viewData.oldAmmeter)))}'
                             tools:text="22.34 元" />
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
                     <TextView
-                        style="@style/itemStart"
-                        android:text='@{String.format("%.2f元",(ammeter.oldBalance - ammeter.newBalance))}'
+                        style="@style/itemEnd"
+                        android:layout_gravity="end"
+                        android:text='@{"实际值："+String.format("%.2f元",(viewData.oldBalance - viewData.newBalance))}'
                         tools:text="22.34 元" />
 
                 </LinearLayout>

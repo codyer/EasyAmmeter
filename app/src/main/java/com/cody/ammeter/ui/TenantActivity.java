@@ -56,7 +56,7 @@ public class TenantActivity extends BaseActionbarActivity<TenantActivityBinding>
             if (ammeter == null) return;
             mTenantAmmeter = ammeter;
             setTitle(ammeter.getName() + (ammeter.isLeave() ? "(已退租)" : ""));
-            if (ammeter.getNewBalance() > 0f) {
+            if (ammeter.getNewBalance() >= 0f) {
                 getBinding().setBalance(String.format(getString(R.string.format_yuan), ammeter.getNewBalance()));
             } else {
                 getBinding().setBalance(String.format("已欠费：%.2f元", Math.abs(ammeter.getNewBalance())));
@@ -99,11 +99,11 @@ public class TenantActivity extends BaseActionbarActivity<TenantActivityBinding>
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.newAmmeter:
-                InputActivity.start(this, InputActivity.INPUT_TYPE_AMMETER, mTenantAmmeter.getName());
+                InputActivity.start(this, InputActivity.INPUT_TYPE_AMMETER, mTenantAmmeter.getName(), mTenantAmmeter.getOldAmmeter());
                 break;
             case R.id.newBalance:
             case R.id.rechargePayment:
-                InputActivity.start(this, InputActivity.INPUT_TYPE_PAYMENT, mTenantAmmeter.getName());
+                InputActivity.start(this, InputActivity.INPUT_TYPE_PAYMENT, mTenantAmmeter.getName(), mTenantAmmeter.getNewBalance());
                 break;
             case R.id.paymentRecord:
                 PaymentListActivity.start(this, mTenantAmmeter.getId());

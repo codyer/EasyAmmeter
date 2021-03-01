@@ -86,6 +86,13 @@ public class Repository {
     }
 
     /**
+     * 在租用户数
+     */
+    public static LiveData<Long> liveTenantCount() {
+        return AmmeterDatabase.getInstance().getAmmeterDao().liveTenantCount(false);
+    }
+
+    /**
      * 获取指定租客的数据
      *
      * @return 动态监听数据变化 TODO 待验证
@@ -123,8 +130,8 @@ public class Repository {
             ammeter = new Ammeter();// 总表
             ammeter.setId(Ammeter.UN_TENANT_ID);
             ammeter.setName(Ammeter.UN_TENANT_NAME);
-            ammeter.setCheckInTime(new Date());
-            ammeter.setAmmeterSetTime(new Date());
+            ammeter.setCheckInTime(new Date(0L));
+            ammeter.setAmmeterSetTime(new Date(0L));
             AmmeterDatabase.getInstance().getAmmeterDao().insert(ammeter);
         }
         return ammeter;

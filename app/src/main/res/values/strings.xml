@@ -4,8 +4,8 @@
     <string name="please_input_this_hint">请输入本月电表数据</string>
     <string name="please_input_wrong_hint">本月电表数据不能小于上月电表数据</string>
 
-    <string name="last_month">上月总表读数：</string>
-    <string name="this_month">本月总表读数：</string>
+    <string name="last_month">上次电表读数：</string>
+    <string name="this_month">当前电表读数：</string>
     <string name="main_ammeter">总表</string>
     <string name="use">本次总用电量：</string>
     <string name="total_price">本次总用电费：</string>
@@ -14,7 +14,7 @@
 
     <string name="save">保存并关闭</string>
     <string name="save_and_clear">保存并复制</string>
-    <string name="calculate">计算电费</string>
+    <string name="history">历史结算</string>
     <string name="default_value">0度</string>
     <string name="make_ok">开始计算</string>
     <string name="share">分享</string>
@@ -39,12 +39,13 @@
     <string name="ammeter">电表</string>
     <string name="used_ammeter">已用电量</string>
     <string name="title_ammeter">电表读数</string>
-    <string name="please_input_payment_hint">请输入本次缴费金额</string>
-    <string name="please_input_balance_hint">请输入当前余额</string>
-    <string name="please_input_ammeter_hint">请输入当前电表数据</string>
+    <string name="please_input_payment_hint">请输入本次缴费金额\n当前余额：%.2f元</string>
+    <string name="please_input_balance_hint">请输入当前余额\n当前余额：%.2f元</string>
+    <string name="please_input_ammeter_hint">请输入当前电表数据\n上次读数：%.2f度</string>
     <string name="new_ammeter_hint">新户入住前\n请确保所有之前的电费已经进行结算！</string>
     <string name="balance">余额</string>
     <string name="recharge_payment">充值缴费</string>
+    <string name="settlement_history">结算记录</string>
     <string name="payment_record">缴费记录</string>
     <string name="ammeter_check_in">租客入住</string>
     <string name="my_tenant">我的租客</string>
@@ -77,5 +78,7 @@
     <string name="check_out_info">当前租户还欠费%.2f元，是否已经结清？</string>
     <string name="check_out_success">租户退租成功！</string>
     <string name="time_long">请更新%s的电表数据，已超过24小时未更新。</string>
+    <string name="balance_time_long">请更新%s的余额数据，已超过24小时未更新。</string>
     <string name="sub_ammeter">分表</string>
+    <string name="add_tenant_hint">当前暂无租户资料，请先进行租户入住操作</string>
 </resources>

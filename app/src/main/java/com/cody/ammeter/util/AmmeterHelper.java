@@ -11,6 +11,8 @@ import com.cody.ammeter.model.Repository;
 import com.cody.ammeter.model.db.table.Ammeter;
 import com.cody.ammeter.model.db.table.Payment;
 import com.cody.ammeter.model.db.table.Settlement;
+import com.cody.ammeter.viewmodel.ItemAmmeter;
+import com.cody.component.handler.data.ItemViewDataHolder;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,6 +48,10 @@ public class AmmeterHelper {
         return Repository.liveAmmeters();
     }
 
+    public static LiveData<Long> liveTenantCount() {
+        return Repository.liveTenantCount();
+    }
+
     public interface CallBack<T> {
         void onResult(T t);
     }
@@ -68,11 +74,11 @@ public class AmmeterHelper {
             List<Settlement> settlements = new ArrayList<>();
             for (Ammeter ammeter : ammeters) {
                 settlements.add(createSettlement(ammeter, sharing, time));
+                ammeter.setOldAmmeter(ammeter.getNewAmmeter());
+                ammeter.setOldBalance(ammeter.getNewBalance());
                 if (ammeter.getId() != Ammeter.UN_TENANT_ID) {//分表
                     ammeter.setNewBalance(ammeter.getNewBalance() - price * (sharing + ammeter.getNewAmmeter() - ammeter.getOldAmmeter()));
                 }
-                ammeter.setOldAmmeter(ammeter.getNewAmmeter());
-                ammeter.setOldBalance(ammeter.getNewBalance());
             }
             Repository.insertSettlement(settlements);
             Repository.updateAmmeters(ammeters);
@@ -117,6 +123,7 @@ public class AmmeterHelper {
     private static Settlement createSettlement(Ammeter ammeter, float sharingAmmeter, Date time) {
         Settlement settlement = new Settlement();
         settlement.setAmmeterId(ammeter.getId());
+        settlement.setName(ammeter.getName());
         settlement.setOldAmmeter(ammeter.getOldAmmeter());
         settlement.setNewAmmeter(ammeter.getNewAmmeter());
         settlement.setOldBalance(ammeter.getOldBalance());
@@ -178,9 +185,42 @@ public class AmmeterHelper {
         });
     }
 
+    public static boolean copy(Context context, List<ItemViewDataHolder> itemAmmeters) {
+        if (context == null || itemAmmeters == null || itemAmmeters.size() == 0) return false;
+        List<Ammeter> ammeters = new ArrayList<>();
+        Ammeter item;
+        ItemAmmeter itemAmmeter = null;
+        for (int i = 0; i < itemAmmeters.size(); i++) {
+            item = new Ammeter();
+            itemAmmeter = (ItemAmmeter) itemAmmeters.get(i);
+            item.setId(itemAmmeter.getAmmeterId());
+            item.setName(itemAmmeter.getName());
+            item.setOldAmmeter(itemAmmeter.getOldAmmeter());
+            item.setOldBalance(itemAmmeter.getOldBalance());
+            item.setCheckInTime(itemAmmeter.getTime());
+            item.setAmmeterSetTime(itemAmmeter.getTime());
+            item.setLeave(false);
+            item.setNewAmmeter(itemAmmeter.getNewAmmeter());
+            item.setNewBalance(itemAmmeter.getNewBalance());
+            ammeters.add(item);
+        }
+        StringBuffer info = getShareInfo(ammeters, itemAmmeter.getSharing(), itemAmmeter.getPrice());
+        ClipboardManager manager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        if (manager != null) {
+            try {
+                manager.setPrimaryClip(ClipData.newPlainText("ammeter_info", info));
+                return true;
+            } catch (Exception e) {
+                //
+                return false;
+            }
+        }
+        return false;
+    }
+
     public static boolean copy(Context context, List<Ammeter> ammeters, final float sharing, final float price) {
-        if (context == null) return false;
-        StringBuffer info = getShareInfo(ammeters, 0, 0);
+        if (context == null || ammeters == null) return false;
+        StringBuffer info = getShareInfo(ammeters, sharing, price);
         ClipboardManager manager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         if (manager != null) {
             try {
@@ -204,7 +244,11 @@ public class AmmeterHelper {
             if (ammeter.getId() > Ammeter.UN_TENANT_ID) {
                 info.append("【").append(ammeter.getName())
                         .append("】本次应缴电费：")
-                        .append(String.format("%.2f", (ammeter.getNewBalance() - price * (sharing + ammeter.getNewAmmeter() - ammeter.getOldAmmeter()))))
+                        .append(String.format("%.2f", (price * (sharing + ammeter.getNewAmmeter() - ammeter.getOldAmmeter()))))
+                        .append("之前余额：")
+                        .append(String.format("%.2f", ammeter.getNewBalance()))
+                        .append("本次剩余应缴电费：")
+                        .append(String.format("%.2f", (price * (sharing + ammeter.getNewAmmeter() - ammeter.getOldAmmeter()) - ammeter.getNewBalance())))
                         .append("元\n（公摊电费：")
                         .append(String.format("%.2f", price * sharing))
                         .append("元，分表电费：")

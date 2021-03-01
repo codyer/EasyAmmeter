@@ -16,7 +16,7 @@ public class Ammeter {
     @PrimaryKey(autoGenerate = true)
     private long id; // 电表 id
     private String name; // 电表名称（或者也可以看成租客名称）
-    private Date checkInTime; // 入住时间
+    private Date checkInTime; // 入住时间 ，或者表示房东余额设定时间
     private Date ammeterSetTime; // 电量设定时间
     private boolean isLeave = false; // 是否已退租
     private float oldAmmeter = 0;// 上一次电表数据，每次结算确认更新成 newAmmeter
