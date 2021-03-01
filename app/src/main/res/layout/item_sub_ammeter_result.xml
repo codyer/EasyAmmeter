@@ -20,7 +20,7 @@
             type="com.cody.ammeter.model.db.table.Ammeter" />
     </data>
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -57,7 +57,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/itemEnd"
+                        style="@style/itemTitle"
                         android:background="@drawable/bg_shape_round"
                         android:paddingTop="2dp"
                         android:paddingBottom="2dp"
@@ -142,5 +142,5 @@
 
         </androidx.cardview.widget.CardView>
 
-    </FrameLayout>
+    </RelativeLayout>
 </layout>
