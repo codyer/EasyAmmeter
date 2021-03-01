@@ -35,8 +35,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                tools:background="@color/color1"
-                android:background="@{ammeter.oldAmmeter>ammeter.newAmmeter ?@color/uiColorPrimaryAccent:@color/color1}"
+                tools:background="@color/color6"
+                android:background="@{ammeter.oldAmmeter>ammeter.newAmmeter ?@color/color6:@color/color1}"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
