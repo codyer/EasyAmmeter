@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="price"
+            type="java.lang.Float" />
+
+        <variable
+            name="sharing"
+            type="java.lang.Float" />
+
+        <variable
+            name="ammeter"
+            type="com.cody.ammeter.model.db.table.Ammeter" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                tools:background="@color/color1"
+                android:background="@{ammeter.oldAmmeter>ammeter.newAmmeter ?@color/uiColorPrimaryAccent:@color/color1}"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/itemStart"
+                    android:padding="20dp"
+                    android:layout_margin="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{ammeter.name}"
+                    android:textSize="20sp"
+                    android:maxLength="4"
+                    tools:text="春哈春哈" />
+                <!-- 分表 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/itemEnd"
+                        android:background="@drawable/bg_shape_round"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:layout_gravity="end|top"
+                        android:text="@string/sub_ammeter" />
+
+                    <TextView
+                        style="@style/itemStart"
+                        tools:text="上次电表读数：20454"
+                        android:text='@{"上次电表读数：" + ammeter.oldAmmeter}' />
+
+                    <TextView
+                        style="@style/itemStart"
+                        tools:text="当前电表读数：204345"
+                        android:text='@{"当前电表读数：" + ammeter.newAmmeter}' />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            style="@style/itemStart"
+                            android:text="@string/use_sub" />
+
+                        <TextView
+                            style="@style/itemEnd"
+                            tools:text="20度"
+                            android:layout_gravity="end"
+                            android:text='@{(ammeter.newAmmeter-ammeter.oldAmmeter) +"度"}' />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            style="@style/itemStart"
+                            android:text="@string/private_use_price_sub" />
+
+                        <TextView
+                            style="@style/itemEnd"
+                            android:text='@{String.format("%.2f元",price * (ammeter.newAmmeter - ammeter.oldAmmeter))}'
+                            tools:text="22.34元" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            style="@style/itemStart"
+                            android:text="@string/public_use_price_sub" />
+
+                        <TextView
+                            style="@style/itemEnd"
+                            android:text='@{String.format("%.2f元",(price * sharing))}'
+                            app:layout_constraintRight_toRightOf="parent"
+                            tools:text="22.34元" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            style="@style/itemStart"
+                            android:text="@string/total_price_sub" />
+
+                        <TextView
+                            style="@style/itemEnd"
+                            android:text='@{String.format("%.2f元",(price * (sharing + ammeter.newAmmeter - ammeter.oldAmmeter)))}'
+                            tools:text="22.34 元" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </FrameLayout>
+</layout>

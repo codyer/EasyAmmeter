@@ -1,12 +1,11 @@
 package com.cody.ammeter.util;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.cody.ammeter.model.Repository;
 import com.cody.ammeter.model.db.table.Ammeter;
@@ -63,37 +62,30 @@ public class AmmeterHelper {
     /**
      * 结算最新数据
      */
-    public static void settlement(CallBack<Boolean> callBack) {
+    public static void settlement(final List<Ammeter> ammeters, final float sharing, final float price, CallBack<Boolean> callBack) {
         sExecutor.submit(() -> {
-            Ammeter mainAmmeter = Repository.getMainAmmeter();//总电表
-            List<Ammeter> subAmmeters = Repository.getSubAmmeters();//所有在租租户分表
             Date time = new Date();
-            float mainRealAmmeter = mainAmmeter.getNewAmmeter() - mainAmmeter.getOldAmmeter();// 主表电量
-            float mainRealMoneyUsed = mainAmmeter.getOldBalance() - mainAmmeter.getNewBalance();// 主表消耗的金额
-            float price = mainRealAmmeter <= 0 ? 0f : (mainRealMoneyUsed / mainRealAmmeter);//电价
-            float sharingAmmeter = mainRealAmmeter;//公摊电量
-            for (Ammeter sub : subAmmeters) {
-                sharingAmmeter -= (sub.getNewAmmeter() - sub.getOldAmmeter());
-            }
             List<Settlement> settlements = new ArrayList<>();
-            settlements.add(createSettlement(mainAmmeter, sharingAmmeter, time));
-            for (Ammeter sub : subAmmeters) {
-                settlements.add(createSettlement(sub, sharingAmmeter, time));
-
-                sub.setOldBalance(sub.getNewBalance());
-                sub.setNewBalance(sub.getNewBalance() - price * (sharingAmmeter + sub.getNewAmmeter() - sub.getOldAmmeter()));
-                sub.setOldAmmeter(sub.getNewAmmeter());
+            for (Ammeter ammeter : ammeters) {
+                settlements.add(createSettlement(ammeter, sharing, time));
+                if (ammeter.getId() != Ammeter.UN_TENANT_ID) {//分表
+                    ammeter.setNewBalance(ammeter.getNewBalance() - price * (sharing + ammeter.getNewAmmeter() - ammeter.getOldAmmeter()));
+                }
+                ammeter.setOldAmmeter(ammeter.getNewAmmeter());
+                ammeter.setOldBalance(ammeter.getNewBalance());
             }
-            mainAmmeter.setOldAmmeter(mainAmmeter.getNewAmmeter());
-            mainAmmeter.setOldBalance(mainAmmeter.getNewBalance());
             Repository.insertSettlement(settlements);
-
-            subAmmeters.add(mainAmmeter);// 电表数据添加到一起更新
-            Repository.updateAmmeters(subAmmeters);
+            Repository.updateAmmeters(ammeters);
             sHandler.post(() -> callBack.onResult(true));
         });
     }
 
+    /**
+     * 添加租户
+     *
+     * @param newAmmeter 租户当前电表数
+     * @param callBack   回调
+     */
     public static void addTenant(float newAmmeter, CallBack<Boolean> callBack) {
         sExecutor.submit(() -> {
             long count = Repository.getSubAmmetersCount();
@@ -119,6 +111,9 @@ public class AmmeterHelper {
         });
     }
 
+    /**
+     * 创建结算数据
+     */
     private static Settlement createSettlement(Ammeter ammeter, float sharingAmmeter, Date time) {
         Settlement settlement = new Settlement();
         settlement.setAmmeterId(ammeter.getId());
@@ -131,6 +126,9 @@ public class AmmeterHelper {
         return settlement;
     }
 
+    /**
+     * 充值金额
+     */
     public static void addPayment(Ammeter ammeter, float value, CallBack<Boolean> callBack) {
         sExecutor.submit(() -> {
             if (ammeter.getId() == Ammeter.UN_TENANT_ID) {
@@ -149,6 +147,9 @@ public class AmmeterHelper {
         });
     }
 
+    /**
+     * 更新电表信息
+     */
     public static void updateAmmeter(Ammeter ammeter, CallBack<Boolean> callBack) {
         sExecutor.submit(() -> {
             Repository.updateAmmeter(ammeter);
@@ -156,6 +157,9 @@ public class AmmeterHelper {
         });
     }
 
+    /**
+     * 更新电表数据
+     */
     public static void updateAmmeter(long ammeterId, float value, CallBack<Boolean> callBack) {
         sExecutor.submit(() -> {
             Repository.updateAmmeter(ammeterId, value);
@@ -163,6 +167,9 @@ public class AmmeterHelper {
         });
     }
 
+    /**
+     * 退租
+     */
     public static void checkOut(final Ammeter ammeter, CallBack<Boolean> callBack) {
         ammeter.setLeave(true);
         sExecutor.submit(() -> {
@@ -171,15 +178,13 @@ public class AmmeterHelper {
         });
     }
 
-
-    public static boolean copy(Context context) {
+    public static boolean copy(Context context, List<Ammeter> ammeters, final float sharing, final float price) {
         if (context == null) return false;
-        StringBuffer info = getShareInfo();
+        StringBuffer info = getShareInfo(ammeters, 0, 0);
         ClipboardManager manager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         if (manager != null) {
             try {
                 manager.setPrimaryClip(ClipData.newPlainText("ammeter_info", info));
-                Log.d("DataHelper", info.toString());
                 return true;
             } catch (Exception e) {
                 //
@@ -189,35 +194,32 @@ public class AmmeterHelper {
         return false;
     }
 
-  /*  private void share() {
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, DataHelper.getShareInfo().toString());
-        sendIntent.setType("text/plain");
-        startActivity(Intent.createChooser(sendIntent, null));
-    }
-*/
-    public static StringBuffer getShareInfo() {
+    @SuppressLint("DefaultLocale")
+    public static StringBuffer getShareInfo(List<Ammeter> ammeters, final float sharing, final float price) {
         StringBuffer info = new StringBuffer();
         info.append("本次电费详情:(时间：").append(getDateString()).append(")\n");
-        /*AmmeterViewData item;
-        for (int i = 0; i < mAmmeters.size(); i++) {
-            item = mAmmeters.get(i);
-            if (item.isSubMeter()) {
-                info.append("房间【").append(item.getName())
-                        .append("】应缴电费：").append(item.getTotalPrice().getValue()).append("元\n（公摊电费：")
-                        .append(item.getPublicPrice().getValue()).append("元，分表电费：")
-                        .append(item.getPrivatePrice().getValue()).append("元，用电：")
-                        .append(item.getKilowattHour()).append("度，当前读数：")
-                        .append(item.getThisMonth().getValue()).append("度)；\n ------------ \n");
+        Ammeter ammeter;
+        for (int i = 0; i < ammeters.size(); i++) {
+            ammeter = ammeters.get(i);
+            if (ammeter.getId() > Ammeter.UN_TENANT_ID) {
+                info.append("【").append(ammeter.getName())
+                        .append("】本次应缴电费：")
+                        .append(String.format("%.2f", (ammeter.getNewBalance() - price * (sharing + ammeter.getNewAmmeter() - ammeter.getOldAmmeter()))))
+                        .append("元\n（公摊电费：")
+                        .append(String.format("%.2f", price * sharing))
+                        .append("元，分表电费：")
+                        .append(String.format("%.2f", price * (ammeter.getNewAmmeter() - ammeter.getOldAmmeter()))).append("元，用电：")
+                        .append((ammeter.getNewAmmeter() - ammeter.getOldAmmeter())).append("度，当前读数：")
+                        .append(ammeter.getNewAmmeter()).append("度)；\n ------------ \n");
             } else {
-                info.append("总缴电费：").append(item.getTotalPrice().getValue()).append("元\n（总用电：")
-                        .append(item.getKilowattHour()).append("度").append("，公摊度数：")
-                        .append(item.getPublicPrice().getValue()).append("度，上月总表读数：")
-                        .append(item.getLastMonth().getValue()).append("度，本月总表读数：")
-                        .append(item.getThisMonth().getValue()).append("度)；\n ------------ \n");
+                info.append("总缴电费：").append(String.format("%.2f", ammeter.getOldBalance() - ammeter.getNewBalance()))
+                        .append("元\n（总用电：")
+                        .append(ammeter.getNewAmmeter() - ammeter.getOldAmmeter()).append("度").append("，公摊度数：")
+                        .append(sharing).append("度，上月总表读数：")
+                        .append(ammeter.getOldAmmeter()).append("度，本月总表读数：")
+                        .append(ammeter.getNewAmmeter()).append("度)；\n ------------ \n");
             }
-        }*/
+        }
         return info;
     }
 

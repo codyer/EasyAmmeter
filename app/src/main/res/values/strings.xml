@@ -4,21 +4,13 @@
     <string name="please_input_this_hint">请输入本月电表数据</string>
     <string name="please_input_wrong_hint">本月电表数据不能小于上月电表数据</string>
 
-    <string name="public_use">本月公摊电量：</string>
     <string name="last_month">上月总表读数：</string>
     <string name="this_month">本月总表读数：</string>
-    <string name="use">本月总用电量：</string>
-    <string name="total_price">总表使用电费：</string>
-    <string name="degree"> 度</string>
-    <string name="yuan"> 元</string>
-
-    <string name="last_month_sub">上月分表读数：</string>
-    <string name="this_month_sub">本月分表读数：</string>
-    <string name="use_sub">本月使用电量：</string>
-
-    <string name="private_use_price_sub">分表电费：</string>
-    <string name="public_use_price_sub">公摊电费：</string>
-    <string name="total_price_sub">应缴电费：</string>
+    <string name="main_ammeter">总表</string>
+    <string name="use">本次总用电量：</string>
+    <string name="total_price">本次总用电费：</string>
+    <string name="degree">度</string>
+    <string name="yuan">元</string>
 
     <string name="save">保存并关闭</string>
     <string name="save_and_clear">保存并复制</string>
@@ -29,6 +21,14 @@
     <string name="edit">编辑</string>
     <string name="waiting">请等待…</string>
 
+
+    <string name="use_sub">本次分表用电：</string>
+
+    <string name="public_use">本次公摊电量：</string>
+    <string name="price">本次电费单价：</string>
+    <string name="private_use_price_sub">本次分表电费：</string>
+    <string name="public_use_price_sub">本次公摊电费：</string>
+    <string name="total_price_sub">本次应缴电费：</string>
     <string name="modify_name_success">租户名成功修改</string>
     <string name="modify_name">修改租户名</string>
     <string name="name_err">租户名太短</string>
@@ -77,4 +77,5 @@
     <string name="check_out_info">当前租户还欠费%.2f元，是否已经结清？</string>
     <string name="check_out_success">租户退租成功！</string>
     <string name="time_long">请更新%s的电表数据，已超过24小时未更新。</string>
+    <string name="sub_ammeter">分表</string>
 </resources>
