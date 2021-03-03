@@ -2,7 +2,7 @@
     <string name="app_name">电费助手</string>
     <string name="please_input_last_hint">请输入上月电表数据</string>
     <string name="please_input_this_hint">请输入本月电表数据</string>
-    <string name="please_input_wrong_hint">本月电表数据不能小于上月电表数据</string>
+    <string name="please_input_wrong_hint">电表数据未更新或者不正确</string>
 
     <string name="last_month">上次电表读数：</string>
     <string name="this_month">当前电表读数：</string>
@@ -35,8 +35,10 @@
     <string name="name_max_length">租户名不能超过4个字</string>
     <string name="check_out">退租</string>
     <string name="title_payment">缴费金额</string>
+    <string name="set_balance">更新余额</string>
     <string name="title_balance">当前余额</string>
     <string name="ammeter">电表</string>
+    <string name="set_ammeter">设置电表</string>
     <string name="used_ammeter">已用电量</string>
     <string name="title_ammeter">电表读数</string>
     <string name="please_input_payment_hint">请输入本次缴费金额\n当前余额：%.2f元</string>
@@ -81,4 +83,5 @@
     <string name="balance_time_long">请更新%s的余额数据，已超过24小时未更新。</string>
     <string name="sub_ammeter">分表</string>
     <string name="add_tenant_hint">当前暂无租户资料，请先进行租户入住操作</string>
+    <string name="no_need_to">暂时没有需要结算的数据\n请确认余额和电量以及充值情况正确</string>
 </resources>

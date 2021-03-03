@@ -52,13 +52,13 @@ public interface AmmeterDao {
     @Query("SELECT * FROM ammeters WHERE id > 1")
     List<Ammeter> getTenantAmmeters();
 
-    @Query("SELECT * FROM ammeters WHERE isLeave =:leave order by id DESC")
+    @Query("SELECT * FROM ammeters WHERE isLeave =:leave order by id ASC")
     LiveData<List<Ammeter>> liveAmmeters(boolean leave);
 
     @Query("SELECT * FROM ammeters WHERE isLeave =:leave and id > 1")
     List<Ammeter> getTenantAmmeters(boolean leave);
 
-    @Query("select * from ammeters WHERE id > 1 order by isLeave ASC")
+    @Query("select * from ammeters WHERE id > 1 order by isLeave ,id ASC")
     DataSource.Factory<Integer, Ammeter> getTenantDataSource();
 
     @Query("SELECT count(*) FROM ammeters  WHERE id > 1")

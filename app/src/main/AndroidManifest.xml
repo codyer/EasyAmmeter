@@ -12,7 +12,7 @@
         android:theme="@style/AmmeterTheme">
         <activity
             android:name=".ui.InputActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.PaymentListActivity"
@@ -32,7 +32,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.HistoryListActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.TenantActivity"

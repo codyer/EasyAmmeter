@@ -8,6 +8,7 @@ import android.view.View;
 import com.cody.ammeter.R;
 import com.cody.ammeter.databinding.ToolbarLitActivityBinding;
 import com.cody.ammeter.util.AmmeterHelper;
+import com.cody.ammeter.util.TimeUtil;
 import com.cody.ammeter.viewmodel.HistoryListViewModel;
 import com.cody.ammeter.viewmodel.ItemAmmeter;
 import com.cody.component.app.activity.AbsPageListActivity;
@@ -15,7 +16,6 @@ import com.cody.component.app.widget.friendly.FriendlyLayout;
 import com.cody.component.bind.adapter.list.BindingViewHolder;
 import com.cody.component.bind.adapter.list.MultiBindingPageListAdapter;
 import com.cody.component.handler.data.FriendlyViewData;
-import com.cody.component.util.RecyclerViewUtil;
 
 import java.util.Date;
 
@@ -51,6 +51,11 @@ public class HistoryListActivity extends AbsPageListActivity<ToolbarLitActivityB
     }
 
     @Override
+    public boolean isSupportImmersive() {
+        return false;
+    }
+
+    @Override
     protected int getToolbarId() {
         return R.id.toolbar;
     }
@@ -70,6 +75,11 @@ public class HistoryListActivity extends AbsPageListActivity<ToolbarLitActivityB
         if (getIntent() != null) {
             mTime = (Date) getIntent().getSerializableExtra(SETTLEMENT_TIME);
         }
+        if (mTime != null){
+            setTitle(TimeUtil.getDateFormatLong(mTime));
+        }else {
+            setTitle(R.string.settlement_history);
+        }
         return new HistoryListViewModel(mTime);
     }
 
@@ -80,9 +90,9 @@ public class HistoryListActivity extends AbsPageListActivity<ToolbarLitActivityB
             @Override
             public int getItemLayoutId(int viewType) {
                 if (viewType == ItemAmmeter.DEFAULT_TYPE) {
-                    return R.layout.item_sub_ammeter_result;
+                    return R.layout.item_history_sub;
                 } else if (viewType == ItemAmmeter.MAIN_TYPE) {
-                    return R.layout.item_main_ammeter_result;
+                    return R.layout.item_histtory_main;
                 }
                 return super.getItemLayoutId(viewType);
             }
@@ -108,14 +118,14 @@ public class HistoryListActivity extends AbsPageListActivity<ToolbarLitActivityB
 
     @Override
     public void onItemClick(final BindingViewHolder holder, final View view, final int position, final int id) {
-        if (mTime == null && getListAdapter().getItem(id) instanceof ItemAmmeter) {
-            ItemAmmeter itemAmmeter = (ItemAmmeter) getListAdapter().getItem(id);
+        if (mTime == null && getListAdapter().getItem(position) instanceof ItemAmmeter) {
+            ItemAmmeter itemAmmeter = (ItemAmmeter) getListAdapter().getItem(position);
             if (itemAmmeter != null) {
                 HistoryListActivity.start(this, itemAmmeter.getTime());
             }
         } else {
             if (AmmeterHelper.copy(this, getViewModel().getPagedList().getValue().snapshot())) {
-                showToast("最新结算数据已经复制到剪切板！");
+                showToast(TimeUtil.getDateShort(mTime)+"的结算数据已经复制到剪切板！");
             }
         }
     }
@@ -129,14 +139,13 @@ public class HistoryListActivity extends AbsPageListActivity<ToolbarLitActivityB
     protected void onBaseReady(Bundle savedInstanceState) {
         super.onBaseReady(savedInstanceState);
         setSupportActionBar(getBinding().toolbar);
-        setTitle(R.string.settlement_history);
     }
 
     @Override
     public void onClick(View v) {
         super.onClick(v);
         if (v.getId() == R.id.top) {
-            RecyclerViewUtil.smoothScrollToTop(getBinding().recyclerView);
+            scrollToTop();
         }
     }
 }

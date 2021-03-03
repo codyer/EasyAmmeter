@@ -40,6 +40,11 @@ public class InputActivity extends BaseActionbarActivity<InputActivityBinding> {
     }
 
     @Override
+    public boolean isSupportImmersive() {
+        return false;
+    }
+
+    @Override
     protected void onBaseReady(final Bundle savedInstanceState) {
         super.onBaseReady(savedInstanceState);
         String name = Ammeter.UN_TENANT_NAME;

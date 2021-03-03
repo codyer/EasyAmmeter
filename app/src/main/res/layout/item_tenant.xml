@@ -18,7 +18,7 @@
 
     </data>
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         bind:onClickListener="@{onClickListener}">
@@ -53,5 +53,5 @@
 
         </androidx.cardview.widget.CardView>
 
-    </FrameLayout>
+    </RelativeLayout>
 </layout>

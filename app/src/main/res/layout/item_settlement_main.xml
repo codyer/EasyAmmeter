@@ -26,8 +26,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                tools:background="@color/color6"
-                android:background="@{viewData.oldAmmeter>viewData.newAmmeter ?@color/color6:@color/color1}"
+                tools:background="@color/color7"
+                android:background="@{viewData.validData ?@color/color1:@color/color7}"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -46,16 +46,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
-                    <TextView
-                        style="@style/itemTitle"
-                        android:background="@drawable/bg_shape_round"
-                        android:paddingTop="2dp"
-                        android:paddingBottom="2dp"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:layout_gravity="end|top"
-                        android:text="@string/main_ammeter" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -149,12 +139,6 @@
                             tools:text="22.34 元" />
 
                     </RelativeLayout>
-
-                    <TextView
-                        style="@style/itemEnd"
-                        android:layout_gravity="end"
-                        android:text='@{"实际值："+String.format("%.2f元",(viewData.oldBalance - viewData.newBalance))}'
-                        tools:text="22.34 元" />
 
                 </LinearLayout>
             </LinearLayout>

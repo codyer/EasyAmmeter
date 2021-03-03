@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cody.ammeter.R;
-import com.cody.ammeter.databinding.ItemMainAmmeterResultBinding;
-import com.cody.ammeter.databinding.ItemSubAmmeterResultBinding;
+import com.cody.ammeter.databinding.ItemSettlementMainBinding;
+import com.cody.ammeter.databinding.ItemSettlementSubBinding;
 import com.cody.ammeter.databinding.SettlementLitActivityBinding;
 import com.cody.ammeter.model.db.table.Ammeter;
 import com.cody.ammeter.util.AmmeterHelper;
@@ -38,11 +38,17 @@ import androidx.recyclerview.widget.RecyclerView;
 public class SettlementListActivity extends BaseActionbarActivity<SettlementLitActivityBinding> {
     private Ammeter mClickedAmmeter;
     private List<Ammeter> mAmmeterList;
-    private float mSharing;
-    private float mPrice;
+    private float mSharing = 0.0f;
+    private float mPrice = 0.0f;
+    private boolean mFinished = false;
 
     public static void start(Activity activity) {
         activity.startActivity(new Intent(activity, SettlementListActivity.class));
+    }
+
+    @Override
+    public boolean isSupportImmersive() {
+        return false;
     }
 
     @Override
@@ -66,14 +72,13 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
         setSupportActionBar(getBinding().toolbar);
         getBinding().recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         AmmeterHelper.getAllAmmeter().observe(this, ammeters -> {
-            if (calculate(ammeters)) {
-                getBinding().setValid(true);
-               if (AmmeterHelper.copy(this, ammeters, mSharing, mPrice)){
-                   showToast("最新结算数据已经复制到剪切板！");
-               }
-            } else {
-                getBinding().setValid(false);
+            if (mFinished) {
+                if (AmmeterHelper.copy(this, mAmmeterList, mSharing, mPrice)) {
+                    showToast("最新结算数据已经复制到剪切板！");
+                }
+                return;
             }
+            getBinding().setValid(calculate(ammeters));
             mAmmeterList = ammeters;
             getBinding().recyclerView.setAdapter(new AmmeterAdapter(ammeters, SettlementListActivity.this));
         });
@@ -103,6 +108,7 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
             RecyclerViewUtil.smoothScrollToTop(getBinding().recyclerView);
         } else if (v.getId() == R.id.settlement) {
             showLoading();
+            mFinished = true;
             AmmeterHelper.settlement(mAmmeterList, mSharing, mPrice, result -> {
                 hideLoading();
                 showToast(R.string.settlement_success);
@@ -198,9 +204,9 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
         @Override
         public ItemAmmeterViewHolder<?> onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
             if (viewType == ItemAmmeter.MAIN_TYPE) {//总表
-                return new ItemMainAmmeterViewHolder(ItemMainAmmeterResultBinding.inflate(LayoutInflater.from(parent.getContext())));
+                return new ItemMainAmmeterViewHolder(ItemSettlementMainBinding.inflate(LayoutInflater.from(parent.getContext())));
             } else {
-                return new ItemSubAmmeterViewHolder(ItemSubAmmeterResultBinding.inflate(LayoutInflater.from(parent.getContext())));
+                return new ItemSubAmmeterViewHolder(ItemSettlementSubBinding.inflate(LayoutInflater.from(parent.getContext())));
             }
         }
 
@@ -220,35 +226,27 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
         }
     }
 
-    class ItemMainAmmeterViewHolder extends ItemAmmeterViewHolder<ItemMainAmmeterResultBinding> {
+    class ItemMainAmmeterViewHolder extends ItemAmmeterViewHolder<ItemSettlementMainBinding> {
 
-        public ItemMainAmmeterViewHolder(final ItemMainAmmeterResultBinding binding) {
+        public ItemMainAmmeterViewHolder(final ItemSettlementMainBinding binding) {
             super(binding);
         }
 
         void bindTo(final LifecycleOwner lifecycleOwner, final Ammeter ammeter) {
-            mItemBinding.setLifecycleOwner(lifecycleOwner);
+            super.bindTo(lifecycleOwner, ammeter);
             mItemBinding.setViewData(bindItem(ammeter));
-            itemView.setOnClickListener(v -> {
-                mClickedAmmeter = ammeter;
-                InputActivity.start(SettlementListActivity.this, InputActivity.INPUT_TYPE_AMMETER, ammeter.getName(), ammeter.getOldAmmeter());
-            });
         }
     }
 
-    class ItemSubAmmeterViewHolder extends ItemAmmeterViewHolder<ItemSubAmmeterResultBinding> {
+    class ItemSubAmmeterViewHolder extends ItemAmmeterViewHolder<ItemSettlementSubBinding> {
 
-        public ItemSubAmmeterViewHolder(final ItemSubAmmeterResultBinding binding) {
+        public ItemSubAmmeterViewHolder(final ItemSettlementSubBinding binding) {
             super(binding);
         }
 
         void bindTo(final LifecycleOwner lifecycleOwner, final Ammeter ammeter) {
-            mItemBinding.setLifecycleOwner(lifecycleOwner);
+            super.bindTo(lifecycleOwner, ammeter);
             mItemBinding.setViewData(bindItem(ammeter));
-            itemView.setOnClickListener(v -> {
-                mClickedAmmeter = ammeter;
-                InputActivity.start(SettlementListActivity.this, InputActivity.INPUT_TYPE_AMMETER, ammeter.getName(), ammeter.getOldAmmeter());
-            });
         }
     }
 
@@ -268,7 +266,7 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
         return ammeter;
     }
 
-    static class ItemAmmeterViewHolder<B extends ViewDataBinding> extends RecyclerView.ViewHolder {
+    class ItemAmmeterViewHolder<B extends ViewDataBinding> extends RecyclerView.ViewHolder {
         final B mItemBinding;
 
         public ItemAmmeterViewHolder(B binding) {
@@ -278,6 +276,11 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
         }
 
         void bindTo(final LifecycleOwner lifecycleOwner, final Ammeter ammeter) {
+            mItemBinding.setLifecycleOwner(lifecycleOwner);
+            itemView.setOnClickListener(v -> {
+                mClickedAmmeter = ammeter;
+                InputActivity.start(SettlementListActivity.this, InputActivity.INPUT_TYPE_AMMETER, ammeter.getName(), ammeter.getOldAmmeter());
+            });
         }
     }
 }

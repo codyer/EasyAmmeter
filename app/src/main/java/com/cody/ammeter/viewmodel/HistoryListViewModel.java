@@ -55,7 +55,7 @@ public class HistoryListViewModel extends AbsPageListViewModel<FriendlyViewData,
             ammeter.setNewAmmeter(input.getNewAmmeter());
             ammeter.setNewBalance(input.getNewBalance());
             ammeter.setSharing(input.getSharing());
-            ammeter.setPrice((input.getNewBalance() - input.getOldBalance()) / (input.getNewAmmeter() - input.getOldAmmeter()));
+            ammeter.setPrice((input.getOldBalance() - input.getNewBalance()) / (input.getNewAmmeter() - input.getOldAmmeter()));
             ammeter.setTime(input.getTime());
             return ammeter;
         });

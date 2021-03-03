@@ -36,6 +36,11 @@ public class TenantActivity extends BaseActionbarActivity<TenantActivityBinding>
     }
 
     @Override
+    public boolean isSupportImmersive() {
+        return false;
+    }
+
+    @Override
     protected int getLayoutID() {
         return R.layout.tenant_activity;
     }
@@ -57,11 +62,12 @@ public class TenantActivity extends BaseActionbarActivity<TenantActivityBinding>
             mTenantAmmeter = ammeter;
             setTitle(ammeter.getName() + (ammeter.isLeave() ? "(已退租)" : ""));
             if (ammeter.getNewBalance() >= 0f) {
-                getBinding().setBalance(String.format(getString(R.string.format_yuan), ammeter.getNewBalance()));
+                getBinding().setBalance(String.format(getString(R.string.success_set_balance), ammeter.getNewBalance()));
             } else {
                 getBinding().setBalance(String.format("已欠费：%.2f元", Math.abs(ammeter.getNewBalance())));
             }
             getBinding().setAmmeter(String.format(getString(R.string.format_du), ammeter.getNewAmmeter() - ammeter.getOldAmmeter()));
+            getBinding().setOldAmmeter(String.format(getString(R.string.format_du), ammeter.getOldAmmeter()));
             hideLoading();
         });
     }

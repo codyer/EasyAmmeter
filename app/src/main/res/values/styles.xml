@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
 
     <!-- Base application theme. -->
-    <style name="AmmeterTheme" parent="AppTheme">
+    <style name="AmmeterTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!--导航栏颜色-->
         <item name="colorPrimary">@color/colorPrimary</item>
         <!--通知栏颜色-->
@@ -58,7 +58,6 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentEnd">true</item>
-        <item name="android:layout_marginEnd">16dp</item>
         <item name="android:gravity">end|center_vertical</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/uiColorWhite</item>

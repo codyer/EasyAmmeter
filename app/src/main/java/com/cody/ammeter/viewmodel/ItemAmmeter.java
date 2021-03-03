@@ -17,6 +17,14 @@ public class ItemAmmeter extends ItemViewDataHolder {
     private float mPrice;// 本次结算每度电单价  price = money/ammeter
     private Date mTime; // 结算时间，结算确认时要更新成当前时间，否则为上次结算时间
 
+    public boolean validData() {
+        if (mTime == null) return false;
+        if ((new Date().getTime() - mTime.getTime()) * 1.0 / (1000 * 60 * 60) > 24) {
+            return false;
+        }
+        return mNewAmmeter > mOldAmmeter;
+    }
+
     public long getAmmeterId() {
         return mAmmeterId;
     }

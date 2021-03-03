@@ -42,6 +42,11 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
     }
 
     @Override
+    public boolean isSupportImmersive() {
+        return false;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.app_name);
@@ -110,7 +115,7 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
             case R.id.settlement:
                 long time = new Date().getTime();
                 if (mMainAmmeter != null) {
-                    if (mMainAmmeter.getNewAmmeter() < mMainAmmeter.getOldAmmeter()) {
+                    if (Float.compare(mMainAmmeter.getNewAmmeter(), mMainAmmeter.getOldAmmeter()) <= 0) {
                         showToast(mMainAmmeter.getName() + getString(R.string.please_input_wrong_hint));
                         return;
                     } else if ((time - mMainAmmeter.getCheckInTime().getTime()) * 1.0 / (1000 * 60 * 60) > 24) {
@@ -120,6 +125,9 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
                     } else if ((time - mMainAmmeter.getAmmeterSetTime().getTime()) * 1.0 / (1000 * 60 * 60) > 24) {
                         // 数据超过一天无效
                         showToast(String.format(getString(R.string.time_long), mMainAmmeter.getName()));
+                        return;
+                    } else if (mMainAmmeter.getOldBalance() <= mMainAmmeter.getNewBalance()) {
+                        showToast(getString(R.string.no_need_to));
                         return;
                     }
                 }

@@ -31,6 +31,11 @@ public class TenantListActivity extends AbsPageListActivity<ToolbarLitActivityBi
     }
 
     @Override
+    public boolean isSupportImmersive() {
+        return false;
+    }
+
+    @Override
     protected int getToolbarId() {
         return R.id.toolbar;
     }

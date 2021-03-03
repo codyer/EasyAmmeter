@@ -36,6 +36,11 @@ public class PaymentListActivity extends AbsPageListActivity<ToolbarLitActivityB
     }
 
     @Override
+    public boolean isSupportImmersive() {
+        return false;
+    }
+
+    @Override
     protected int getToolbarId() {
         return R.id.toolbar;
     }

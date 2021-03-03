@@ -18,6 +18,10 @@
         <variable
             name="ammeter"
             type="String" />
+
+        <variable
+            name="oldAmmeter"
+            type="String" />
     </data>
 
     <LinearLayout
@@ -27,58 +31,56 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:minHeight="?attr/actionBarSize"
-            android:onClick="@{onClickListener::onClick}" />
+            android:onClick="@{onClickListener::onClick}"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/newBalance"
-                style="@style/itemCard"
-                android:background="@color/color1"
-                android:orientation="vertical"
-                bind:layout_constraintDimensionRatio="W,2:5"
-                bind:layout_constraintLeft_toLeftOf="parent"
-                bind:layout_constraintRight_toRightOf="parent"
+                android:id="@+id/topInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:gravity="center"
+                android:background="@color/color19"
                 bind:layout_constraintTop_toTopOf="parent"
-                bind:onClickListener="@{onClickListener}">
-
-                <TextView
-                    style="@style/itemCardTitle"
-                    android:text="@string/title_balance" />
+                android:orientation="vertical">
 
                 <TextView
                     style="@style/itemCardSubTitle"
-                    android:text="@{balance}"
-                    tools:text="88.88元" />
+                    android:text='@{balance}'
+                    tools:text="当前余额：88.88元" />
+
+                <TextView
+                    style="@style/itemCardSubTitle"
+                    android:text='@{"已用电量："+ammeter}'
+                    tools:text="已用电量：88.88度" />
+
+                <TextView
+                    style="@style/itemCardSubTitle"
+                    android:text='@{"上次电表读数："+oldAmmeter}'
+                    tools:text="上次电表读数：88.88度" />
+
             </LinearLayout>
 
-            <LinearLayout
+            <Button
                 android:id="@+id/newAmmeter"
                 style="@style/itemCard"
                 android:background="@color/color5"
-                android:orientation="vertical"
+                android:text="@string/used_ammeter"
                 bind:layout_constraintDimensionRatio="W,2:5"
                 bind:layout_constraintLeft_toLeftOf="parent"
                 bind:layout_constraintRight_toRightOf="parent"
-                bind:layout_constraintTop_toBottomOf="@id/newBalance"
-                bind:onClickListener="@{onClickListener}">
+                bind:layout_constraintTop_toBottomOf="@id/topInfo"
+                bind:onClickListener="@{onClickListener}" />
 
-                <TextView
-                    style="@style/itemCardTitle"
-                    android:text="@string/used_ammeter" />
-
-                <TextView
-                    style="@style/itemCardSubTitle"
-                    android:text="@{ammeter}"
-                    tools:text="88.88度" />
-            </LinearLayout>
-
-            <TextView
+            <Button
                 android:id="@+id/rechargePayment"
                 style="@style/itemCard"
                 bind:layout_constraintDimensionRatio="W,2:3"
@@ -89,7 +91,7 @@
                 bind:onClickListener="@{onClickListener}"
                 android:text="@string/recharge_payment" />
 
-            <TextView
+            <Button
                 android:id="@+id/paymentRecord"
                 style="@style/itemCard"
                 bind:layout_constraintDimensionRatio="W,2:3"
@@ -100,7 +102,7 @@
                 bind:onClickListener="@{onClickListener}"
                 android:text="@string/payment_record" />
 
-            <TextView
+            <Button
                 android:id="@+id/checkOut"
                 style="@style/itemCard"
                 bind:layout_constraintDimensionRatio="W,1:5"
