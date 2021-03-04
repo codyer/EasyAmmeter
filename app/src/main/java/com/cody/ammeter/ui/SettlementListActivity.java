@@ -166,7 +166,7 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
         for (int i = 0; i < ammeters.size(); i++) {
             item = ammeters.get(i);
             if (item.getId() != Ammeter.UN_TENANT_ID) {
-                if (item.getNewAmmeter() < 0f || item.getNewAmmeter() < item.getOldAmmeter()) {
+                if (item.getNewAmmeter() <= 0f || item.getNewAmmeter() <= item.getOldAmmeter()) {
                     showToast(item.getName() + getString(R.string.please_input_wrong_hint));
                     return false;
                 }

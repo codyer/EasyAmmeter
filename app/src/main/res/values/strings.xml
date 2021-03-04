@@ -67,6 +67,7 @@
     <string name="number_1">1</string>
     <string name="dot">.</string>
     <string name="deleteAll">清空</string>
+    <string name="format">%012.2f</string>
     <string name="format_yuan">%.2f元</string>
     <string name="format_du">%.2f度</string>
     <string name="success_set_payment">成功缴费:金额%.2f元</string>
@@ -78,6 +79,7 @@
     <string name="save_2_decimal">小数点后最多支持输入两位数</string>
     <string name="check_out_info_total">当前还有%.2f元费用没有结算，确认是否强制退租？</string>
     <string name="check_out_info">当前租户还欠费%.2f元，是否已经结清？</string>
+    <string name="check_out_cant_restore">是否确定要退租，退租后不可恢复！</string>
     <string name="check_out_success">租户退租成功！</string>
     <string name="time_long">请更新%s的电表数据，已超过24小时未更新。</string>
     <string name="balance_time_long">请更新%s的余额数据，已超过24小时未更新。</string>

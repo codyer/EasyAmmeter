@@ -49,7 +49,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="@color/uiColorPrimaryDark"
+                android:textColor="@color/color3"
                 android:textSize="@dimen/ui_font_biggest"
                 tools:text="@string/new_ammeter_hint"
                 android:text="@{hint}"

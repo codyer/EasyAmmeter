@@ -32,7 +32,7 @@
 
             <LinearLayout
                 android:id="@+id/newBalance"
-                android:padding="@dimen/dimen_big"
+                android:padding="@dimen/dimen_huge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color1"

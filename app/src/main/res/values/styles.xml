@@ -8,7 +8,13 @@
         <!--通知栏颜色-->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <!--控件选中后颜色-->
-        <item name="colorAccent">@color/uiColorPrimaryAccent</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Launcher" parent="FullscreenTheme">
+        <!-- Customize your theme here. -->
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowBackground">@drawable/ic_cold_launch</item>
     </style>
 
     <style name="itemHorizontal">
@@ -22,8 +28,26 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
         <item name="android:textSize">@dimen/ui_font_huge</item>
         <item name="android:textColor">@color/uiColorWhite</item>
+    </style>
+
+    <style name="itemCardLeft" parent="itemCard">
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+    </style>
+
+    <style name="itemCardRight" parent="itemCard">
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
     </style>
 
     <style name="itemCardTitle">

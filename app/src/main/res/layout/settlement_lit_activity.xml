@@ -57,11 +57,12 @@
             android:id="@+id/settlement"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_normal"
+            android:padding="20dp"
+            android:textSize="@dimen/ui_font_huge"
             style="@style/Widget.AppCompat.Button.Colored"
             android:enabled="@{valid}"
-            android:padding="@dimen/dimen_large"
             bind:onClickListener="@{onClickListener}"
-            android:textSize="@dimen/ui_font_bigger"
             android:text="@string/submit_settlement" />
     </LinearLayout>
 </layout>

@@ -4,7 +4,7 @@
     <item
         android:id="@+id/edit"
         android:title="@string/edit"
-        android:icon="@android:drawable/ic_menu_edit"
+        android:icon="@drawable/ic_rename"
         app:showAsAction="always" />
 
 </menu>

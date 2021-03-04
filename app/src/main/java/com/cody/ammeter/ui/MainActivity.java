@@ -58,6 +58,7 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
             getBinding().setBalance(String.format(getString(R.string.format_yuan), ammeter.getNewBalance()));
             getBinding().setAmmeter(String.format(getString(R.string.format_du), ammeter.getNewAmmeter() - ammeter.getOldAmmeter()));
             getBinding().setUsed(String.format(getString(R.string.price_used_hint), ammeter.getOldBalance() - ammeter.getNewBalance()));
+            getBinding().setNewAmmeter(String.format(getString(R.string.format), ammeter.getNewAmmeter()));
             hideLoading();
         });
     }
@@ -79,6 +80,18 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void showToast(final String message) {
+        super.showToast(message);
+        getBinding().setInfo(message);
+    }
+
+    @Override
+    public void showToast(final int message) {
+        super.showToast(message);
+        getBinding().setInfo(getString(message));
     }
 
     @Override

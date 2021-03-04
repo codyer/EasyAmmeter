@@ -40,6 +40,11 @@
         <activity
             android:name=".ui.MainActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.SplashActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.Launcher"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -62,12 +62,12 @@ public class TenantActivity extends BaseActionbarActivity<TenantActivityBinding>
             mTenantAmmeter = ammeter;
             setTitle(ammeter.getName() + (ammeter.isLeave() ? "(已退租)" : ""));
             if (ammeter.getNewBalance() >= 0f) {
-                getBinding().setBalance(String.format(getString(R.string.success_set_balance), ammeter.getNewBalance()));
+                getBinding().setBalance(String.format("余额\n%.2f元", ammeter.getNewBalance()));
             } else {
-                getBinding().setBalance(String.format("已欠费：%.2f元", Math.abs(ammeter.getNewBalance())));
+                getBinding().setBalance(String.format("已欠费\n%.2f元", Math.abs(ammeter.getNewBalance())));
             }
             getBinding().setAmmeter(String.format(getString(R.string.format_du), ammeter.getNewAmmeter() - ammeter.getOldAmmeter()));
-            getBinding().setOldAmmeter(String.format(getString(R.string.format_du), ammeter.getOldAmmeter()));
+            getBinding().setNewAmmeter(String.format(getString(R.string.format), ammeter.getNewAmmeter()));
             hideLoading();
         });
     }
@@ -132,6 +132,16 @@ public class TenantActivity extends BaseActionbarActivity<TenantActivityBinding>
                             .create().show();
                 } else if (mTenantAmmeter.getNewBalance() < 0f) {
                     new AlertDialog.Builder(this).setMessage(R.string.check_out_info)
+                            .setPositiveButton(R.string.ui_str_confirm, (dialog, which) -> {
+                                showLoading();
+                                AmmeterHelper.checkOut(mTenantAmmeter, result -> {
+                                    hideLoading();
+                                    showToast(R.string.check_out_success);
+                                });
+                            }).setNegativeButton(R.string.ui_str_cancel, null)
+                            .create().show();
+                }else {
+                    new AlertDialog.Builder(this).setMessage(R.string.check_out_cant_restore)
                             .setPositiveButton(R.string.ui_str_confirm, (dialog, which) -> {
                                 showLoading();
                                 AmmeterHelper.checkOut(mTenantAmmeter, result -> {
