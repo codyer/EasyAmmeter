@@ -19,20 +19,20 @@ public class Settlement {
     private long id; // 结算 id
     private long ammeterId;// 电表id
     private String name;// 电表id
-    private float oldAmmeter;// 上一次电表数据
-    private float newAmmeter;// 新的电表数据
+    private double oldAmmeter;// 上一次电表数据
+    private double newAmmeter;// 新的电表数据
 //    @Ignore
-//    private float mAmmeter;// 实际使用电量 ammeter = newAmmeter - oldAmmeter
+//    private double mAmmeter;// 实际使用电量 ammeter = newAmmeter - oldAmmeter
 
-    private float oldBalance;// 上一次余额，每次结算生成新的结算记录时使用 mNewBalance
-    private float newBalance;// 新的余额，每次缴费都加上缴费金额
+    private double oldBalance;// 上一次余额，每次结算生成新的结算记录时使用 mNewBalance
+    private double newBalance;// 新的余额，每次缴费都加上缴费金额
     //    @Ignore
-//    private float mTenantAmmeter;// 所有房客实际使用电量之和，结算确认后才更新此值
+//    private double mTenantAmmeter;// 所有房客实际使用电量之和，结算确认后才更新此值
 //    @Ignore
-//    private float mMoney;// 实际使用金额 money = oldBalance - newBalance
-    private float sharing;// 公摊电量 sharing = ammeter - ammeterAmmeter
+//    private double mMoney;// 实际使用金额 money = oldBalance - newBalance
+    private double sharing;// 公摊电量 sharing = ammeter - ammeterAmmeter
     //    @Ignore
-//    private float mPrice;// 本次结算每度电单价  price = money/ammeter
+//    private double mPrice;// 本次结算每度电单价  price = money/ammeter
     private Date time; // 结算时间，结算确认时要更新成当前时间，否则为上次结算时间
 
     public long getId() {
@@ -59,43 +59,43 @@ public class Settlement {
         this.name = name;
     }
 
-    public float getOldAmmeter() {
+    public double getOldAmmeter() {
         return oldAmmeter;
     }
 
-    public void setOldAmmeter(final float oldAmmeter) {
+    public void setOldAmmeter(final double oldAmmeter) {
         this.oldAmmeter = oldAmmeter;
     }
 
-    public float getNewAmmeter() {
+    public double getNewAmmeter() {
         return newAmmeter;
     }
 
-    public void setNewAmmeter(final float newAmmeter) {
+    public void setNewAmmeter(final double newAmmeter) {
         this.newAmmeter = newAmmeter;
     }
 
-    public float getOldBalance() {
+    public double getOldBalance() {
         return oldBalance;
     }
 
-    public void setOldBalance(final float oldBalance) {
+    public void setOldBalance(final double oldBalance) {
         this.oldBalance = oldBalance;
     }
 
-    public float getNewBalance() {
+    public double getNewBalance() {
         return newBalance;
     }
 
-    public void setNewBalance(final float newBalance) {
+    public void setNewBalance(final double newBalance) {
         this.newBalance = newBalance;
     }
 
-    public float getSharing() {
+    public double getSharing() {
         return sharing;
     }
 
-    public void setSharing(final float sharing) {
+    public void setSharing(final double sharing) {
         this.sharing = sharing;
     }
 

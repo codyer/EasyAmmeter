@@ -158,7 +158,7 @@ public class TenantActivity extends BaseActionbarActivity<TenantActivityBinding>
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        float value = InputActivity.getActivityResult(resultCode, data);
+        double value = InputActivity.getActivityResult(resultCode, data);
         String name = ModifyActivity.getActivityResult(requestCode, resultCode, data);
         if (value >= 0f) {
             switch (requestCode) {

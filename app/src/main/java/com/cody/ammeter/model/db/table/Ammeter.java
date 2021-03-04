@@ -19,10 +19,10 @@ public class Ammeter {
     private Date checkInTime; // 入住时间 ，或者表示房东余额设定时间
     private Date ammeterSetTime; // 电量设定时间
     private boolean isLeave = false; // 是否已退租
-    private float oldAmmeter = 0f;// 上一次电表数据，每次结算确认更新成 newAmmeter
-    private float newAmmeter = 0f;// 新的电表数据
-    private float oldBalance = 0f;// 上一次余额，每次结算确认更新成 mNewBalance：房东：每次缴费都加上缴费金额
-    private float newBalance = 0f;// 当前余额 租客，每次缴费都加上缴费金额，每次结算确认都减去新的应缴总额
+    private double oldAmmeter = 0f;// 上一次电表数据，每次结算确认更新成 newAmmeter
+    private double newAmmeter = 0f;// 新的电表数据
+    private double oldBalance = 0f;// 上一次余额，每次结算确认更新成 mNewBalance：房东：每次缴费都加上缴费金额
+    private double newBalance = 0f;// 当前余额 租客，每次缴费都加上缴费金额，每次结算确认都减去新的应缴总额
 
     public long getId() {
         return id;
@@ -64,35 +64,35 @@ public class Ammeter {
         this.isLeave = leave;
     }
 
-    public float getOldAmmeter() {
+    public double getOldAmmeter() {
         return oldAmmeter;
     }
 
-    public void setOldAmmeter(final float oldAmmeter) {
+    public void setOldAmmeter(final double oldAmmeter) {
         this.oldAmmeter = oldAmmeter;
     }
 
-    public float getNewAmmeter() {
+    public double getNewAmmeter() {
         return newAmmeter;
     }
 
-    public void setNewAmmeter(final float newAmmeter) {
+    public void setNewAmmeter(final double newAmmeter) {
         this.newAmmeter = newAmmeter;
     }
 
-    public float getOldBalance() {
+    public double getOldBalance() {
         return oldBalance;
     }
 
-    public void setOldBalance(final float oldBalance) {
+    public void setOldBalance(final double oldBalance) {
         this.oldBalance = oldBalance;
     }
 
-    public float getNewBalance() {
+    public double getNewBalance() {
         return newBalance;
     }
 
-    public void setNewBalance(final float newBalance) {
+    public void setNewBalance(final double newBalance) {
         this.newBalance = newBalance;
     }
 }

@@ -9,12 +9,12 @@ public class ItemAmmeter extends ItemViewDataHolder {
     public static final int MAIN_TYPE = 1;
     private long mAmmeterId;// 电表id
     private String mName;// 电表name
-    private float mOldAmmeter;// 上一次电表数据
-    private float mNewAmmeter;// 新的电表数据
-    private float mOldBalance;// 上一次余额，每次结算生成新的结算记录时使用 mNewBalance
-    private float mNewBalance;// 新的余额，每次缴费都加上缴费金额
-    private float mSharing;// 公摊电量 sharing = ammeter - ammeterAmmeter
-    private float mPrice;// 本次结算每度电单价  price = money/ammeter
+    private double mOldAmmeter;// 上一次电表数据
+    private double mNewAmmeter;// 新的电表数据
+    private double mOldBalance;// 上一次余额，每次结算生成新的结算记录时使用 mNewBalance
+    private double mNewBalance;// 新的余额，每次缴费都加上缴费金额
+    private double mSharing;// 公摊电量 sharing = ammeter - ammeterAmmeter
+    private double mPrice;// 本次结算每度电单价  price = money/ammeter
     private Date mTime; // 结算时间，结算确认时要更新成当前时间，否则为上次结算时间
 
     public boolean validData() {
@@ -41,51 +41,51 @@ public class ItemAmmeter extends ItemViewDataHolder {
         mName = name;
     }
 
-    public float getOldAmmeter() {
+    public double getOldAmmeter() {
         return mOldAmmeter;
     }
 
-    public void setOldAmmeter(final float oldAmmeter) {
+    public void setOldAmmeter(final double oldAmmeter) {
         mOldAmmeter = oldAmmeter;
     }
 
-    public float getNewAmmeter() {
+    public double getNewAmmeter() {
         return mNewAmmeter;
     }
 
-    public void setNewAmmeter(final float newAmmeter) {
+    public void setNewAmmeter(final double newAmmeter) {
         mNewAmmeter = newAmmeter;
     }
 
-    public float getOldBalance() {
+    public double getOldBalance() {
         return mOldBalance;
     }
 
-    public void setOldBalance(final float oldBalance) {
+    public void setOldBalance(final double oldBalance) {
         mOldBalance = oldBalance;
     }
 
-    public float getNewBalance() {
+    public double getNewBalance() {
         return mNewBalance;
     }
 
-    public void setNewBalance(final float newBalance) {
+    public void setNewBalance(final double newBalance) {
         mNewBalance = newBalance;
     }
 
-    public float getSharing() {
+    public double getSharing() {
         return mSharing;
     }
 
-    public void setSharing(final float sharing) {
+    public void setSharing(final double sharing) {
         mSharing = sharing;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return mPrice;
     }
 
-    public void setPrice(final float price) {
+    public void setPrice(final double price) {
         mPrice = price;
     }
 
@@ -103,12 +103,12 @@ public class ItemAmmeter extends ItemViewDataHolder {
         if (!(o instanceof ItemAmmeter)) return false;
         final ItemAmmeter that = (ItemAmmeter) o;
         return mAmmeterId == that.mAmmeterId &&
-                Float.compare(that.mOldAmmeter, mOldAmmeter) == 0 &&
-                Float.compare(that.mNewAmmeter, mNewAmmeter) == 0 &&
-                Float.compare(that.mOldBalance, mOldBalance) == 0 &&
-                Float.compare(that.mNewBalance, mNewBalance) == 0 &&
-                Float.compare(that.mSharing, mSharing) == 0 &&
-                Float.compare(that.mPrice, mPrice) == 0 &&
+                Double.compare(that.mOldAmmeter, mOldAmmeter) == 0 &&
+                Double.compare(that.mNewAmmeter, mNewAmmeter) == 0 &&
+                Double.compare(that.mOldBalance, mOldBalance) == 0 &&
+                Double.compare(that.mNewBalance, mNewBalance) == 0 &&
+                Double.compare(that.mSharing, mSharing) == 0 &&
+                Double.compare(that.mPrice, mPrice) == 0 &&
                 Objects.equals(mTime, that.mTime);
     }
 

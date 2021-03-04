@@ -24,7 +24,7 @@ public class InputActivity extends BaseActionbarActivity<InputActivityBinding> {
     private final static String NAME = "name";
     private final static String TYPE = "type";
 
-    public static void start(Activity activity, int type, String name, float value) {
+    public static void start(Activity activity, int type, String name, double value) {
         Intent intent = new Intent(activity, InputActivity.class);
         intent.putExtra(TYPE, type);
         intent.putExtra(NAME, name);
@@ -32,9 +32,9 @@ public class InputActivity extends BaseActionbarActivity<InputActivityBinding> {
         activity.startActivityForResult(intent, type);
     }
 
-    public static float getActivityResult(final int resultCode, final Intent data) {
+    public static double getActivityResult(final int resultCode, final Intent data) {
         if (resultCode == RESULT_OK && data != null) {
-            return data.getFloatExtra(VALUE, -1f);
+            return data.getDoubleExtra(VALUE, -1f);
         }
         return -1f;
     }
@@ -49,11 +49,11 @@ public class InputActivity extends BaseActionbarActivity<InputActivityBinding> {
         super.onBaseReady(savedInstanceState);
         String name = Ammeter.UN_TENANT_NAME;
         int type = INPUT_TYPE_AMMETER;
-        float value = 0f;
+        double value = 0f;
         if (getIntent() != null) {
             name = getIntent().getStringExtra(NAME);
             type = getIntent().getIntExtra(TYPE, INPUT_TYPE_AMMETER);
-            value = getIntent().getFloatExtra(VALUE, 0f);
+            value = getIntent().getDoubleExtra(VALUE, 0f);
         }
         getBinding().setViewData(mValue);
         switch (type) {
@@ -174,7 +174,7 @@ public class InputActivity extends BaseActionbarActivity<InputActivityBinding> {
 
     private void returnResult() {
         Intent intent = new Intent();
-        intent.putExtra(VALUE, Float.parseFloat(mValue.get()));
+        intent.putExtra(VALUE, Double.parseDouble(mValue.get()));
         setResult(RESULT_OK, intent);
         finish();
     }

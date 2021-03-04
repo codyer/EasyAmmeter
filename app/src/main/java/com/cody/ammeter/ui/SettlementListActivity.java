@@ -38,8 +38,8 @@ import androidx.recyclerview.widget.RecyclerView;
 public class SettlementListActivity extends BaseActionbarActivity<SettlementLitActivityBinding> {
     private Ammeter mClickedAmmeter;
     private List<Ammeter> mAmmeterList;
-    private float mSharing = 0.0f;
-    private float mPrice = 0.0f;
+    private double mSharing = 0.0f;
+    private double mPrice = 0.0f;
     private boolean mFinished = false;
 
     public static void start(Activity activity) {
@@ -87,7 +87,7 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        float value = InputActivity.getActivityResult(resultCode, data);
+        double value = InputActivity.getActivityResult(resultCode, data);
         if (value < 0) return;
         if (mClickedAmmeter != null) {
             if (requestCode == InputActivity.INPUT_TYPE_AMMETER) {
@@ -158,7 +158,7 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
             return false;
         }
 
-        float publicUse = total.getNewAmmeter() - total.getOldAmmeter();
+        double publicUse = total.getNewAmmeter() - total.getOldAmmeter();
         mPrice = (total.getOldBalance() - total.getNewBalance()) / publicUse;
         int count = 0;
         Ammeter item;

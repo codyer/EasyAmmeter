@@ -128,7 +128,7 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
             case R.id.settlement:
                 long time = new Date().getTime();
                 if (mMainAmmeter != null) {
-                    if (Float.compare(mMainAmmeter.getNewAmmeter(), mMainAmmeter.getOldAmmeter()) <= 0) {
+                    if (Double.compare(mMainAmmeter.getNewAmmeter(), mMainAmmeter.getOldAmmeter()) <= 0) {
                         showToast(mMainAmmeter.getName() + getString(R.string.please_input_wrong_hint));
                         return;
                     } else if ((time - mMainAmmeter.getCheckInTime().getTime()) * 1.0 / (1000 * 60 * 60) > 24) {
@@ -172,7 +172,7 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        float value = InputActivity.getActivityResult(resultCode, data);
+        double value = InputActivity.getActivityResult(resultCode, data);
         if (value < 0) return;
         switch (requestCode) {
             case InputActivity.INPUT_TYPE_BALANCE:

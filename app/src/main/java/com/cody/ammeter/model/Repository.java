@@ -194,7 +194,7 @@ public class Repository {
         AmmeterDatabase.getInstance().getPaymentDao().insert(payment);
     }
 
-    public static void updateAmmeter(final long ammeterId, final float value) {
+    public static void updateAmmeter(final long ammeterId, final double value) {
         Ammeter ammeter = AmmeterDatabase.getInstance().getAmmeterDao().getAmmeter(ammeterId);
         ammeter.setNewAmmeter(value);
         ammeter.setAmmeterSetTime(new Date());

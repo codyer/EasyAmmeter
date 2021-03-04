@@ -16,7 +16,7 @@ public class Payment {
     @PrimaryKey(autoGenerate = true)
     private long id; // 数据 id
     private long ammeterId;// 电表id
-    private float value;// 缴费金额值
+    private double value;// 缴费金额值
     private Date time; // 缴费时间
 
     public long getId() {
@@ -35,11 +35,11 @@ public class Payment {
         this.ammeterId = ammeterId;
     }
 
-    public float getValue() {
+    public double getValue() {
         return value;
     }
 
-    public void setValue(final float value) {
+    public void setValue(final double value) {
         this.value = value;
     }
 

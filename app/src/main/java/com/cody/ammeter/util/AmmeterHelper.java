@@ -31,13 +31,13 @@ import androidx.lifecycle.LiveData;
 public class AmmeterHelper {
     private final static ExecutorService sExecutor = Executors.newSingleThreadExecutor();
     private final static Handler sHandler = new Handler(Looper.getMainLooper());
-    private static float sUnSettlementMoney = 0f;//当前未结算金额
+    private static double sUnSettlementMoney = 0f;//当前未结算金额
 
-    public static float getUnSettlementMoney() {
+    public static double getUnSettlementMoney() {
         return sUnSettlementMoney;
     }
 
-    public static void setUnSettlementMoney(final float unSettlementMoney) {
+    public static void setUnSettlementMoney(final double unSettlementMoney) {
         sUnSettlementMoney = unSettlementMoney;
     }
 
@@ -68,7 +68,7 @@ public class AmmeterHelper {
     /**
      * 结算最新数据
      */
-    public static void settlement(final List<Ammeter> ammeters, final float sharing, final float price, CallBack<Boolean> callBack) {
+    public static void settlement(final List<Ammeter> ammeters, final double sharing, final double price, CallBack<Boolean> callBack) {
         sExecutor.submit(() -> {
             Date time = new Date();
             List<Settlement> settlements = new ArrayList<>();
@@ -92,7 +92,7 @@ public class AmmeterHelper {
      * @param newAmmeter 租户当前电表数
      * @param callBack   回调
      */
-    public static void addTenant(float newAmmeter, CallBack<Boolean> callBack) {
+    public static void addTenant(double newAmmeter, CallBack<Boolean> callBack) {
         sExecutor.submit(() -> {
             long count = Repository.getSubAmmetersCount();
             Ammeter ammeter = new Ammeter();
@@ -120,7 +120,7 @@ public class AmmeterHelper {
     /**
      * 创建结算数据
      */
-    private static Settlement createSettlement(Ammeter ammeter, float sharingAmmeter, Date time) {
+    private static Settlement createSettlement(Ammeter ammeter, double sharingAmmeter, Date time) {
         Settlement settlement = new Settlement();
         settlement.setAmmeterId(ammeter.getId());
         settlement.setName(ammeter.getName());
@@ -136,7 +136,7 @@ public class AmmeterHelper {
     /**
      * 充值金额
      */
-    public static void addPayment(Ammeter ammeter, float value, CallBack<Boolean> callBack) {
+    public static void addPayment(Ammeter ammeter, double value, CallBack<Boolean> callBack) {
         sExecutor.submit(() -> {
             if (ammeter.getId() == Ammeter.UN_TENANT_ID) {
                 //房东：每次缴费都加上缴费金额
@@ -167,7 +167,7 @@ public class AmmeterHelper {
     /**
      * 更新电表数据
      */
-    public static void updateAmmeter(long ammeterId, float value, CallBack<Boolean> callBack) {
+    public static void updateAmmeter(long ammeterId, double value, CallBack<Boolean> callBack) {
         sExecutor.submit(() -> {
             Repository.updateAmmeter(ammeterId, value);
             sHandler.post(() -> callBack.onResult(true));
@@ -218,7 +218,7 @@ public class AmmeterHelper {
         return false;
     }
 
-    public static boolean copy(Context context, List<Ammeter> ammeters, final float sharing, final float price) {
+    public static boolean copy(Context context, List<Ammeter> ammeters, final double sharing, final double price) {
         if (context == null || ammeters == null) return false;
         StringBuffer info = getShareInfo(ammeters, sharing, price);
         ClipboardManager manager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
@@ -235,7 +235,7 @@ public class AmmeterHelper {
     }
 
     @SuppressLint("DefaultLocale")
-    public static StringBuffer getShareInfo(List<Ammeter> ammeters, final float sharing, final float price) {
+    public static StringBuffer getShareInfo(List<Ammeter> ammeters, final double sharing, final double price) {
         StringBuffer info = new StringBuffer();
         info.append("本次电费详情:(时间：").append(getDateString()).append(")\n");
         Ammeter ammeter;
