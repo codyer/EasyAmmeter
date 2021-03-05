@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cody.ammeter.R;
+import com.cody.ammeter.databinding.ItemNotSetBinding;
 import com.cody.ammeter.databinding.ItemSettlementMainBinding;
 import com.cody.ammeter.databinding.ItemSettlementSubBinding;
 import com.cody.ammeter.databinding.SettlementLitActivityBinding;
@@ -41,6 +42,7 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
     private double mSharing = 0.0f;
     private double mPrice = 0.0f;
     private boolean mFinished = false;
+    private boolean mValid = false;
 
     public static void start(Activity activity) {
         activity.startActivity(new Intent(activity, SettlementListActivity.class));
@@ -78,7 +80,7 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
                 }
                 return;
             }
-            getBinding().setValid(calculate(ammeters));
+            mValid = calculate(ammeters);
             mAmmeterList = ammeters;
             getBinding().recyclerView.setAdapter(new AmmeterAdapter(ammeters, SettlementListActivity.this));
         });
@@ -107,6 +109,7 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
         if (v.getId() == R.id.top) {
             RecyclerViewUtil.smoothScrollToTop(getBinding().recyclerView);
         } else if (v.getId() == R.id.settlement) {
+            if (!calculate(mAmmeterList)) return;
             showLoading();
             mFinished = true;
             AmmeterHelper.settlement(mAmmeterList, mSharing, mPrice, result -> {
@@ -137,7 +140,7 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
     }
 
     private void share() {
-        if (getBinding().getValid()) {
+        if (calculate(mAmmeterList)) {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT, AmmeterHelper.getShareInfo(mAmmeterList, mSharing, mPrice).toString());
@@ -165,18 +168,22 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
         long time = new Date().getTime();
         for (int i = 0; i < ammeters.size(); i++) {
             item = ammeters.get(i);
+            if (item.getNewAmmeter() <= 0f || item.getNewAmmeter() <= item.getOldAmmeter()) {
+                showToast(item.getName() + getString(R.string.please_input_wrong_hint));
+                return false;
+            }
+            if ((time - item.getAmmeterSetTime().getTime()) * 1.0 / (1000 * 60 * 60) > 24) {
+                // 数据超过一天无效
+                showToast(String.format(getString(R.string.time_long), item.getName()));
+                return false;
+            }
+
             if (item.getId() != Ammeter.UN_TENANT_ID) {
-                if (item.getNewAmmeter() <= 0f || item.getNewAmmeter() <= item.getOldAmmeter()) {
-                    showToast(item.getName() + getString(R.string.please_input_wrong_hint));
-                    return false;
-                }
-                if ((time - item.getAmmeterSetTime().getTime()) * 1.0 / (1000 * 60 * 60) > 24) {
-                    // 数据超过一天无效
-                    showToast(String.format(getString(R.string.time_long), item.getName()));
-                    return false;
-                }
                 publicUse -= (item.getNewAmmeter() - item.getOldAmmeter());
                 count++;
+            }
+            if (count > 0) {
+                mSharing = publicUse / count;
             }
         }
         if (count <= 0) {
@@ -187,7 +194,6 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
                     .create().show();
             return false;
         }
-        mSharing = publicUse / count;
         return true;
     }
 
@@ -205,6 +211,8 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
         public ItemAmmeterViewHolder<?> onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
             if (viewType == ItemAmmeter.MAIN_TYPE) {//总表
                 return new ItemMainAmmeterViewHolder(ItemSettlementMainBinding.inflate(LayoutInflater.from(parent.getContext())));
+            } else if (viewType == ItemAmmeter.NOT_SET_TYPE) {
+                return new ItemUnSetAmmeterViewHolder(ItemNotSetBinding.inflate(LayoutInflater.from(parent.getContext())));
             } else {
                 return new ItemSubAmmeterViewHolder(ItemSettlementSubBinding.inflate(LayoutInflater.from(parent.getContext())));
             }
@@ -212,7 +220,7 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
 
         @Override
         public int getItemViewType(final int position) {
-            return mAmmeters.get(position).getId() == Ammeter.UN_TENANT_ID ? ItemAmmeter.MAIN_TYPE : ItemAmmeter.DEFAULT_TYPE;
+            return bindItem(mAmmeters.get(position)).getItemType();
         }
 
         @Override
@@ -238,6 +246,18 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
         }
     }
 
+    class ItemUnSetAmmeterViewHolder extends ItemAmmeterViewHolder<ItemNotSetBinding> {
+
+        public ItemUnSetAmmeterViewHolder(final ItemNotSetBinding binding) {
+            super(binding);
+        }
+
+        void bindTo(final LifecycleOwner lifecycleOwner, final Ammeter ammeter) {
+            super.bindTo(lifecycleOwner, ammeter);
+            mItemBinding.setViewData(bindItem(ammeter));
+        }
+    }
+
     class ItemSubAmmeterViewHolder extends ItemAmmeterViewHolder<ItemSettlementSubBinding> {
 
         public ItemSubAmmeterViewHolder(final ItemSettlementSubBinding binding) {
@@ -253,7 +273,6 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
     private ItemAmmeter bindItem(final Ammeter input) {
         ItemAmmeter ammeter = new ItemAmmeter();
         ammeter.setItemId((int) input.getId());
-        ammeter.setItemType(input.getId() == Ammeter.UN_TENANT_ID ? ItemAmmeter.MAIN_TYPE : ItemAmmeter.DEFAULT_TYPE);
         ammeter.setAmmeterId(input.getId());
         ammeter.setName(input.getName());
         ammeter.setOldAmmeter(input.getOldAmmeter());

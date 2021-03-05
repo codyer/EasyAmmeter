@@ -6,22 +6,15 @@
 
     <data>
 
-        <import type="android.view.View" />
-
-        <variable
-            name="onClickListener"
-            type="android.view.View.OnClickListener" />
-
         <variable
             name="viewData"
-            type="com.cody.ammeter.viewmodel.ItemTenant" />
+            type="com.cody.ammeter.viewmodel.ItemAmmeter" />
 
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        bind:onClickListener="@{onClickListener}">
+        android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
             style="@style/ItemCardView"
@@ -32,8 +25,7 @@
                 android:padding="@dimen/dimen_huge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@{viewData.arrears?@color/uiColorPrimaryAccent:@color/color1}"
-                tools:background="@color/uiColorPrimaryAccent"
+                android:background="@color/uiColorPrimaryAccent"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -44,20 +36,16 @@
 
                 <TextView
                     style="@style/itemCardSubTitle"
-                    android:text="@{viewData.value}"
-                    tools:text="88.88元" />
+                    android:text="@string/please_input_this_hint" />
             </LinearLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/rechargePayment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/AppTheme"
-                bind:onClickListener="@{onClickListener}"
                 android:layout_gravity="end|center_vertical"
                 android:layout_margin="@dimen/dimen_small"
-                android:src="@drawable/ic_balance"
-                android:contentDescription="@string/balance" />
+                android:src="@drawable/ic_ammeter"
+                android:contentDescription="@string/ammeter" />
         </androidx.cardview.widget.CardView>
 
     </RelativeLayout>

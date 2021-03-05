@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.cody.ammeter.R;
 import com.cody.ammeter.databinding.ToolbarLitActivityBinding;
+import com.cody.ammeter.util.AmmeterHelper;
 import com.cody.ammeter.viewmodel.ItemTenant;
 import com.cody.ammeter.viewmodel.TenantListViewModel;
 import com.cody.component.app.activity.AbsPageListActivity;
@@ -17,6 +18,7 @@ import com.cody.component.handler.data.FriendlyViewData;
 import com.cody.component.util.RecyclerViewUtil;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * 租户列表
  */
 public class TenantListActivity extends AbsPageListActivity<ToolbarLitActivityBinding, TenantListViewModel> {
+    private ItemTenant mTenant;
 
     public static void start(Activity activity) {
         activity.startActivity(new Intent(activity, TenantListActivity.class));
@@ -91,7 +94,12 @@ public class TenantListActivity extends AbsPageListActivity<ToolbarLitActivityBi
             case ItemTenant.TYPE_LEAVE:
                 ItemTenant item = (ItemTenant) getListAdapter().getItem(position);
                 if (item != null) {
-                    TenantActivity.start(this, item.getId(), item.getName());
+                    if (id == R.id.rechargePayment) {
+                        mTenant = item;
+                        InputActivity.start(this, InputActivity.INPUT_TYPE_PAYMENT, item.getName(), item.getNewBalance());
+                    } else {
+                        TenantActivity.start(this, item.getId(), item.getName());
+                    }
                 }
                 break;
         }
@@ -107,6 +115,21 @@ public class TenantListActivity extends AbsPageListActivity<ToolbarLitActivityBi
         super.onBaseReady(savedInstanceState);
         setSupportActionBar(getBinding().toolbar);
         setTitle(R.string.my_tenant);
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        double value = InputActivity.getActivityResult(resultCode, data);
+        if (value >= 0f) {
+            if (requestCode == InputActivity.INPUT_TYPE_PAYMENT) {
+                showLoading();
+                AmmeterHelper.addPayment(mTenant.getId(), value, result -> {
+                    hideLoading();
+                    showToast(mTenant.getName() + String.format(getString(R.string.success_set_payment), value));
+                });
+            }
+        }
     }
 
     @Override

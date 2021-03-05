@@ -1,5 +1,6 @@
 package com.cody.ammeter.viewmodel;
 
+import com.cody.ammeter.model.db.table.Ammeter;
 import com.cody.component.handler.data.ItemViewDataHolder;
 
 import java.util.Date;
@@ -7,6 +8,7 @@ import java.util.Objects;
 
 public class ItemAmmeter extends ItemViewDataHolder {
     public static final int MAIN_TYPE = 1;
+    public static final int NOT_SET_TYPE = 2;
     private long mAmmeterId;// 电表id
     private String mName;// 电表name
     private double mOldAmmeter;// 上一次电表数据
@@ -16,6 +18,17 @@ public class ItemAmmeter extends ItemViewDataHolder {
     private double mSharing;// 公摊电量 sharing = ammeter - ammeterAmmeter
     private double mPrice;// 本次结算每度电单价  price = money/ammeter
     private Date mTime; // 结算时间，结算确认时要更新成当前时间，否则为上次结算时间
+
+    @Override
+    public int getItemType() {
+        if (!validData()){
+            return NOT_SET_TYPE;
+        }
+        if (mAmmeterId == Ammeter.UN_TENANT_ID){
+            return MAIN_TYPE;
+        }
+        return super.getItemType();
+    }
 
     public boolean validData() {
         if (mTime == null) return false;

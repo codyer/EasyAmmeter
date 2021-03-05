@@ -19,7 +19,9 @@ import java.util.Date;
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.paging.DataSource;
+import androidx.paging.PagedList;
 
 /**
  * 历史结算记录
@@ -62,22 +64,8 @@ public class HistoryListViewModel extends AbsPageListViewModel<FriendlyViewData,
     }
 
     @Override
-    public <T extends BaseViewModel> T setLifecycleOwner(final LifecycleOwner lifecycleOwner) {
-        if (mLifecycleOwner == null && lifecycleOwner != null) {
-            LiveData<Long> liveCount;
-            if (mTime != null) {
-                liveCount = mSettlementDao.liveCount(mTime);
-            } else {
-                liveCount = mSettlementDao.liveCount(Ammeter.UN_TENANT_ID);
-            }
-            liveCount.observe(lifecycleOwner, count -> submitStatus(count > 0 ? getRequestStatus().end() : getRequestStatus().empty()));
-        }
-        return super.setLifecycleOwner(lifecycleOwner);
-    }
-
-    @Override
     protected void startOperation(final RequestStatus requestStatus) {
         super.startOperation(requestStatus);
-        new Handler(Looper.getMainLooper()).postDelayed(() -> submitStatus(RequestStatusUtil.getRequestStatus(requestStatus, getPagedList().getValue())), 500);
+        submitStatus(requestStatus.end());
     }
 }

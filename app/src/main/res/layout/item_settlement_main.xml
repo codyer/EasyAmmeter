@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -16,131 +17,130 @@
         android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp">
+            style="@style/ItemCardView"
+            bind:cardCornerRadius="@dimen/dimen_huge">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                tools:background="@color/color7"
-                android:background="@{viewData.validData ?@color/color1:@color/color7}"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:padding="@dimen/dimen_normal"
+                android:background="@color/color1"
+                android:orientation="vertical">
 
-                <TextView
-                    style="@style/itemStart"
-                    android:padding="20dp"
-                    android:layout_margin="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewData.name}"
-                    android:textSize="20sp"
-                    android:maxLength="4"
-                    tools:text="春哈春哈" />
-
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:gravity="center_vertical">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    <TextView
+                        style="@style/itemStart"
+                        android:textSize="@dimen/ui_font_biggest"
+                        android:padding="@dimen/dimen_smallest"
+                        android:layout_centerVertical="true"
+                        android:text="@{viewData.name}"
+                        tools:text="春哈春哈" />
 
-                        <TextView
-                            style="@style/itemStart"
-                            android:text="@string/last_month" />
+                    <TextView
+                        style="@style/itemEnd"
+                        android:layout_centerVertical="true"
+                        tools:text="@string/set"
+                        android:textStyle="bold"
+                        android:text="@{viewData.validData ?@string/set:@string/un_set}" />
 
-                        <TextView
-                            style="@style/itemEnd"
-                            tools:text="204353度"
-                            android:layout_gravity="end"
-                            android:text='@{String.format("%.2f度",viewData.oldAmmeter)}' />
+                </RelativeLayout>
 
-                    </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/dimen_smallest">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    <TextView
+                        style="@style/itemStart"
+                        android:text="@string/last_month" />
 
-                        <TextView
-                            style="@style/itemStart"
-                            android:text="@string/this_month" />
+                    <TextView
+                        style="@style/itemEnd"
+                        tools:text="204353度"
+                        android:text='@{String.format("%.2f度",viewData.oldAmmeter)}' />
 
-                        <TextView
-                            style="@style/itemEnd"
-                            tools:text="204353度"
-                            android:layout_gravity="end"
-                            android:text='@{String.format("%.2f度",viewData.newAmmeter)}' />
+                </RelativeLayout>
 
-                    </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    <TextView
+                        style="@style/itemStart"
+                        android:text="@string/this_month" />
 
-                        <TextView
-                            style="@style/itemStart"
-                            android:text="@string/use" />
+                    <TextView
+                        style="@style/itemEnd"
+                        tools:text="204353度"
+                        android:text='@{String.format("%.2f度",viewData.newAmmeter)}' />
 
-                        <TextView
-                            style="@style/itemEnd"
-                            tools:text="20度"
-                            android:layout_gravity="end"
-                            android:text='@{String.format("%.2f度",(viewData.newAmmeter-viewData.oldAmmeter))}' />
+                </RelativeLayout>
 
-                    </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    <TextView
+                        style="@style/itemStart"
+                        android:text="@string/use" />
 
-                        <TextView
-                            style="@style/itemStart"
-                            android:text="@string/public_use" />
+                    <TextView
+                        style="@style/itemEnd"
+                        tools:text="20度"
+                        android:layout_gravity="end"
+                        android:text='@{String.format("%.2f度",(viewData.newAmmeter-viewData.oldAmmeter))}' />
 
-                        <TextView
-                            style="@style/itemEnd"
-                            android:text='@{String.format("%.2f度",viewData.sharing)}'
-                            tools:text="22.34 度" />
+                </RelativeLayout>
 
-                    </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    <TextView
+                        style="@style/itemStart"
+                        android:text="@string/public_use" />
 
-                        <TextView
-                            style="@style/itemStart"
-                            android:text="@string/price" />
+                    <TextView
+                        style="@style/itemEnd"
+                        android:text='@{String.format("%.2f度",viewData.sharing)}'
+                        tools:text="22.34 度" />
 
-                        <TextView
-                            style="@style/itemEnd"
-                            android:text='@{String.format("%.2f元/度",viewData.price)}'
-                            tools:text="22.34元/度" />
+                </RelativeLayout>
 
-                    </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    <TextView
+                        style="@style/itemStart"
+                        android:text="@string/price" />
 
-                        <TextView
-                            style="@style/itemStart"
-                            android:text="@string/total_price" />
+                    <TextView
+                        style="@style/itemEnd"
+                        android:text='@{String.format("%.2f元/度",viewData.price)}'
+                        tools:text="22.34元/度" />
 
-                        <TextView
-                            style="@style/itemEnd"
-                            android:text='@{String.format("%.2f元",(viewData.price * (viewData.newAmmeter - viewData.oldAmmeter)))}'
-                            tools:text="22.34 元" />
+                </RelativeLayout>
 
-                    </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                </LinearLayout>
+                    <TextView
+                        style="@style/itemStart"
+                        android:text="@string/total_price" />
+
+                    <TextView
+                        style="@style/itemEnd"
+                        android:text='@{String.format("%.2f元",(viewData.price * (viewData.newAmmeter - viewData.oldAmmeter)))}'
+                        tools:text="22.34 元" />
+
+                </RelativeLayout>
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>

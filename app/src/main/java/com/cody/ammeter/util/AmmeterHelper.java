@@ -155,6 +155,28 @@ public class AmmeterHelper {
     }
 
     /**
+     * 充值金额
+     */
+    public static void addPayment(long ammeterId, double value, CallBack<Boolean> callBack) {
+        sExecutor.submit(() -> {
+            Ammeter ammeter = Repository.getSubAmmeter(ammeterId);
+            if (ammeterId == Ammeter.UN_TENANT_ID) {
+                //房东：每次缴费都加上缴费金额
+                ammeter.setOldBalance(ammeter.getOldBalance() + value);
+            } else {// 租客每次缴费都加上缴费金额
+                ammeter.setNewBalance(ammeter.getNewBalance() + value);
+            }
+            Repository.updateAmmeter(ammeter);
+            Payment payment = new Payment();
+            payment.setAmmeterId(ammeter.getId());
+            payment.setTime(new Date());
+            payment.setValue(value);
+            Repository.insertPayment(payment);
+            sHandler.post(() -> callBack.onResult(true));
+        });
+    }
+
+    /**
      * 更新电表信息
      */
     public static void updateAmmeter(Ammeter ammeter, CallBack<Boolean> callBack) {

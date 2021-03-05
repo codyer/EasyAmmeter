@@ -117,42 +117,49 @@ public class TenantActivity extends BaseActionbarActivity<TenantActivityBinding>
             case R.id.checkOut:
                 if (mTenantAmmeter.isLeave()) {
                     showToast(getString(R.string.check_out_success));
+                    finish();
                     return;
                 }
-                if (AmmeterHelper.getUnSettlementMoney() > 0f) {
-                    new AlertDialog.Builder(this).setMessage(
-                            String.format(getString(R.string.check_out_info_total), AmmeterHelper.getUnSettlementMoney()))
-                            .setPositiveButton(R.string.ui_str_confirm, (dialog, which) -> {
-                                showLoading();
-                                AmmeterHelper.checkOut(mTenantAmmeter, result -> {
-                                    hideLoading();
-                                    showToast(R.string.check_out_success);
-                                });
-                            }).setNegativeButton(R.string.ui_str_cancel, null)
-                            .create().show();
-                } else if (mTenantAmmeter.getNewBalance() < 0f) {
-                    new AlertDialog.Builder(this).setMessage(R.string.check_out_info)
-                            .setPositiveButton(R.string.ui_str_confirm, (dialog, which) -> {
-                                showLoading();
-                                AmmeterHelper.checkOut(mTenantAmmeter, result -> {
-                                    hideLoading();
-                                    showToast(R.string.check_out_success);
-                                });
-                            }).setNegativeButton(R.string.ui_str_cancel, null)
-                            .create().show();
-                }else {
-                    new AlertDialog.Builder(this).setMessage(R.string.check_out_cant_restore)
-                            .setPositiveButton(R.string.ui_str_confirm, (dialog, which) -> {
-                                showLoading();
-                                AmmeterHelper.checkOut(mTenantAmmeter, result -> {
-                                    hideLoading();
-                                    showToast(R.string.check_out_success);
-                                });
-                            }).setNegativeButton(R.string.ui_str_cancel, null)
-                            .create().show();
-                }
+                statusMachine(0);
                 break;
         }
+    }
+
+    private void statusMachine(int status) {
+        switch (status) {
+            case 0:
+                if (AmmeterHelper.getUnSettlementMoney() > 0f) {
+                    showTips(1, String.format(getString(R.string.check_out_info_total), AmmeterHelper.getUnSettlementMoney()));
+                } else {
+                    statusMachine(1);
+                }
+                break;
+            case 1:
+                if (mTenantAmmeter.getNewBalance() < 0f) {
+                    showTips(2, String.format(getString(R.string.check_out_info), Math.abs(mTenantAmmeter.getNewBalance())));
+                } else {
+                    statusMachine(2);
+                }
+                break;
+            case 2:
+                showTips(3, getString(R.string.check_out_cant_restore));
+                break;
+            case 3:
+                showLoading();
+                AmmeterHelper.checkOut(mTenantAmmeter, result -> {
+                    hideLoading();
+                    showToast(R.string.check_out_success);
+                    finish();
+                });
+                break;
+        }
+    }
+
+    private void showTips(final int nextStatus, final String msg) {
+        new AlertDialog.Builder(this).setMessage(msg)
+                .setPositiveButton(R.string.ui_str_confirm, (dialog, which) -> statusMachine(nextStatus))
+                .setNegativeButton(R.string.ui_str_cancel, null)
+                .create().show();
     }
 
     @Override

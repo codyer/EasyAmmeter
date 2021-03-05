@@ -47,7 +47,7 @@ public class ModifyActivity extends BaseActionbarActivity<ModifyActivityBinding>
             name = getIntent().getStringExtra(NAME);
         }
         mValue.setValue(name);
-        getBinding().setOldName(name);
+        getBinding().setOldName("曾用名："+name);
         getBinding().setViewData(mValue);
         setTitle(getString(R.string.modify_name));
     }

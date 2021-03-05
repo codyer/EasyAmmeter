@@ -24,7 +24,7 @@
 
     <string name="use_sub">本次分表用电：</string>
 
-    <string name="public_use">本次公摊电量：</string>
+    <string name="public_use">人均公摊电量：</string>
     <string name="price">本次电费单价：</string>
     <string name="private_use_price_sub">本次分表电费：</string>
     <string name="public_use_price_sub">本次公摊电费：</string>
@@ -38,13 +38,15 @@
     <string name="set_balance">更新余额</string>
     <string name="title_balance">当前余额</string>
     <string name="ammeter">电表</string>
-    <string name="set_ammeter">设置电表</string>
+    <string name="un_set">未设置</string>
+    <string name="set">已设置</string>
+    <string name="set_ammeter">录入电表数据</string>
     <string name="used_ammeter">已用电量</string>
     <string name="title_ammeter">电表读数</string>
     <string name="please_input_payment_hint">请输入本次缴费金额\n当前余额：%.2f元</string>
-    <string name="please_input_balance_hint">请输入当前余额\n当前余额：%.2f元</string>
-    <string name="please_input_ammeter_hint">请输入当前电表数据\n上次读数：%.2f度</string>
-    <string name="new_ammeter_hint">新户入住前\n请确保所有之前的电费已经进行结算！</string>
+    <string name="please_input_balance_hint">%s当前余额\n%.2f元</string>
+    <string name="please_input_ammeter_hint">%s上次读数\n%.2f度</string>
+    <string name="new_ammeter_hint">请输入新用户房间电表数据！</string>
     <string name="balance">余额</string>
     <string name="recharge_payment">充值缴费</string>
     <string name="settlement_history">结算记录</string>
@@ -52,8 +54,8 @@
     <string name="ammeter_check_in">租客入住</string>
     <string name="my_tenant">我的租客</string>
     <string name="settlement_success">结算成功！</string>
-    <string name="settlement">结算</string>
-    <string name="submit_settlement">确认结算</string>
+    <string name="settlement">抄表结算</string>
+    <string name="submit_settlement">确认数据</string>
     <string name="number_0">0</string>
     <string name="number_9">9</string>
     <string name="number_8">8</string>
@@ -77,6 +79,7 @@
     <string name="price_used_hint">当前有%.2f元电费未结算</string>
     <string name="only_10_count">最多只支持十位数输入</string>
     <string name="save_2_decimal">小数点后最多支持输入两位数</string>
+    <string name="no_need_to_info_total">当前没有需要结算的金额，是否充值忘记输入缴费记录？</string>
     <string name="check_out_info_total">当前还有%.2f元费用没有结算，确认是否强制退租？</string>
     <string name="check_out_info">当前租户还欠费%.2f元，是否已经结清？</string>
     <string name="check_out_cant_restore">是否确定要退租，退租后不可恢复！</string>
@@ -86,4 +89,6 @@
     <string name="sub_ammeter">分表</string>
     <string name="add_tenant_hint">当前暂无租户资料，请先进行租户入住操作</string>
     <string name="no_need_to">暂时没有需要结算的数据\n请确认余额和电量以及充值情况正确</string>
+    <string name="please_input_data">请录入主表余额和各表数据</string>
+    <string name="please_input_recharge">请记得录入每次的充值缴费</string>
 </resources>

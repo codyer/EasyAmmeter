@@ -46,16 +46,8 @@ public class PaymentListViewModel extends AbsPageListViewModel<FriendlyViewData,
     }
 
     @Override
-    public <T extends BaseViewModel> T setLifecycleOwner(final LifecycleOwner lifecycleOwner) {
-        if (mLifecycleOwner == null && lifecycleOwner != null) {
-            mPaymentDao.liveCount(mAmmeterId).observe(lifecycleOwner, count -> submitStatus(count > 0 ? getRequestStatus().end() : getRequestStatus().empty()));
-        }
-        return super.setLifecycleOwner(lifecycleOwner);
-    }
-
-    @Override
     protected void startOperation(final RequestStatus requestStatus) {
         super.startOperation(requestStatus);
-        new Handler(Looper.getMainLooper()).postDelayed(() -> submitStatus(RequestStatusUtil.getRequestStatus(requestStatus, getPagedList().getValue())), 500);
+        submitStatus(requestStatus.end());
     }
 }

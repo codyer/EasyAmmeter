@@ -1,8 +1,6 @@
 package com.cody.ammeter.viewmodel;
 
 import android.annotation.SuppressLint;
-import android.os.Handler;
-import android.os.Looper;
 
 import com.cody.ammeter.model.db.AmmeterDao;
 import com.cody.ammeter.model.db.AmmeterDatabase;
@@ -44,6 +42,7 @@ public class TenantListViewModel extends AbsPageListViewModel<FriendlyViewData, 
             tenant.setName(input.getName() + (input.isLeave() ? "(已退租)" : ""));
             tenant.setArrears(input.getNewBalance() < 0f);
             tenant.setTime(input.getAmmeterSetTime().getTime());
+            tenant.setNewBalance(input.getNewBalance());
             if (tenant.isArrears()) {
                 tenant.setValue(String.format("已欠费：%.2f元", Math.abs(input.getNewBalance())));
             } else {
@@ -54,16 +53,8 @@ public class TenantListViewModel extends AbsPageListViewModel<FriendlyViewData, 
     }
 
     @Override
-    public <T extends BaseViewModel> T setLifecycleOwner(final LifecycleOwner lifecycleOwner) {
-        if (mLifecycleOwner == null && lifecycleOwner != null) {
-            mAmmeterDao.liveTenantCount().observe(lifecycleOwner, count -> submitStatus(count > 0 ? getRequestStatus().end() : getRequestStatus().empty()));
-        }
-        return super.setLifecycleOwner(lifecycleOwner);
-    }
-
-    @Override
     protected void startOperation(final RequestStatus requestStatus) {
         super.startOperation(requestStatus);
-        new Handler(Looper.getMainLooper()).postDelayed(() -> submitStatus(RequestStatusUtil.getRequestStatus(requestStatus, getPagedList().getValue())), 500);
+        submitStatus(requestStatus.end());
     }
 }

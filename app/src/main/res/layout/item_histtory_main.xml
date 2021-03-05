@@ -24,38 +24,40 @@
         bind:onClickListener="@{onClickListener}">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp">
+            style="@style/ItemCardView"
+            bind:cardCornerRadius="@dimen/dimen_huge">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:padding="@dimen/dimen_normal"
                 android:background="@color/color1"
                 android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
 
                     <TextView
                         style="@style/itemStart"
+                        android:textSize="@dimen/ui_font_biggest"
+                        android:padding="@dimen/dimen_smallest"
+                        android:layout_centerVertical="true"
                         android:text="@{viewData.name}"
-                        android:maxLength="4"
                         tools:text="春哈春哈" />
 
                     <TextView
                         style="@style/itemEnd"
+                        android:layout_centerVertical="true"
                         android:text="@{TimeUtil.getDateFormatLong(viewData.time)}" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/dimen_smallest">
 
                     <TextView
                         style="@style/itemStart"
@@ -64,8 +66,7 @@
                     <TextView
                         style="@style/itemEnd"
                         tools:text="204353度"
-                        android:layout_gravity="end"
-                        android:text='@{viewData.oldAmmeter +"度"}' />
+                        android:text='@{String.format("%.2f度",viewData.oldAmmeter)}' />
 
                 </RelativeLayout>
 
@@ -80,8 +81,7 @@
                     <TextView
                         style="@style/itemEnd"
                         tools:text="204353度"
-                        android:layout_gravity="end"
-                        android:text='@{viewData.newAmmeter +"度"}' />
+                        android:text='@{String.format("%.2f度",viewData.newAmmeter)}' />
 
                 </RelativeLayout>
 
@@ -96,8 +96,7 @@
                     <TextView
                         style="@style/itemEnd"
                         tools:text="20度"
-                        android:layout_gravity="end"
-                        android:text='@{(viewData.newAmmeter-viewData.oldAmmeter) +"度"}' />
+                        android:text='@{String.format("%.2f度",(viewData.newAmmeter-viewData.oldAmmeter))}' />
 
                 </RelativeLayout>
 
@@ -111,7 +110,7 @@
 
                     <TextView
                         style="@style/itemEnd"
-                        android:text='@{viewData.sharing + " 度"}'
+                        android:text='@{String.format("%.2f度",viewData.sharing)}'
                         tools:text="22.34 度" />
 
                 </RelativeLayout>

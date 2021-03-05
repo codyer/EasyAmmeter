@@ -204,4 +204,8 @@ public class Repository {
     public static LiveData<List<Ammeter>> liveAmmeters() {
         return AmmeterDatabase.getInstance().getAmmeterDao().liveAmmeters(false);
     }
+
+    public static Ammeter getSubAmmeter(final long ammeterId) {
+        return AmmeterDatabase.getInstance().getAmmeterDao().getAmmeter(ammeterId);
+    }
 }

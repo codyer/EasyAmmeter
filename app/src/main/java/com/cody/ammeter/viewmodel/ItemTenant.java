@@ -11,6 +11,7 @@ public class ItemTenant extends ItemViewDataHolder {
     private String mName;
     private String mValue;
     private long mTime;
+    private double mNewBalance;
 
     public long getId() {
         return mId;
@@ -50,6 +51,14 @@ public class ItemTenant extends ItemViewDataHolder {
 
     public void setTime(final long time) {
         mTime = time;
+    }
+
+    public double getNewBalance() {
+        return mNewBalance;
+    }
+
+    public void setNewBalance(final double newBalance) {
+        mNewBalance = newBalance;
     }
 
     @Override

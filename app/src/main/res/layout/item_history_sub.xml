@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -24,36 +24,39 @@
         bind:onClickListener="@{onClickListener}">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp">
+            style="@style/ItemCardView"
+            bind:cardCornerRadius="@dimen/dimen_smallest">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:padding="@dimen/dimen_normal"
                 android:background="@color/color1"
                 android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
 
                     <TextView
                         style="@style/itemStart"
+                        android:textSize="@dimen/ui_font_biggest"
+                        android:padding="@dimen/dimen_smallest"
+                        android:layout_centerVertical="true"
                         android:text="@{viewData.name}"
-                        android:maxLength="4"
                         tools:text="春哈春哈" />
 
                     <TextView
                         style="@style/itemEnd"
+                        tools:text="@string/ammeter"
+                        android:layout_centerVertical="true"
                         android:text="@{TimeUtil.getDateFormatLong(viewData.time)}" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:paddingTop="@dimen/dimen_smallest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -64,8 +67,7 @@
                     <TextView
                         style="@style/itemEnd"
                         tools:text="204353度"
-                        android:layout_gravity="end"
-                        android:text='@{viewData.oldAmmeter +"度"}' />
+                        android:text='@{String.format("%.2f度",viewData.oldAmmeter)}' />
 
                 </RelativeLayout>
 
@@ -80,8 +82,7 @@
                     <TextView
                         style="@style/itemEnd"
                         tools:text="204353度"
-                        android:layout_gravity="end"
-                        android:text='@{viewData.newAmmeter +"度"}' />
+                        android:text='@{String.format("%.2f度",viewData.newAmmeter)}' />
 
                 </RelativeLayout>
 
@@ -96,8 +97,7 @@
                     <TextView
                         style="@style/itemEnd"
                         tools:text="20度"
-                        android:layout_gravity="end"
-                        android:text='@{(viewData.newAmmeter-viewData.oldAmmeter) +"度"}' />
+                        android:text='@{String.format("%.2f度",(viewData.newAmmeter-viewData.oldAmmeter))}' />
 
                 </RelativeLayout>
 
@@ -146,8 +146,6 @@
                 </RelativeLayout>
 
             </LinearLayout>
-
         </androidx.cardview.widget.CardView>
-
     </RelativeLayout>
 </layout>
