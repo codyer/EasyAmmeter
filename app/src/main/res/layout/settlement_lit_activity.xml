@@ -23,11 +23,6 @@
             name="onClickListener"
             type="android.view.View.OnClickListener" />
 
-
-        <variable
-            name="valid"
-            type="Boolean" />
-
         <variable
             name="viewData"
             type="com.cody.component.handler.data.FriendlyViewData" />
@@ -61,7 +56,6 @@
             android:padding="20dp"
             android:textSize="@dimen/ui_font_huge"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:enabled="@{valid}"
             bind:onClickListener="@{onClickListener}"
             android:text="@string/submit_settlement" />
     </LinearLayout>

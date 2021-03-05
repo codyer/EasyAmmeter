@@ -38,8 +38,8 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dimen_normal"
             android:gravity="center"
             android:textColor="@color/color3"
             android:textSize="@dimen/ui_font_biggest"
@@ -48,14 +48,14 @@
             tools:ignore="NestedWeights" />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:singleLine="true"
             android:maxLength="10"
             android:background="@null"
             android:maxLines="1"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:textSize="50sp"
             android:textColor="@color/uiColorGray3"
             android:text="@={viewData}"

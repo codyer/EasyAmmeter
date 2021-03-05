@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewData"
+            type="com.cody.ammeter.viewmodel.ItemAmmeter" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:id="@+id/newBalance"
+                android:padding="@dimen/dimen_huge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/uiColorPrimaryAccent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/itemCardTitle"
+                    android:text="@{viewData.name}"
+                    tools:text="租户1" />
+
+                <TextView
+                    style="@style/itemCardSubTitle"
+                    android:text="@string/please_input_this_hint" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+</layout>

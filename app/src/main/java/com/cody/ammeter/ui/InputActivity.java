@@ -59,12 +59,12 @@ public class InputActivity extends BaseActionbarActivity<InputActivityBinding> {
         switch (type) {
             case INPUT_TYPE_BALANCE:
                 setTitle(name + getString(R.string.title_balance));
-                getBinding().setHint(String.format(getString(R.string.please_input_balance_hint), value));
+                getBinding().setHint(String.format(getString(R.string.please_input_balance_hint), name, value));
                 getBinding().setUnit(getString(R.string.yuan));
                 break;
             case INPUT_TYPE_AMMETER:
                 setTitle(name + getString(R.string.title_ammeter));
-                getBinding().setHint(String.format(getString(R.string.please_input_ammeter_hint), value));
+                getBinding().setHint(String.format(getString(R.string.please_input_ammeter_hint),name, value));
                 getBinding().setUnit(getString(R.string.degree));
                 break;
             case INPUT_TYPE_NEW_TENANT:

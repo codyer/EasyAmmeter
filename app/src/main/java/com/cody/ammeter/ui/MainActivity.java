@@ -55,10 +55,7 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
             if (ammeter == null) return;
             mMainAmmeter = ammeter;
             AmmeterHelper.setUnSettlementMoney(ammeter.getOldBalance() - ammeter.getNewBalance());
-            getBinding().setBalance(String.format(getString(R.string.format_yuan), ammeter.getNewBalance()));
-            getBinding().setAmmeter(String.format(getString(R.string.format_du), ammeter.getNewAmmeter() - ammeter.getOldAmmeter()));
             getBinding().setUsed(String.format(getString(R.string.price_used_hint), ammeter.getOldBalance() - ammeter.getNewBalance()));
-            getBinding().setNewAmmeter(String.format(getString(R.string.format), ammeter.getNewAmmeter()));
             hideLoading();
         });
     }
@@ -107,11 +104,8 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
     @Override
     public void onClick(final View v) {
         switch (v.getId()) {
-            case R.id.newBalance:
-                InputActivity.start(this, InputActivity.INPUT_TYPE_BALANCE, Ammeter.UN_TENANT_NAME, mMainAmmeter.getNewBalance());
-                break;
-            case R.id.newAmmeter:
-                InputActivity.start(this, InputActivity.INPUT_TYPE_AMMETER, Ammeter.UN_TENANT_NAME, mMainAmmeter.getOldAmmeter());
+            case R.id.history:
+                HistoryListActivity.start(this);
                 break;
             case R.id.rechargePayment:
                 InputActivity.start(this, InputActivity.INPUT_TYPE_PAYMENT, Ammeter.UN_TENANT_NAME, mMainAmmeter.getNewBalance());
@@ -126,24 +120,6 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
                 TenantListActivity.start(this);
                 break;
             case R.id.settlement:
-                long time = new Date().getTime();
-                if (mMainAmmeter != null) {
-                    if (Double.compare(mMainAmmeter.getNewAmmeter(), mMainAmmeter.getOldAmmeter()) <= 0) {
-                        showToast(mMainAmmeter.getName() + getString(R.string.please_input_wrong_hint));
-                        return;
-                    } else if ((time - mMainAmmeter.getCheckInTime().getTime()) * 1.0 / (1000 * 60 * 60) > 24) {
-                        // 数据超过一天无效
-                        showToast(String.format(getString(R.string.balance_time_long), mMainAmmeter.getName()));
-                        return;
-                    } else if ((time - mMainAmmeter.getAmmeterSetTime().getTime()) * 1.0 / (1000 * 60 * 60) > 24) {
-                        // 数据超过一天无效
-                        showToast(String.format(getString(R.string.time_long), mMainAmmeter.getName()));
-                        return;
-                    } else if (mMainAmmeter.getOldBalance() <= mMainAmmeter.getNewBalance()) {
-                        showToast(getString(R.string.no_need_to));
-                        return;
-                    }
-                }
                 showLoading();
                 LiveData<Long> longLiveData = AmmeterHelper.liveTenantCount();
                 longLiveData.observeForever(new Observer<Long>() {
@@ -152,7 +128,7 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
                         longLiveData.removeObserver(this);
                         if (count > 0) {
                             hideLoading();
-                            SettlementListActivity.start(MainActivity.this);
+                            InputActivity.start(MainActivity.this, InputActivity.INPUT_TYPE_BALANCE, Ammeter.UN_TENANT_NAME, mMainAmmeter.getNewBalance());
                         } else {
                             mMainAmmeter.setOldAmmeter(mMainAmmeter.getNewAmmeter());
                             mMainAmmeter.setOldBalance(mMainAmmeter.getNewBalance());
@@ -182,15 +158,16 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
                 AmmeterHelper.updateAmmeter(mMainAmmeter, result -> {
                     hideLoading();
                     showToast(mMainAmmeter.getName() + String.format(getString(R.string.success_set_balance), value));
-                });
-                break;
-            case InputActivity.INPUT_TYPE_AMMETER:
-                mMainAmmeter.setNewAmmeter(value);
-                mMainAmmeter.setAmmeterSetTime(new Date());
-                showLoading();
-                AmmeterHelper.updateAmmeter(mMainAmmeter, result -> {
-                    hideLoading();
-                    showToast(mMainAmmeter.getName() + String.format(getString(R.string.success_set_ammeter), value));
+                    if (AmmeterHelper.getUnSettlementMoney() > 0) {
+                        SettlementListActivity.start(MainActivity.this);
+                    } else {
+                        new AlertDialog.Builder(this).setMessage(
+                                getString(R.string.no_need_to_info_total))
+                                .setPositiveButton(R.string.ui_str_confirm, (dialog, which) -> {
+                                    getBinding().rechargePayment.performClick();
+                                }).setNegativeButton(R.string.ui_str_cancel, null)
+                                .create().show();
+                    }
                 });
                 break;
             case InputActivity.INPUT_TYPE_NEW_TENANT:
