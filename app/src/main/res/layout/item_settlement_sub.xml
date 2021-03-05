@@ -59,7 +59,7 @@
                             style="@style/itemEnd"
                             tools:text="204353度"
                             android:layout_gravity="end"
-                            android:text='@{viewData.oldAmmeter +"度"}' />
+                            android:text='@{String.format("%.2f度",viewData.oldAmmeter)}' />
 
                     </RelativeLayout>
 
@@ -75,7 +75,7 @@
                             style="@style/itemEnd"
                             tools:text="204353度"
                             android:layout_gravity="end"
-                            android:text='@{viewData.newAmmeter +"度"}' />
+                            android:text='@{String.format("%.2f度",viewData.newAmmeter)}' />
 
                     </RelativeLayout>
 
@@ -91,7 +91,7 @@
                             style="@style/itemEnd"
                             tools:text="20度"
                             android:layout_gravity="end"
-                            android:text='@{(viewData.newAmmeter-viewData.oldAmmeter) +"度"}' />
+                            android:text='@{String.format("%.2f度",(viewData.newAmmeter-viewData.oldAmmeter))}' />
 
                     </RelativeLayout>
 
