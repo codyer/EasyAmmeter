@@ -45,7 +45,7 @@
                 <TextView
                     style="@style/itemCardSubTitle"
                     android:text="@{viewData.value}"
-                    tools:text="88.88元" />
+                    tools:text="88.88 元" />
             </LinearLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -55,36 +55,10 @@
 
                 </RelativeLayout>
 
-                <RelativeLayout
-                    android:paddingTop="@dimen/dimen_smallest"
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        style="@style/itemStart"
-                        android:text="@string/last_month" />
-
-                    <TextView
-                        style="@style/itemEnd"
-                        tools:text="204353度"
-                        android:text='@{String.format("%.2f度",viewData.oldAmmeter)}' />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        style="@style/itemStart"
-                        android:text="@string/this_month" />
-
-                    <TextView
-                        style="@style/itemEnd"
-                        tools:text="204353度"
-                        android:text='@{String.format("%.2f度",viewData.newAmmeter)}' />
-
-                </RelativeLayout>
+                    android:layout_height="@dimen/dimen_normal"
+                    android:background="@drawable/ic_dash_line" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -107,14 +81,19 @@
 
                     <TextView
                         style="@style/itemStart"
-                        android:text="@string/private_use_price_sub" />
+                        android:text="@string/total_price_sub" />
 
                     <TextView
                         style="@style/itemEnd"
-                        android:text='@{String.format("%.2f元",viewData.price * (viewData.newAmmeter - viewData.oldAmmeter))}'
-                        tools:text="22.34元" />
+                        android:text='@{String.format("%.2f元",(viewData.price * (viewData.sharing + viewData.newAmmeter - viewData.oldAmmeter)))}'
+                        tools:text="22.34 元" />
 
                 </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_normal"
+                    android:background="@drawable/ic_dash_line" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -136,12 +115,47 @@
 
                     <TextView
                         style="@style/itemStart"
-                        android:text="@string/total_price_sub" />
+                        android:text="@string/private_use_price_sub" />
 
                     <TextView
                         style="@style/itemEnd"
-                        android:text='@{String.format("%.2f元",(viewData.price * (viewData.sharing + viewData.newAmmeter - viewData.oldAmmeter)))}'
-                        tools:text="22.34 元" />
+                        android:text='@{String.format("%.2f元",viewData.price * (viewData.newAmmeter - viewData.oldAmmeter))}'
+                        tools:text="22.34元" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_normal"
+                    android:background="@drawable/ic_dash_line" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/itemStart"
+                        android:text="@string/this_month" />
+
+                    <TextView
+                        style="@style/itemEnd"
+                        tools:text="204353.33"
+                        android:text='@{String.format("%012.2f",viewData.newAmmeter)}' />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/itemStart"
+                        android:text="@string/last_month" />
+
+                    <TextView
+                        style="@style/itemEnd"
+                        tools:text="204353.22"
+                        android:text='@{String.format("%012.2f",viewData.oldAmmeter)}' />
 
                 </RelativeLayout>
 

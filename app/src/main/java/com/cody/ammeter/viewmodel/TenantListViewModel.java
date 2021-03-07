@@ -53,8 +53,7 @@ public class TenantListViewModel extends AbsPageListViewModel<FriendlyViewData, 
     }
 
     @Override
-    protected void startOperation(final RequestStatus requestStatus) {
-        super.startOperation(requestStatus);
-        submitStatus(requestStatus.end());
+    protected boolean isInitOnce() {
+        return true;
     }
 }

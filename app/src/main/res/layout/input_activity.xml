@@ -63,7 +63,7 @@
                 android:textSize="50sp"
                 android:textColor="@color/uiColorGray3"
                 android:text="@{viewData + unit}"
-                tools:text="845632.88度" />
+                tools:text="845632.88 度" />
 
         </LinearLayout>
 
