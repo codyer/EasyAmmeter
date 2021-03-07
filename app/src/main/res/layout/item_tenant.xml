@@ -20,11 +20,11 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        bind:onClickListener="@{onClickListener}">
+        android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
             style="@style/ItemCardView"
+            bind:onClickListener="@{onClickListener}"
             bind:cardCornerRadius="@dimen/dimen_smallest">
 
             <LinearLayout
@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@{viewData.arrears?@color/uiColorPrimaryAccent:@color/color1}"
-                tools:background="@color/uiColorPrimaryAccent"
+                tools:background="@color/color1"
                 android:gravity="center"
                 android:orientation="vertical">
 
