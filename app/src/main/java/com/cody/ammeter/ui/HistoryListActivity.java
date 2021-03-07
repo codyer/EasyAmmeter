@@ -76,7 +76,7 @@ public class HistoryListActivity extends AbsPageListActivity<ToolbarLitActivityB
             mTime = (Date) getIntent().getSerializableExtra(SETTLEMENT_TIME);
         }
         if (mTime != null){
-            setTitle(TimeUtil.getDateFormatLong(mTime));
+            setTitle(TimeUtil.getLongTimeString(mTime));
         }else {
             setTitle(R.string.settlement_history);
         }
@@ -125,7 +125,7 @@ public class HistoryListActivity extends AbsPageListActivity<ToolbarLitActivityB
             }
         } else {
             if (AmmeterHelper.copy(this, getViewModel().getPagedList().getValue().snapshot())) {
-                showToast(TimeUtil.getDateShort(mTime)+"的结算数据已经复制到剪切板！");
+                showToast(TimeUtil.getTimeString(mTime)+"的结算数据已经复制到剪切板！");
             }
         }
     }

@@ -50,7 +50,7 @@
                     <TextView
                         style="@style/itemEnd"
                         android:layout_centerVertical="true"
-                        android:text="@{TimeUtil.getDateFormatLong(viewData.time)}" />
+                        android:text="@{TimeUtil.getLongTimeString(viewData.time)}" />
 
                 </RelativeLayout>
 

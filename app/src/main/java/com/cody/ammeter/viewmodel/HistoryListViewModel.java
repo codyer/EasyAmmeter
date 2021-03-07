@@ -2,6 +2,7 @@ package com.cody.ammeter.viewmodel;
 
 import android.annotation.SuppressLint;
 
+import com.cody.ammeter.model.Repository;
 import com.cody.ammeter.model.db.AmmeterDatabase;
 import com.cody.ammeter.model.db.SettlementDao;
 import com.cody.ammeter.model.db.table.Ammeter;
@@ -18,24 +19,21 @@ import androidx.paging.DataSource;
  * 历史结算记录
  */
 public class HistoryListViewModel extends AbsPageListViewModel<FriendlyViewData, Integer> {
-    private SettlementDao mSettlementDao;
     private final Date mTime;
 
     public HistoryListViewModel(Date time) {
         super(new FriendlyViewData());
         mTime = time;
-        mSettlementDao = AmmeterDatabase.getInstance().getSettlementDao();
     }
 
     @SuppressLint("DefaultLocale")
     @Override
     protected DataSource.Factory<Integer, ItemViewDataHolder> createDataSourceFactory() {
-        mSettlementDao = AmmeterDatabase.getInstance().getSettlementDao();
         DataSource.Factory<Integer, Settlement> factory;
         if (mTime != null) {
-            factory = mSettlementDao.getDataSource(mTime);
+            factory = Repository.getSettlementDataSource(mTime);
         } else {
-            factory = mSettlementDao.getDataSource(Ammeter.UN_TENANT_ID);
+            factory = Repository.getSettlementDataSource(Ammeter.UN_TENANT_ID);
         }
         return factory.map(input -> {
             ItemAmmeter ammeter = new ItemAmmeter();

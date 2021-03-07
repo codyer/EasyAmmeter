@@ -57,7 +57,7 @@ public class AmmeterHelper {
     }
 
     public static LiveData<Ammeter> getMainAmmeter() {
-        sExecutor.submit((Runnable) Repository::getMainAmmeter);
+        sExecutor.submit((Runnable) Repository::intMainAmmeter);
         return Repository.liveAmmeter(Ammeter.UN_TENANT_ID);
     }
 
@@ -259,7 +259,7 @@ public class AmmeterHelper {
     @SuppressLint("DefaultLocale")
     public static StringBuffer getShareInfo(List<Ammeter> ammeters, final double sharing, final double price) {
         StringBuffer info = new StringBuffer();
-        info.append("本次电费详情:(时间：").append(getDateString()).append(")\n");
+        info.append("本次电费详情:(时间：").append(TimeUtil.getTimeString()).append(")\n");
         Ammeter ammeter;
         for (int i = 0; i < ammeters.size(); i++) {
             ammeter = ammeters.get(i);
@@ -287,10 +287,5 @@ public class AmmeterHelper {
             }
         }
         return info;
-    }
-
-    public static String getDateString() {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy/M/d HH:mm:ss", Locale.CHINA);
-        return df.format(new Date(System.currentTimeMillis()));
     }
 }

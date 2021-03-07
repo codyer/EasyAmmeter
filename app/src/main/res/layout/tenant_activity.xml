@@ -87,7 +87,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/newAmmeter"
+                android:id="@+id/updateAmmeter"
                 style="@style/itemCard"
                 android:background="@color/color3"
                 android:text="@string/set_ammeter"
@@ -103,7 +103,7 @@
                 bind:layout_constraintDimensionRatio="W,2:3"
                 bind:layout_constraintLeft_toLeftOf="parent"
                 bind:layout_constraintRight_toLeftOf="@id/paymentRecord"
-                bind:layout_constraintTop_toBottomOf="@+id/newAmmeter"
+                bind:layout_constraintTop_toBottomOf="@+id/updateAmmeter"
                 android:background="@color/color1"
                 bind:onClickListener="@{onClickListener}"
                 android:text="@string/recharge_payment" />
@@ -114,7 +114,7 @@
                 bind:layout_constraintDimensionRatio="W,2:3"
                 bind:layout_constraintLeft_toRightOf="@id/rechargePayment"
                 bind:layout_constraintRight_toRightOf="parent"
-                bind:layout_constraintTop_toBottomOf="@+id/newAmmeter"
+                bind:layout_constraintTop_toBottomOf="@+id/updateAmmeter"
                 android:background="@color/color1"
                 bind:onClickListener="@{onClickListener}"
                 android:text="@string/payment_record" />

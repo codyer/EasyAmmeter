@@ -51,7 +51,7 @@
                         style="@style/itemEnd"
                         tools:text="@string/ammeter"
                         android:layout_centerVertical="true"
-                        android:text="@{TimeUtil.getDateFormatLong(viewData.time)}" />
+                        android:text="@{TimeUtil.getLongTimeString(viewData.time)}" />
 
                 </RelativeLayout>
 

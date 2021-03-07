@@ -78,6 +78,7 @@ public class TenantActivity extends BaseActionbarActivity<TenantActivityBinding>
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -101,10 +102,11 @@ public class TenantActivity extends BaseActionbarActivity<TenantActivityBinding>
         return getBinding().toolbar;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(final View v) {
         switch (v.getId()) {
-            case R.id.newAmmeter:
+            case R.id.updateAmmeter:
                 InputActivity.start(this, InputActivity.INPUT_TYPE_AMMETER, mTenantAmmeter.getName(), mTenantAmmeter.getOldAmmeter());
                 break;
             case R.id.newBalance:

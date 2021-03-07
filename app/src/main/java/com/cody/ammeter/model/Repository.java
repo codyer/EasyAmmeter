@@ -11,45 +11,17 @@ import java.util.Date;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
-import androidx.paging.LivePagedListBuilder;
-import androidx.paging.PagedList;
+import androidx.paging.DataSource;
 
 /**
  * 数据仓库
  */
 public class Repository {
-    private final static int DEFAULT_PAGE_SIZE = 20;
-    private final static int DEFAULT_PREFETCH_DISTANCE = 5;
 
     public static void init(final Context context) {
         AmmeterDatabase.init(context);
     }
     /* settlement start */
-
-    /**
-     * 获取租户历史结算数据
-     * 总表 ： ammeterId = 0
-     *
-     * @param ammeterId 电表id
-     * @return 分页加载数据
-     */
-    public static LiveData<PagedList<Settlement>> liveSettlements(long ammeterId) {
-        return new LivePagedListBuilder<>(AmmeterDatabase
-                .getInstance()
-                .getSettlementDao()
-                .getDataSource(ammeterId),
-                initPageListConfig())
-                .build();
-    }
-
-    /**
-     * 获取总表历史结算数据
-     *
-     * @return 分页加载数据
-     */
-    public static LiveData<PagedList<Settlement>> liveSettlements() {
-        return liveSettlements(Ammeter.UN_TENANT_ID);
-    }
 
     /**
      * 新增一次结算数据
@@ -60,30 +32,16 @@ public class Repository {
         AmmeterDatabase.getInstance().getSettlementDao().insert(settlements);
     }
 
-    /**
-     * 新增一次结算数据 只有主表记录
-     *
-     * @param settlement 结算数据
-     */
-    public static void insertSettlement(Settlement settlement) {
-        AmmeterDatabase.getInstance().getSettlementDao().insert(settlement);
+    public static DataSource.Factory<Integer, Settlement> getSettlementDataSource(final Date time) {
+        return AmmeterDatabase.getInstance().getSettlementDao().getDataSource(time);
     }
+
+    public static DataSource.Factory<Integer, Settlement> getSettlementDataSource(final long tenantId) {
+        return AmmeterDatabase.getInstance().getSettlementDao().getDataSource(tenantId);
+    }
+
     /* settlement end */
     /* ammeter start */
-
-    /**
-     * 获取租户列表
-     *
-     * @return 分页加载数据
-     */
-    public static LiveData<PagedList<Ammeter>> liveTenants() {
-        return new LivePagedListBuilder<>(AmmeterDatabase
-                .getInstance()
-                .getAmmeterDao()
-                .getTenantDataSource(false),
-                initPageListConfig())
-                .build();
-    }
 
     /**
      * 在租用户数
@@ -106,25 +64,14 @@ public class Repository {
      *
      * @return 当前租户
      */
-    public static List<Ammeter> getSubAmmeters() {
-        return AmmeterDatabase.getInstance().getAmmeterDao().getTenantAmmeters(false);
-    }
-
-    /**
-     * 获取当前所有在租租户电表
-     *
-     * @return 当前租户
-     */
     public static long getSubAmmetersCount() {
         return AmmeterDatabase.getInstance().getAmmeterDao().tenantCount();
     }
 
     /**
-     * 获取主表
-     *
-     * @return 主表
+     * 初始化主表
      */
-    public static Ammeter getMainAmmeter() {
+    public static void intMainAmmeter() {
         Ammeter ammeter = AmmeterDatabase.getInstance().getAmmeterDao().getMainAmmeter();
         if (ammeter == null) {
             ammeter = new Ammeter();// 总表
@@ -134,7 +81,6 @@ public class Repository {
             ammeter.setAmmeterSetTime(new Date(0L));
             AmmeterDatabase.getInstance().getAmmeterDao().insert(ammeter);
         }
-        return ammeter;
     }
 
     /**
@@ -158,41 +104,6 @@ public class Repository {
     public static void updateAmmeter(final Ammeter ammeter) {
         AmmeterDatabase.getInstance().getAmmeterDao().update(ammeter);
     }
-    /* ammeter end */
-    /* payment start */
-
-    /**
-     * 获取租户的缴费记录
-     *
-     * @param ammeterId 电表id
-     * @return 分页加载数据
-     */
-    public static LiveData<PagedList<Payment>> livePayments(long ammeterId) {
-        return new LivePagedListBuilder<>(AmmeterDatabase
-                .getInstance()
-                .getPaymentDao()
-                .getDataSource(ammeterId),
-                initPageListConfig())
-                .build();
-    }
-
-    /* payment end */
-
-    /**
-     * 分页数据配置
-     */
-    private static PagedList.Config initPageListConfig() {
-        return new PagedList.Config.Builder()
-                .setPrefetchDistance(DEFAULT_PREFETCH_DISTANCE)
-                .setEnablePlaceholders(false)
-                .setInitialLoadSizeHint(DEFAULT_PAGE_SIZE)
-                .setPageSize(DEFAULT_PAGE_SIZE)
-                .build();
-    }
-
-    public static void insertPayment(final Payment payment) {
-        AmmeterDatabase.getInstance().getPaymentDao().insert(payment);
-    }
 
     public static void updateAmmeter(final long ammeterId, final double value) {
         Ammeter ammeter = AmmeterDatabase.getInstance().getAmmeterDao().getAmmeter(ammeterId);
@@ -208,4 +119,20 @@ public class Repository {
     public static Ammeter getSubAmmeter(final long ammeterId) {
         return AmmeterDatabase.getInstance().getAmmeterDao().getAmmeter(ammeterId);
     }
+
+    public static DataSource.Factory<Integer, Ammeter> getTenantDataSource() {
+        return AmmeterDatabase.getInstance().getAmmeterDao().getTenantDataSource();
+    }
+    /* ammeter end */
+    /* payment start */
+
+    public static void insertPayment(final Payment payment) {
+        AmmeterDatabase.getInstance().getPaymentDao().insert(payment);
+    }
+
+    public static DataSource.Factory<Integer, Payment> getPaymentDataSource(final long ammeterId) {
+        return AmmeterDatabase.getInstance().getPaymentDao().getDataSource(ammeterId);
+    }
+
+    /* payment end */
 }
