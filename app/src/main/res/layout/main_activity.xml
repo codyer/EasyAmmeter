@@ -15,9 +15,6 @@
             name="used"
             type="String" />
 
-        <variable
-            name="info"
-            type="String" />
     </data>
 
     <LinearLayout
@@ -50,7 +47,7 @@
 
                 <TextView
                     style="@style/itemCardSubTitle"
-                    android:text="@string/please_input_recharge"/>
+                    android:text="@string/please_input_recharge" />
 
                 <TextView
                     style="@style/itemCardSubTitle"
@@ -61,12 +58,23 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/history"
-                style="@style/itemCard"
-                bind:layout_constraintDimensionRatio="W,1:4"
+                android:id="@+id/initData"
+                style="@style/itemCardLeft"
+                bind:layout_constraintDimensionRatio="W,1:2"
                 bind:layout_constraintLeft_toLeftOf="parent"
+                bind:layout_constraintRight_toLeftOf="@id/history"
+                bind:layout_constraintTop_toBottomOf="@+id/topInfo"
+                android:background="@color/color1"
+                bind:onClickListener="@{onClickListener}"
+                android:text="@string/settlement_init" />
+
+            <Button
+                android:id="@+id/history"
+                style="@style/itemCardRight"
+                bind:layout_constraintDimensionRatio="W,1:2"
+                bind:layout_constraintLeft_toRightOf="@id/initData"
                 bind:layout_constraintRight_toRightOf="parent"
-                bind:layout_constraintTop_toBottomOf="@id/topInfo"
+                bind:layout_constraintTop_toBottomOf="@+id/topInfo"
                 android:background="@color/color1"
                 bind:onClickListener="@{onClickListener}"
                 android:text="@string/history" />
@@ -114,16 +122,6 @@
                 android:background="@color/color5"
                 bind:onClickListener="@{onClickListener}"
                 android:text="@string/my_tenant" />
-
-            <TextView
-                android:text="@{info}"
-                android:textColor="@color/color3"
-                android:gravity="center"
-                android:textSize="@dimen/ui_font_normal"
-                bind:layout_constraintBottom_toTopOf="@+id/settlement"
-                bind:layout_constraintTop_toBottomOf="@+id/myTenant"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/settlement"

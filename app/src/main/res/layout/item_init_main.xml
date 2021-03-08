@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewData"
+            type="com.cody.ammeter.viewmodel.ItemAmmeter" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            style="@style/ItemCardView"
+            bind:cardCornerRadius="@dimen/dimen_huge">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_normal"
+                android:background="@color/color1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/itemStart"
+                    android:textSize="@dimen/ui_font_biggest"
+                    android:padding="@dimen/dimen_smallest"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@{viewData.name}"
+                    tools:text="春哈春哈" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_normal"
+                    android:background="@drawable/ic_dash_line" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/itemStart"
+                        android:text="@string/balance" />
+
+                    <TextView
+                        style="@style/itemEnd"
+                        tools:text="204353.33 元"
+                        android:text='@{String.format("%.2f 元",viewData.oldBalance)}' />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_smallest">
+
+                    <TextView
+                        style="@style/itemStart"
+                        android:text="@string/ammeter" />
+
+                    <TextView
+                        style="@style/itemEnd"
+                        tools:text="204353.33"
+                        android:text='@{String.format("%.2f 度",viewData.oldAmmeter)}' />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_normal"
+                    android:background="@drawable/ic_dash_line" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_smallest">
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/thisBalance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_margin="@dimen/dimen_small"
+                        android:src="@drawable/ic_balance"
+                        android:contentDescription="@string/balance" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/thisAmmeter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_margin="@dimen/dimen_small"
+                        android:src="@drawable/ic_ammeter"
+                        android:contentDescription="@string/ammeter" />
+
+                </FrameLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+</layout>

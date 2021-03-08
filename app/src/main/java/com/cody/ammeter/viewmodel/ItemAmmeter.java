@@ -1,6 +1,5 @@
 package com.cody.ammeter.viewmodel;
 
-import com.cody.ammeter.model.db.table.Ammeter;
 import com.cody.component.handler.data.ItemViewDataHolder;
 
 import java.util.Date;
@@ -18,17 +17,6 @@ public class ItemAmmeter extends ItemViewDataHolder {
     private double mSharing;// 公摊电量 sharing = ammeter - ammeterAmmeter
     private double mPrice;// 本次结算每度电单价  price = money/ammeter
     private Date mTime; // 结算时间，结算确认时要更新成当前时间，否则为上次结算时间
-
-    @Override
-    public int getItemType() {
-        if (!validData()){
-            return NOT_SET_TYPE;
-        }
-        if (mAmmeterId == Ammeter.UN_TENANT_ID){
-            return MAIN_TYPE;
-        }
-        return super.getItemType();
-    }
 
     public boolean validData() {
         if (mTime == null) return false;
@@ -122,11 +110,12 @@ public class ItemAmmeter extends ItemViewDataHolder {
                 Double.compare(that.mNewBalance, mNewBalance) == 0 &&
                 Double.compare(that.mSharing, mSharing) == 0 &&
                 Double.compare(that.mPrice, mPrice) == 0 &&
+                Objects.equals(mName, that.mName) &&
                 Objects.equals(mTime, that.mTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), mAmmeterId, mOldAmmeter, mNewAmmeter, mOldBalance, mNewBalance, mSharing, mPrice, mTime);
+        return Objects.hash(super.hashCode(), mAmmeterId, mName, mOldAmmeter, mNewAmmeter, mOldBalance, mNewBalance, mSharing, mPrice, mTime);
     }
 }

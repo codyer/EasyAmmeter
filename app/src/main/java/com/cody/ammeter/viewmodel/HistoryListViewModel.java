@@ -38,7 +38,7 @@ public class HistoryListViewModel extends AbsPageListViewModel<FriendlyViewData,
         return factory.map(input -> {
             ItemAmmeter ammeter = new ItemAmmeter();
             ammeter.setItemId((int) input.getId());
-            ammeter.setItemType(input.getAmmeterId() == Ammeter.UN_TENANT_ID ? ItemAmmeter.MAIN_TYPE : ItemAmmeter.DEFAULT_TYPE);
+            ammeter.setItemType((input.getAmmeterId() == Ammeter.UN_TENANT_ID) ? ItemAmmeter.MAIN_TYPE : ItemAmmeter.DEFAULT_TYPE);
             ammeter.setAmmeterId(input.getAmmeterId());
             ammeter.setName(input.getName());
             ammeter.setOldAmmeter(input.getOldAmmeter());

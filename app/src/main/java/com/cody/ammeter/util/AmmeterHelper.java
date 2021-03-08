@@ -14,11 +14,9 @@ import com.cody.ammeter.model.db.table.Settlement;
 import com.cody.ammeter.viewmodel.ItemAmmeter;
 import com.cody.component.handler.data.ItemViewDataHolder;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -50,6 +48,13 @@ public class AmmeterHelper {
 
     public static LiveData<Long> liveTenantCount() {
         return Repository.liveTenantCount();
+    }
+
+    public static void updateAmmeters(final List<Ammeter> ammeters, final CallBack<Boolean> callBack) {
+        sExecutor.submit(() -> {
+            Repository.updateAmmeters(ammeters);
+            sHandler.post(() -> callBack.onResult(true));
+        });
     }
 
     public interface CallBack<T> {
@@ -179,6 +184,18 @@ public class AmmeterHelper {
     /**
      * 更新电表信息
      */
+    public static void initMainAmmeter(Ammeter ammeter, CallBack<Boolean> callBack) {
+        ammeter.setOldAmmeter(ammeter.getNewAmmeter());
+        ammeter.setOldBalance(ammeter.getNewBalance());
+        sExecutor.submit(() -> {
+            Repository.updateAmmeter(ammeter);
+            sHandler.post(() -> callBack.onResult(true));
+        });
+    }
+
+    /**
+     * 更新电表信息
+     */
     public static void updateAmmeter(Ammeter ammeter, CallBack<Boolean> callBack) {
         sExecutor.submit(() -> {
             Repository.updateAmmeter(ammeter);
@@ -266,19 +283,19 @@ public class AmmeterHelper {
             if (ammeter.getId() > Ammeter.UN_TENANT_ID) {
                 info.append("【").append(ammeter.getName())
                         .append("】本次应缴电费：")
-                        .append(String.format("%.2f", (price * (sharing + ammeter.getNewAmmeter() - ammeter.getOldAmmeter()))))
-                        .append(ammeter.getNewBalance()>0?"，之前余额：":"，之前欠费：")
-                        .append(String.format("%.2f", Math.abs(ammeter.getNewBalance())))
+                        .append(String.format("%.2f 度", (price * (sharing + ammeter.getNewAmmeter() - ammeter.getOldAmmeter()))))
+                        .append(ammeter.getNewBalance() > 0 ? "，之前余额：" : "，之前欠费：")
+                        .append(String.format("%.2f 度", Math.abs(ammeter.getNewBalance())))
                         .append("，本次剩余应缴电费：")
-                        .append(String.format("%.2f", (price * (sharing + ammeter.getNewAmmeter() - ammeter.getOldAmmeter()) - ammeter.getNewBalance())))
+                        .append(String.format("%.2f 度", (price * (sharing + ammeter.getNewAmmeter() - ammeter.getOldAmmeter()) - ammeter.getNewBalance())))
                         .append("元\n（公摊电费：")
-                        .append(String.format("%.2f", price * sharing))
+                        .append(String.format("%.2f 度", price * sharing))
                         .append("元，分表电费：")
-                        .append(String.format("%.2f", price * (ammeter.getNewAmmeter() - ammeter.getOldAmmeter()))).append("元，用电：")
+                        .append(String.format("%.2f 度", price * (ammeter.getNewAmmeter() - ammeter.getOldAmmeter()))).append("元，用电：")
                         .append((ammeter.getNewAmmeter() - ammeter.getOldAmmeter())).append("度，当前读数：")
                         .append(ammeter.getNewAmmeter()).append("度)；\n ------------ \n");
             } else {
-                info.append("总缴电费：").append(String.format("%.2f", ammeter.getOldBalance() - ammeter.getNewBalance()))
+                info.append("总缴电费：").append(String.format("%.2f 度", ammeter.getOldBalance() - ammeter.getNewBalance()))
                         .append("元\n（总用电：")
                         .append(ammeter.getNewAmmeter() - ammeter.getOldAmmeter()).append("度").append("，公摊度数：")
                         .append(sharing).append("度，上月总表读数：")

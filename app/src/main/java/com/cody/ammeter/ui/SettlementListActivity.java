@@ -1,7 +1,10 @@
 package com.cody.ammeter.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,10 +28,10 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,13 +42,32 @@ import androidx.recyclerview.widget.RecyclerView;
 public class SettlementListActivity extends BaseActionbarActivity<SettlementLitActivityBinding> {
     private Ammeter mClickedAmmeter;
     private List<Ammeter> mAmmeterList;
+    private LiveData<List<Ammeter>> mListLiveData;
     private double mSharing = 0.0f;
     private double mPrice = 0.0f;
     private boolean mFinished = false;
-    private boolean mValid = false;
 
     public static void start(Activity activity) {
         activity.startActivity(new Intent(activity, SettlementListActivity.class));
+    }
+
+    //设置字体为默认大小，不随系统字体大小改而改变
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        if (newConfig.fontScale != 1)//非默认值
+            getResources();
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public Resources getResources() {
+        Resources res = super.getResources();
+        if (res.getConfiguration().fontScale != 1) {//非默认值
+            Configuration newConfig = new Configuration();
+            newConfig.setToDefaults();//设置默认
+            res.updateConfiguration(newConfig, res.getDisplayMetrics());
+        }
+        return res;
     }
 
     @Override
@@ -73,14 +95,15 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
         super.onBaseReady(savedInstanceState);
         setSupportActionBar(getBinding().toolbar);
         getBinding().recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        AmmeterHelper.getAllAmmeter().observe(this, ammeters -> {
+        mListLiveData = AmmeterHelper.getAllAmmeter();
+        mListLiveData.observe(this, ammeters -> {
             if (mFinished) {
                 if (AmmeterHelper.copy(this, mAmmeterList, mSharing, mPrice)) {
                     showToast("最新结算数据已经复制到剪切板！");
                 }
                 return;
             }
-            mValid = calculate(ammeters);
+            calculate(ammeters);
             mAmmeterList = ammeters;
             getBinding().recyclerView.setAdapter(new AmmeterAdapter(ammeters, SettlementListActivity.this));
         });
@@ -94,9 +117,10 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
         if (mClickedAmmeter != null) {
             if (requestCode == InputActivity.INPUT_TYPE_AMMETER) {
                 showLoading();
-                AmmeterHelper.updateAmmeter(mClickedAmmeter.getId(), value, result -> {
+                mClickedAmmeter.setNewAmmeter(value);
+                mClickedAmmeter.setAmmeterSetTime(new Date());
+                AmmeterHelper.updateAmmeter(mClickedAmmeter, result -> {
                     hideLoading();
-                    showToast(mClickedAmmeter.getName() + String.format(getString(R.string.success_set_ammeter), value));
                     mClickedAmmeter = null;
                 });
             }
@@ -111,6 +135,7 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
         } else if (v.getId() == R.id.settlement) {
             if (!calculate(mAmmeterList)) return;
             showLoading();
+            mListLiveData.removeObservers(this);
             mFinished = true;
             AmmeterHelper.settlement(mAmmeterList, mSharing, mPrice, result -> {
                 hideLoading();
@@ -126,6 +151,7 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -185,14 +211,6 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
             if (count > 0) {
                 mSharing = publicUse / count;
             }
-        }
-        if (count <= 0) {
-            new AlertDialog.Builder(this).setMessage(R.string.add_tenant_hint)
-                    .setPositiveButton(R.string.ui_str_confirm, (dialog, which) -> {
-                        finish();
-                    }).setNegativeButton(R.string.ui_str_cancel, null)
-                    .create().show();
-            return false;
         }
         return true;
     }
@@ -282,6 +300,11 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
         ammeter.setSharing(mSharing);
         ammeter.setPrice(mPrice);
         ammeter.setTime(input.getAmmeterSetTime());
+        if (!ammeter.validData()){
+            ammeter.setItemType(ItemAmmeter.NOT_SET_TYPE);
+        }else if (ammeter.getAmmeterId() == Ammeter.UN_TENANT_ID){
+            ammeter.setItemType(ItemAmmeter.MAIN_TYPE);
+        }
         return ammeter;
     }
 

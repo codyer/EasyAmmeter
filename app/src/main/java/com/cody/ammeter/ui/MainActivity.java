@@ -1,6 +1,9 @@
 package com.cody.ammeter.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,14 +18,12 @@ import com.cody.component.app.activity.BaseActionbarActivity;
 import java.util.Date;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 
 /**
  * 房东详情
  */
+@SuppressLint("NonConstantResourceId")
 public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
     private Ammeter mMainAmmeter;
 
@@ -54,8 +55,8 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
         AmmeterHelper.getMainAmmeter().observeForever(ammeter -> {
             if (ammeter == null) return;
             mMainAmmeter = ammeter;
-            AmmeterHelper.setUnSettlementMoney(ammeter.getOldBalance() - ammeter.getNewBalance());
-            getBinding().setUsed(String.format(getString(R.string.price_used_hint), ammeter.getOldBalance() - ammeter.getNewBalance()));
+            AmmeterHelper.setUnSettlementMoney(ammeter.getOldBalance());
+            getBinding().setUsed(String.format(getString(R.string.price_used_hint), ammeter.getOldBalance()));
             hideLoading();
         });
     }
@@ -64,6 +65,25 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.history, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    //设置字体为默认大小，不随系统字体大小改而改变
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        if (newConfig.fontScale != 1)//非默认值
+            getResources();
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public Resources getResources() {
+        Resources res = super.getResources();
+        if (res.getConfiguration().fontScale != 1) {//非默认值
+            Configuration newConfig = new Configuration();
+            newConfig.setToDefaults();//设置默认
+            res.updateConfiguration(newConfig, res.getDisplayMetrics());
+        }
+        return res;
     }
 
     @Override
@@ -77,18 +97,6 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void showToast(final String message) {
-        super.showToast(message);
-        getBinding().setInfo(message);
-    }
-
-    @Override
-    public void showToast(final int message) {
-        super.showToast(message);
-        getBinding().setInfo(getString(message));
     }
 
     @Override
@@ -107,6 +115,9 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
             case R.id.history:
                 HistoryListActivity.start(this);
                 break;
+            case R.id.initData:
+                InitListActivity.start(this);
+                break;
             case R.id.rechargePayment:
                 InputActivity.start(this, InputActivity.INPUT_TYPE_PAYMENT, Ammeter.UN_TENANT_NAME, mMainAmmeter.getNewBalance());
                 break;
@@ -120,27 +131,7 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
                 TenantListActivity.start(this);
                 break;
             case R.id.settlement:
-                showLoading();
-                LiveData<Long> longLiveData = AmmeterHelper.liveTenantCount();
-                longLiveData.observeForever(new Observer<Long>() {
-                    @Override
-                    public void onChanged(final Long count) {
-                        longLiveData.removeObserver(this);
-                        if (count > 0) {
-                            hideLoading();
-                            InputActivity.start(MainActivity.this, InputActivity.INPUT_TYPE_BALANCE, Ammeter.UN_TENANT_NAME, mMainAmmeter.getNewBalance());
-                        } else {
-                            mMainAmmeter.setOldAmmeter(mMainAmmeter.getNewAmmeter());
-                            mMainAmmeter.setOldBalance(mMainAmmeter.getNewBalance());
-                            AmmeterHelper.updateAmmeter(mMainAmmeter, result -> hideLoading());
-                            new AlertDialog.Builder(MainActivity.this).setMessage(R.string.add_tenant_hint)
-                                    .setPositiveButton(R.string.ui_str_confirm, (dialog, which) -> {
-                                        getBinding().checkIn.performClick();
-                                    }).setNegativeButton(R.string.ui_str_cancel, null)
-                                    .create().show();
-                        }
-                    }
-                });
+                InputActivity.start(MainActivity.this, InputActivity.INPUT_TYPE_BALANCE, Ammeter.UN_TENANT_NAME, mMainAmmeter.getNewBalance());
                 break;
         }
     }
@@ -157,17 +148,7 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
                 showLoading();
                 AmmeterHelper.updateAmmeter(mMainAmmeter, result -> {
                     hideLoading();
-                    showToast(mMainAmmeter.getName() + String.format(getString(R.string.success_set_balance), value));
-                    if (AmmeterHelper.getUnSettlementMoney() > 0) {
-                        SettlementListActivity.start(MainActivity.this);
-                    } else {
-                        new AlertDialog.Builder(this).setMessage(
-                                getString(R.string.no_need_to_info_total))
-                                .setPositiveButton(R.string.ui_str_confirm, (dialog, which) -> {
-                                    getBinding().rechargePayment.performClick();
-                                }).setNegativeButton(R.string.ui_str_cancel, null)
-                                .create().show();
-                    }
+                    SettlementListActivity.start(MainActivity.this);
                 });
                 break;
             case InputActivity.INPUT_TYPE_NEW_TENANT:

@@ -38,9 +38,9 @@ public class TenantListViewModel extends AbsPageListViewModel<FriendlyViewData, 
             tenant.setTime(input.getAmmeterSetTime().getTime());
             tenant.setNewBalance(input.getNewBalance());
             if (tenant.isArrears()) {
-                tenant.setValue(String.format("已欠费：%.2f元", Math.abs(input.getNewBalance())));
+                tenant.setValue(String.format("已欠费：%.2f 元", Math.abs(input.getNewBalance())));
             } else {
-                tenant.setValue(String.format("余额：%.2f元", input.getNewBalance()));
+                tenant.setValue(String.format("余额：%.2f 元", input.getNewBalance()));
             }
             return tenant;
         });

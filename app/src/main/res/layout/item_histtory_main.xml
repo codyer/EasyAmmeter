@@ -140,7 +140,7 @@
                     <TextView
                         style="@style/itemEnd"
                         tools:text="204353.33"
-                        android:text='@{String.format("%012.2f",viewData.newAmmeter)}' />
+                        android:text='@{String.format("%.2f 度",viewData.newAmmeter)}' />
 
                 </RelativeLayout>
 
@@ -155,7 +155,7 @@
                     <TextView
                         style="@style/itemEnd"
                         tools:text="204353.33"
-                        android:text='@{String.format("%012.2f",viewData.oldAmmeter)}' />
+                        android:text='@{String.format("%.2f 度",viewData.oldAmmeter)}' />
 
                 </RelativeLayout>
 
