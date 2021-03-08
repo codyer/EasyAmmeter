@@ -65,12 +65,14 @@
 
                     <TextView
                         style="@style/itemStart"
-                        android:text="@string/use" />
+                        android:text="@string/total_price" />
 
                     <TextView
                         style="@style/itemEnd"
-                        tools:text="204353.33 度"
-                        android:text='@{String.format("%.2f 度",(viewData.newAmmeter-viewData.oldAmmeter))}' />
+                        android:textColor="@color/color3"
+                        android:textStyle="bold"
+                        android:text='@{String.format("%.2f 元",(viewData.price * (viewData.newAmmeter - viewData.oldAmmeter)))}'
+                        tools:text="22.34 元" />
 
                 </RelativeLayout>
 
@@ -80,12 +82,12 @@
 
                     <TextView
                         style="@style/itemStart"
-                        android:text="@string/total_price" />
+                        android:text="@string/use" />
 
                     <TextView
                         style="@style/itemEnd"
-                        android:text='@{String.format("%.2f 元",(viewData.price * (viewData.newAmmeter - viewData.oldAmmeter)))}'
-                        tools:text="22.34 元" />
+                        tools:text="204353.33 度"
+                        android:text='@{String.format("%.2f 度",(viewData.newAmmeter-viewData.oldAmmeter))}' />
 
                 </RelativeLayout>
 
@@ -100,12 +102,12 @@
 
                     <TextView
                         style="@style/itemStart"
-                        android:text="@string/public_use" />
+                        android:text="@string/price" />
 
                     <TextView
                         style="@style/itemEnd"
-                        android:text='@{String.format("%.2f 度/人",viewData.sharing)}'
-                        tools:text="22.34 度/人" />
+                        android:text='@{String.format("%.2f 元/度",viewData.price)}'
+                        tools:text="22.34 元/度" />
 
                 </RelativeLayout>
 
@@ -115,12 +117,12 @@
 
                     <TextView
                         style="@style/itemStart"
-                        android:text="@string/price" />
+                        android:text="@string/public_use" />
 
                     <TextView
                         style="@style/itemEnd"
-                        android:text='@{String.format("%.2f 元/度",viewData.price)}'
-                        tools:text="22.34 元/度" />
+                        android:text='@{String.format("%.2f 度/人",viewData.sharing)}'
+                        tools:text="22.34 度/人" />
 
                 </RelativeLayout>
 

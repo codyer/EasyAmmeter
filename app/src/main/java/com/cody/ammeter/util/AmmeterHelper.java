@@ -78,7 +78,7 @@ public class AmmeterHelper {
             Date time = new Date();
             List<Settlement> settlements = new ArrayList<>();
             for (Ammeter ammeter : ammeters) {
-                settlements.add(createSettlement(ammeter, sharing, time));
+                settlements.add(createSettlement(ammeter, sharing, price, time));
                 ammeter.setOldAmmeter(ammeter.getNewAmmeter());
                 ammeter.setOldBalance(ammeter.getNewBalance());
                 if (ammeter.getId() != Ammeter.UN_TENANT_ID) {//分表
@@ -125,7 +125,7 @@ public class AmmeterHelper {
     /**
      * 创建结算数据
      */
-    private static Settlement createSettlement(Ammeter ammeter, double sharingAmmeter, Date time) {
+    private static Settlement createSettlement(Ammeter ammeter, double sharingAmmeter, double price, Date time) {
         Settlement settlement = new Settlement();
         settlement.setAmmeterId(ammeter.getId());
         settlement.setName(ammeter.getName());
@@ -134,6 +134,7 @@ public class AmmeterHelper {
         settlement.setOldBalance(ammeter.getOldBalance());
         settlement.setNewBalance(ammeter.getNewBalance());
         settlement.setSharing(sharingAmmeter);
+        settlement.setPrice(price);
         settlement.setTime(time);
         return settlement;
     }
@@ -282,23 +283,19 @@ public class AmmeterHelper {
             ammeter = ammeters.get(i);
             if (ammeter.getId() > Ammeter.UN_TENANT_ID) {
                 info.append("【").append(ammeter.getName())
-                        .append("】本次应缴电费：")
-                        .append(String.format("%.2f 度", (price * (sharing + ammeter.getNewAmmeter() - ammeter.getOldAmmeter()))))
-                        .append(ammeter.getNewBalance() > 0 ? "，之前余额：" : "，之前欠费：")
-                        .append(String.format("%.2f 度", Math.abs(ammeter.getNewBalance())))
-                        .append("，本次剩余应缴电费：")
-                        .append(String.format("%.2f 度", (price * (sharing + ammeter.getNewAmmeter() - ammeter.getOldAmmeter()) - ammeter.getNewBalance())))
-                        .append("元\n（公摊电费：")
-                        .append(String.format("%.2f 度", price * sharing))
-                        .append("元，分表电费：")
-                        .append(String.format("%.2f 度", price * (ammeter.getNewAmmeter() - ammeter.getOldAmmeter()))).append("元，用电：")
-                        .append((ammeter.getNewAmmeter() - ammeter.getOldAmmeter())).append("度，当前读数：")
-                        .append(ammeter.getNewAmmeter()).append("度)；\n ------------ \n");
+                        .append(String.format("】本次应缴电费：%.2f 元", (price * (sharing + ammeter.getNewAmmeter() - ammeter.getOldAmmeter()))))
+                        .append(ammeter.getNewBalance() >= 0 ? "，之前余额：" : "，之前欠费：")
+                        .append(String.format("%.2f 元", Math.abs(ammeter.getNewBalance())))
+                        .append(String.format("，本次剩余应缴电费：%.2f 元", (price * (sharing + ammeter.getNewAmmeter() - ammeter.getOldAmmeter()) - ammeter.getNewBalance())))
+                        .append(String.format("\n（公摊电费：%.2f 元，", price * sharing))
+                        .append(String.format("分表电费：%.2f 元，", price * (ammeter.getNewAmmeter() - ammeter.getOldAmmeter())))
+                        .append("用电：")
+                        .append((ammeter.getNewAmmeter() - ammeter.getOldAmmeter())).append(" 度，当前读数：")
+                        .append(ammeter.getNewAmmeter()).append(" 度)；\n ------------ \n");
             } else {
-                info.append("总缴电费：").append(String.format("%.2f 度", ammeter.getOldBalance() - ammeter.getNewBalance()))
-                        .append("元\n（总用电：")
-                        .append(ammeter.getNewAmmeter() - ammeter.getOldAmmeter()).append("度").append("，公摊度数：")
-                        .append(sharing).append("度，上月总表读数：")
+                info.append(String.format("总缴电费：%.2f 元\n（总用电：", ammeter.getOldBalance() - ammeter.getNewBalance()))
+                        .append(ammeter.getNewAmmeter() - ammeter.getOldAmmeter())
+                        .append(String.format(" 度，公摊度数：%.2f 度，上月总表读数：", sharing))
                         .append(ammeter.getOldAmmeter()).append("度，本月总表读数：")
                         .append(ammeter.getNewAmmeter()).append("度)；\n ------------ \n");
             }

@@ -60,6 +60,23 @@
 
                     <TextView
                         style="@style/itemStart"
+                        android:text="@string/total_price" />
+
+                    <TextView
+                        style="@style/itemEnd"
+                        android:textColor="@color/color3"
+                        android:textStyle="bold"
+                        android:text='@{String.format("%.2f 元",(viewData.price * (viewData.newAmmeter - viewData.oldAmmeter)))}'
+                        tools:text="22.34 元" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/itemStart"
                         android:text="@string/use" />
 
                     <TextView
@@ -70,40 +87,10 @@
 
                 </RelativeLayout>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        style="@style/itemStart"
-                        android:text="@string/total_price" />
-
-                    <TextView
-                        style="@style/itemEnd"
-                        android:text='@{String.format("%.2f 元",(viewData.price * (viewData.newAmmeter - viewData.oldAmmeter)))}'
-                        tools:text="22.34 元" />
-
-                </RelativeLayout>
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_normal"
                     android:background="@drawable/ic_dash_line" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        style="@style/itemStart"
-                        android:text="@string/public_use" />
-
-                    <TextView
-                        style="@style/itemEnd"
-                        tools:text="204353.33 度/人"
-                        android:text='@{String.format("%.2f 度/人",viewData.sharing)}' />
-
-                </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -120,10 +107,40 @@
 
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/itemStart"
+                        android:text="@string/public_use" />
+
+                    <TextView
+                        style="@style/itemEnd"
+                        tools:text="204353.33 度/人"
+                        android:text='@{String.format("%.2f 度/人",viewData.sharing)}' />
+
+                </RelativeLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_normal"
                     android:background="@drawable/ic_dash_line" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/itemStart"
+                        android:text="@string/last_month_balance" />
+
+                    <TextView
+                        style="@style/itemEnd"
+                        tools:text="204353.33 元"
+                        android:text='@{String.format("%.2f 元",viewData.oldBalance)}' />
+
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -140,20 +157,6 @@
 
                 </RelativeLayout>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        style="@style/itemStart"
-                        android:text="@string/last_month_balance" />
-
-                    <TextView
-                        style="@style/itemEnd"
-                        tools:text="204353.33 元"
-                        android:text='@{String.format("%.2f 元",viewData.oldBalance)}' />
-
-                </RelativeLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_normal"

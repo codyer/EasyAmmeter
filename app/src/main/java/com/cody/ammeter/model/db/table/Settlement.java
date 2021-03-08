@@ -32,7 +32,7 @@ public class Settlement {
 //    private double mMoney;// 实际使用金额 money = oldBalance - newBalance
     private double sharing;// 公摊电量 sharing = ammeter - ammeterAmmeter
     //    @Ignore
-//    private double mPrice;// 本次结算每度电单价  price = money/ammeter
+    private double mPrice;// 本次结算每度电单价  price = money/ammeter
     private Date time; // 结算时间，结算确认时要更新成当前时间，否则为上次结算时间
 
     public long getId() {
@@ -97,6 +97,14 @@ public class Settlement {
 
     public void setSharing(final double sharing) {
         this.sharing = sharing;
+    }
+
+    public double getPrice() {
+        return mPrice;
+    }
+
+    public void setPrice(final double price) {
+        mPrice = price;
     }
 
     public Date getTime() {
