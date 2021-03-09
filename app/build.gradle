@@ -23,8 +23,8 @@ android {
         applicationId "com.cody.ammeter"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName "2.0"
+        versionCode 2
+        versionName "3.0"
     }
 
     dataBinding {
@@ -53,9 +53,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-//    implementation 'local.component:app-core:1.1.1'
     implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'com.github.codyer.component:app-core:1.1.1'
+    implementation 'local.component:app-core:1.1.2'
+//    implementation 'com.github.codyer.component:app-core:1.1.2'
     implementation 'androidx.room:room-runtime:2.3.0-alpha01'
     annotationProcessor 'androidx.room:room-compiler:2.3.0-alpha01'
 }

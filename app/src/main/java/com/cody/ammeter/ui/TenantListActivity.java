@@ -2,8 +2,6 @@ package com.cody.ammeter.ui;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 
@@ -33,25 +31,6 @@ public class TenantListActivity extends AbsPageListActivity<ToolbarLitActivityBi
 
     public static void start(Activity activity) {
         activity.startActivity(new Intent(activity, TenantListActivity.class));
-    }
-
-    //设置字体为默认大小，不随系统字体大小改而改变
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        if (newConfig.fontScale != 1)//非默认值
-            getResources();
-        super.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public Resources getResources() {
-        Resources res = super.getResources();
-        if (res.getConfiguration().fontScale != 1) {//非默认值
-            Configuration newConfig = new Configuration();
-            newConfig.setToDefaults();//设置默认
-            res.updateConfiguration(newConfig, res.getDisplayMetrics());
-        }
-        return res;
     }
 
     @Override
@@ -117,7 +96,7 @@ public class TenantListActivity extends AbsPageListActivity<ToolbarLitActivityBi
                 if (item != null) {
                     if (id == R.id.rechargePayment) {
                         mTenant = item;
-                        InputActivity.start(this, InputActivity.INPUT_TYPE_PAYMENT, item.getName(), item.getNewBalance());
+                        InputActivity.start(this, InputActivity.INPUT_TYPE_PAYMENT, item.getName());
                     } else {
                         TenantActivity.start(this, item.getId(), item.getName());
                     }

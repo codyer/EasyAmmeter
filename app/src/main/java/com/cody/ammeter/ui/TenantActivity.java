@@ -3,8 +3,6 @@ package com.cody.ammeter.ui;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,25 +35,6 @@ public class TenantActivity extends BaseActionbarActivity<TenantActivityBinding>
         activity.startActivity(intent);
     }
 
-    //设置字体为默认大小，不随系统字体大小改而改变
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        if (newConfig.fontScale != 1)//非默认值
-            getResources();
-        super.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public Resources getResources() {
-        Resources res = super.getResources();
-        if (res.getConfiguration().fontScale != 1) {//非默认值
-            Configuration newConfig = new Configuration();
-            newConfig.setToDefaults();//设置默认
-            res.updateConfiguration(newConfig, res.getDisplayMetrics());
-        }
-        return res;
-    }
-
     @Override
     public boolean isSupportImmersive() {
         return false;
@@ -83,12 +62,12 @@ public class TenantActivity extends BaseActionbarActivity<TenantActivityBinding>
             mTenantAmmeter = ammeter;
             setTitle(ammeter.getName() + (ammeter.isLeave() ? "(已退租)" : ""));
             if (ammeter.getNewBalance() >= 0f) {
-                getBinding().setBalance(String.format("余额\n%.2f 元", ammeter.getNewBalance()));
+                getBinding().setBalance(String.format("余额%.2f 元", ammeter.getNewBalance()));
             } else {
-                getBinding().setBalance(String.format("已欠费\n%.2f 元", Math.abs(ammeter.getNewBalance())));
+                getBinding().setBalance(String.format("已欠费%.2f 元", Math.abs(ammeter.getNewBalance())));
             }
-            getBinding().setAmmeter(String.format(getString(R.string.format_du), ammeter.getNewAmmeter() - ammeter.getOldAmmeter()));
-            getBinding().setNewAmmeter(String.format(getString(R.string.format), ammeter.getNewAmmeter()));
+            getBinding().setOldAmmeter(String.format("上次电表\n%.2f 度", ammeter.getOldAmmeter()));
+            getBinding().setNewAmmeter(String.format("当前电表\n%.2f 度", ammeter.getNewAmmeter()));
             hideLoading();
         });
     }
@@ -126,13 +105,14 @@ public class TenantActivity extends BaseActionbarActivity<TenantActivityBinding>
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(final View v) {
+        if (mTenantAmmeter == null)return;
         switch (v.getId()) {
             case R.id.updateAmmeter:
-                InputActivity.start(this, InputActivity.INPUT_TYPE_AMMETER, mTenantAmmeter.getName(), mTenantAmmeter.getOldAmmeter());
+                InputActivity.start(this, InputActivity.INPUT_TYPE_AMMETER, mTenantAmmeter.getName());
                 break;
             case R.id.newBalance:
             case R.id.rechargePayment:
-                InputActivity.start(this, InputActivity.INPUT_TYPE_PAYMENT, mTenantAmmeter.getName(), mTenantAmmeter.getNewBalance());
+                InputActivity.start(this, InputActivity.INPUT_TYPE_PAYMENT, mTenantAmmeter.getName());
                 break;
             case R.id.paymentRecord:
                 PaymentListActivity.start(this, mTenantAmmeter.getId());

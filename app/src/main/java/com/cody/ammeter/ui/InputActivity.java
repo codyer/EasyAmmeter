@@ -2,8 +2,6 @@ package com.cody.ammeter.ui;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 
@@ -26,11 +24,10 @@ public class InputActivity extends BaseActionbarActivity<InputActivityBinding> {
     private final static String NAME = "name";
     private final static String TYPE = "type";
 
-    public static void start(Activity activity, int type, String name, double value) {
+    public static void start(Activity activity, int type, String name) {
         Intent intent = new Intent(activity, InputActivity.class);
         intent.putExtra(TYPE, type);
         intent.putExtra(NAME, name);
-        intent.putExtra(VALUE, value);
         activity.startActivityForResult(intent, type);
     }
 
@@ -39,25 +36,6 @@ public class InputActivity extends BaseActionbarActivity<InputActivityBinding> {
             return data.getDoubleExtra(VALUE, -1f);
         }
         return -1f;
-    }
-
-    //设置字体为默认大小，不随系统字体大小改而改变
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        if (newConfig.fontScale != 1)//非默认值
-            getResources();
-        super.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public Resources getResources() {
-        Resources res = super.getResources();
-        if (res.getConfiguration().fontScale != 1) {//非默认值
-            Configuration newConfig = new Configuration();
-            newConfig.setToDefaults();//设置默认
-            res.updateConfiguration(newConfig, res.getDisplayMetrics());
-        }
-        return res;
     }
 
     @Override
@@ -70,22 +48,20 @@ public class InputActivity extends BaseActionbarActivity<InputActivityBinding> {
         super.onBaseReady(savedInstanceState);
         String name = Ammeter.UN_TENANT_NAME;
         int type = INPUT_TYPE_AMMETER;
-        double value = 0f;
         if (getIntent() != null) {
             name = getIntent().getStringExtra(NAME);
             type = getIntent().getIntExtra(TYPE, INPUT_TYPE_AMMETER);
-            value = getIntent().getDoubleExtra(VALUE, 0f);
         }
         getBinding().setViewData(mValue);
         switch (type) {
             case INPUT_TYPE_BALANCE:
                 setTitle(name + getString(R.string.title_balance));
-                getBinding().setHint(String.format(getString(R.string.please_input_balance_hint), name, value));
+                getBinding().setHint(String.format(getString(R.string.please_input_balance_hint), name));
                 getBinding().setUnit(getString(R.string.yuan));
                 break;
             case INPUT_TYPE_AMMETER:
                 setTitle(name + getString(R.string.title_ammeter));
-                getBinding().setHint(String.format(getString(R.string.please_input_ammeter_hint),name, value));
+                getBinding().setHint(String.format(getString(R.string.please_input_ammeter_hint),name));
                 getBinding().setUnit(getString(R.string.degree));
                 break;
             case INPUT_TYPE_NEW_TENANT:
@@ -95,7 +71,7 @@ public class InputActivity extends BaseActionbarActivity<InputActivityBinding> {
                 break;
             case INPUT_TYPE_PAYMENT:
                 setTitle(name + getString(R.string.title_payment));
-                getBinding().setHint(String.format(getString(R.string.please_input_payment_hint), value));
+                getBinding().setHint(getString(R.string.please_input_payment_hint));
                 getBinding().setUnit(getString(R.string.yuan));
                 break;
         }

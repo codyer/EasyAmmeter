@@ -16,7 +16,7 @@
             type="String" />
 
         <variable
-            name="ammeter"
+            name="oldAmmeter"
             type="String" />
 
         <variable
@@ -52,38 +52,43 @@
                 bind:layout_constraintTop_toTopOf="parent"
                 android:orientation="vertical">
 
+                <TextView
+                    style="@style/itemCardTitle"
+                    android:text='@{balance}'
+                    tools:text="余额：88.88元" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:layout_marginTop="@dimen/dimen_smallest"
                     android:orientation="horizontal">
 
-                    <TextView
-                        style="@style/itemCardTitle"
+                    <View
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text='@{balance}'
-                        tools:text="余额\n88.88元" />
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
 
                     <TextView
-                        style="@style/itemCardTitle"
+                        style="@style/itemCardSubTitle"
+                        android:text='@{oldAmmeter}'
+                        tools:text="上次电表\n88.88 度" />
+
+                    <View
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text='@{"用电\n"+ammeter}'
-                        tools:text="用电\n88.88度" />
+                        android:layout_height="1dp"
+                        android:layout_weight="2" />
+
+                    <TextView
+                        style="@style/itemCardSubTitle"
+                        android:text='@{newAmmeter}'
+                        tools:text="本次电表\n88.88 度" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
-
-                <TextView
-                    style="@style/itemCardTitle"
-                    android:text='@{newAmmeter}'
-                    android:layout_marginTop="@dimen/dimen_normal"
-                    tools:text="88.88"
-                    android:drawablePadding="@dimen/dimen_tinier"
-                    bind:drawableStartCompat="@drawable/ic_ammeter" />
-
             </LinearLayout>
 
             <Button

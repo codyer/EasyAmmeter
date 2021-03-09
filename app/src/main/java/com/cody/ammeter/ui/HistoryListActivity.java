@@ -1,10 +1,11 @@
 package com.cody.ammeter.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.cody.ammeter.R;
@@ -52,25 +53,6 @@ public class HistoryListActivity extends AbsPageListActivity<ToolbarLitActivityB
         activity.startActivity(intent);
     }
 
-    //设置字体为默认大小，不随系统字体大小改而改变
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        if (newConfig.fontScale != 1)//非默认值
-            getResources();
-        super.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public Resources getResources() {
-        Resources res = super.getResources();
-        if (res.getConfiguration().fontScale != 1) {//非默认值
-            Configuration newConfig = new Configuration();
-            newConfig.setToDefaults();//设置默认
-            res.updateConfiguration(newConfig, res.getDisplayMetrics());
-        }
-        return res;
-    }
-
     @Override
     public boolean isSupportImmersive() {
         return false;
@@ -96,9 +78,9 @@ public class HistoryListActivity extends AbsPageListActivity<ToolbarLitActivityB
         if (getIntent() != null) {
             mTime = (Date) getIntent().getSerializableExtra(SETTLEMENT_TIME);
         }
-        if (mTime != null){
+        if (mTime != null) {
             setTitle(TimeUtil.getLongTimeString(mTime));
-        }else {
+        } else {
             setTitle(R.string.settlement_history);
         }
         return new HistoryListViewModel(mTime);
@@ -138,6 +120,37 @@ public class HistoryListActivity extends AbsPageListActivity<ToolbarLitActivityB
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (mTime != null) {
+            getMenuInflater().inflate(R.menu.share, menu);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish(); // back button
+                return true;
+            case R.id.share:
+                share();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void share() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, AmmeterHelper.getShareInfo(this,
+                getViewModel().getPagedList().getValue().snapshot()).toString());
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, null));
+    }
+
+    @Override
     public void onItemClick(final BindingViewHolder holder, final View view, final int position, final int id) {
         if (mTime == null && getListAdapter().getItem(position) instanceof ItemAmmeter) {
             ItemAmmeter itemAmmeter = (ItemAmmeter) getListAdapter().getItem(position);
@@ -146,7 +159,7 @@ public class HistoryListActivity extends AbsPageListActivity<ToolbarLitActivityB
             }
         } else {
             if (AmmeterHelper.copy(this, getViewModel().getPagedList().getValue().snapshot())) {
-                showToast(TimeUtil.getTimeString(mTime)+"的结算数据已经复制到剪切板！");
+                showToast(TimeUtil.getTimeString(mTime) + "的结算数据已经复制到剪切板！");
             }
         }
     }

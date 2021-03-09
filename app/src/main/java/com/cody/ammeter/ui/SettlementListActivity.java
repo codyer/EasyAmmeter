@@ -3,8 +3,6 @@ package com.cody.ammeter.ui;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -51,25 +49,6 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
         activity.startActivity(new Intent(activity, SettlementListActivity.class));
     }
 
-    //设置字体为默认大小，不随系统字体大小改而改变
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        if (newConfig.fontScale != 1)//非默认值
-            getResources();
-        super.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public Resources getResources() {
-        Resources res = super.getResources();
-        if (res.getConfiguration().fontScale != 1) {//非默认值
-            Configuration newConfig = new Configuration();
-            newConfig.setToDefaults();//设置默认
-            res.updateConfiguration(newConfig, res.getDisplayMetrics());
-        }
-        return res;
-    }
-
     @Override
     public boolean isSupportImmersive() {
         return false;
@@ -94,6 +73,7 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
     protected void onBaseReady(Bundle savedInstanceState) {
         super.onBaseReady(savedInstanceState);
         setSupportActionBar(getBinding().toolbar);
+        setTitle(R.string.settlement);
         getBinding().recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         mListLiveData = AmmeterHelper.getAllAmmeter();
         mListLiveData.observe(this, ammeters -> {
@@ -140,6 +120,10 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
             AmmeterHelper.settlement(mAmmeterList, mSharing, mPrice, result -> {
                 hideLoading();
                 showToast(R.string.settlement_success);
+                Intent intent = new Intent(SettlementListActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 finish();
             });
         }
@@ -300,9 +284,9 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
         ammeter.setSharing(mSharing);
         ammeter.setPrice(mPrice);
         ammeter.setTime(input.getAmmeterSetTime());
-        if (!ammeter.validData()){
+        if (!ammeter.validData()) {
             ammeter.setItemType(ItemAmmeter.NOT_SET_TYPE);
-        }else if (ammeter.getAmmeterId() == Ammeter.UN_TENANT_ID){
+        } else if (ammeter.getAmmeterId() == Ammeter.UN_TENANT_ID) {
             ammeter.setItemType(ItemAmmeter.MAIN_TYPE);
         }
         return ammeter;
@@ -321,7 +305,7 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
             mItemBinding.setLifecycleOwner(lifecycleOwner);
             itemView.setOnClickListener(v -> {
                 mClickedAmmeter = ammeter;
-                InputActivity.start(SettlementListActivity.this, InputActivity.INPUT_TYPE_AMMETER, ammeter.getName(), ammeter.getOldAmmeter());
+                InputActivity.start(SettlementListActivity.this, InputActivity.INPUT_TYPE_AMMETER, ammeter.getName());
             });
         }
     }

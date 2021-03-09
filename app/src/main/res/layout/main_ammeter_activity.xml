@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="onClickListener"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="ammeter"
+            type="com.cody.ammeter.model.db.table.Ammeter" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:minHeight="?attr/actionBarSize"
+            android:onClick="@{onClickListener::onClick}" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/thisBalance"
+            android:onClick="@{onClickListener::onClick}"
+            style="@style/ItemCardView"
+            bind:cardCornerRadius="@dimen/dimen_huge">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_normal"
+                android:gravity="center_horizontal"
+                android:background="@color/color1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/itemStart"
+                    android:textSize="@dimen/ui_font_biggest"
+                    android:padding="@dimen/dimen_smallest"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/please_input_main_balance" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_normal"
+                    android:background="@drawable/ic_dash_line" />
+
+                <TextView
+                    style="@style/itemCardTitle"
+                    tools:text="204353.33 元"
+                    android:text='@{String.format("%.2f 元",ammeter.newBalance)}' />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/dimen_small"
+                    android:src="@drawable/ic_balance"
+                    android:contentDescription="@string/balance" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/thisAmmeter"
+            android:onClick="@{onClickListener::onClick}"
+            style="@style/ItemCardView"
+            bind:cardCornerRadius="@dimen/dimen_huge">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/dimen_normal"
+                android:background="@color/color1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/itemStart"
+                    android:textSize="@dimen/ui_font_biggest"
+                    android:padding="@dimen/dimen_smallest"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/please_input_main_ammeter" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_normal"
+                    android:background="@drawable/ic_dash_line" />
+
+                <TextView
+                    style="@style/itemCardTitle"
+                    tools:text="204353.33 度"
+                    android:text='@{String.format("%.2f 度",ammeter.newAmmeter)}' />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/dimen_small"
+                    android:src="@drawable/ic_ammeter"
+                    android:contentDescription="@string/ammeter" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_normal"
+            android:padding="20dp"
+            android:textSize="@dimen/ui_font_huge"
+            style="@style/Widget.AppCompat.Button.Colored"
+            bind:onClickListener="@{onClickListener}"
+            android:text="@string/ui_str_next" />
+    </LinearLayout>
+</layout>

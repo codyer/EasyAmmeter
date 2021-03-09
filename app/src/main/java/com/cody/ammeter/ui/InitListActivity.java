@@ -2,8 +2,6 @@ package com.cody.ammeter.ui;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,25 +39,6 @@ public class InitListActivity extends BaseActionbarActivity<SettlementLitActivit
 
     public static void start(Activity activity) {
         activity.startActivity(new Intent(activity, InitListActivity.class));
-    }
-
-    //设置字体为默认大小，不随系统字体大小改而改变
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        if (newConfig.fontScale != 1)//非默认值
-            getResources();
-        super.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public Resources getResources() {
-        Resources res = super.getResources();
-        if (res.getConfiguration().fontScale != 1) {//非默认值
-            Configuration newConfig = new Configuration();
-            newConfig.setToDefaults();//设置默认
-            res.updateConfiguration(newConfig, res.getDisplayMetrics());
-        }
-        return res;
     }
 
     @Override
@@ -172,12 +151,12 @@ public class InitListActivity extends BaseActionbarActivity<SettlementLitActivit
             // 设置当前余额
             mItemBinding.thisBalance.setOnClickListener(v -> {
                 mClickedAmmeter = ammeter;
-                InputActivity.start(InitListActivity.this, InputActivity.INPUT_TYPE_BALANCE, ammeter.getName(), ammeter.getOldBalance());
+                InputActivity.start(InitListActivity.this, InputActivity.INPUT_TYPE_BALANCE, ammeter.getName());
             });
             // 设置当前电表
             mItemBinding.thisAmmeter.setOnClickListener(v -> {
                 mClickedAmmeter = ammeter;
-                InputActivity.start(InitListActivity.this, InputActivity.INPUT_TYPE_AMMETER, ammeter.getName(), ammeter.getOldAmmeter());
+                InputActivity.start(InitListActivity.this, InputActivity.INPUT_TYPE_AMMETER, ammeter.getName());
             });
         }
     }
@@ -208,7 +187,7 @@ public class InitListActivity extends BaseActionbarActivity<SettlementLitActivit
             mItemBinding.setLifecycleOwner(lifecycleOwner);
             itemView.setOnClickListener(v -> {
                 mClickedAmmeter = ammeter;
-                InputActivity.start(InitListActivity.this, InputActivity.INPUT_TYPE_AMMETER, ammeter.getName(), ammeter.getOldAmmeter());
+                InputActivity.start(InitListActivity.this, InputActivity.INPUT_TYPE_AMMETER, ammeter.getName());
             });
         }
     }

@@ -57,6 +57,14 @@ public class AmmeterHelper {
         });
     }
 
+    public static void clearAll(final CallBack<Boolean> callBack) {
+        sExecutor.submit(() -> {
+            Repository.clearAll();
+            Repository.intMainAmmeter();
+            sHandler.post(() -> callBack.onResult(true));
+        });
+    }
+
     public interface CallBack<T> {
         void onResult(T t);
     }
@@ -73,7 +81,7 @@ public class AmmeterHelper {
     /**
      * 结算最新数据
      */
-    public static void settlement(final List<Ammeter> ammeters, final double sharing, final double price, CallBack<Boolean> callBack) {
+    public static void settlement(final List<Ammeter> ammeters, final double sharing, final double price, CallBack<Date> callBack) {
         sExecutor.submit(() -> {
             Date time = new Date();
             List<Settlement> settlements = new ArrayList<>();
@@ -87,7 +95,7 @@ public class AmmeterHelper {
             }
             Repository.insertSettlement(settlements);
             Repository.updateAmmeters(ammeters);
-            sHandler.post(() -> callBack.onResult(true));
+            sHandler.post(() -> callBack.onResult(time));
         });
     }
 
@@ -227,6 +235,33 @@ public class AmmeterHelper {
 
     public static boolean copy(Context context, List<ItemViewDataHolder> itemAmmeters) {
         if (context == null || itemAmmeters == null || itemAmmeters.size() == 0) return false;
+        StringBuffer info = getShareInfo(context, itemAmmeters);
+        return copy(context, info);
+    }
+
+    public static boolean copy(Context context, List<Ammeter> ammeters, final double sharing, final double price) {
+        if (context == null || ammeters == null) return false;
+        StringBuffer info = getShareInfo(ammeters, sharing, price);
+        return copy(context, info);
+    }
+
+    private static boolean copy(final Context context, final StringBuffer info) {
+        ClipboardManager manager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        if (manager != null) {
+            try {
+                manager.setPrimaryClip(ClipData.newPlainText("ammeter_info", info));
+                return true;
+            } catch (Exception e) {
+                //
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public static StringBuffer getShareInfo(Context context, List<ItemViewDataHolder> itemAmmeters) {
+        if (context == null || itemAmmeters == null || itemAmmeters.size() == 0)
+            return new StringBuffer();
         List<Ammeter> ammeters = new ArrayList<>();
         Ammeter item;
         ItemAmmeter itemAmmeter = null;
@@ -244,34 +279,7 @@ public class AmmeterHelper {
             item.setNewBalance(itemAmmeter.getNewBalance());
             ammeters.add(item);
         }
-        StringBuffer info = getShareInfo(ammeters, itemAmmeter.getSharing(), itemAmmeter.getPrice());
-        ClipboardManager manager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-        if (manager != null) {
-            try {
-                manager.setPrimaryClip(ClipData.newPlainText("ammeter_info", info));
-                return true;
-            } catch (Exception e) {
-                //
-                return false;
-            }
-        }
-        return false;
-    }
-
-    public static boolean copy(Context context, List<Ammeter> ammeters, final double sharing, final double price) {
-        if (context == null || ammeters == null) return false;
-        StringBuffer info = getShareInfo(ammeters, sharing, price);
-        ClipboardManager manager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-        if (manager != null) {
-            try {
-                manager.setPrimaryClip(ClipData.newPlainText("ammeter_info", info));
-                return true;
-            } catch (Exception e) {
-                //
-                return false;
-            }
-        }
-        return false;
+        return getShareInfo(ammeters, itemAmmeter.getSharing(), itemAmmeter.getPrice());
     }
 
     @SuppressLint("DefaultLocale")
@@ -290,7 +298,7 @@ public class AmmeterHelper {
                         .append(String.format("\n（公摊电费：%.2f 元，", price * sharing))
                         .append(String.format("分表电费：%.2f 元，", price * (ammeter.getNewAmmeter() - ammeter.getOldAmmeter())))
                         .append("用电：")
-                        .append((ammeter.getNewAmmeter() - ammeter.getOldAmmeter())).append(" 度，当前读数：")
+                        .append((ammeter.getNewAmmeter() - ammeter.getOldAmmeter())).append(" 度，本次读数：")
                         .append(ammeter.getNewAmmeter()).append(" 度)；\n ------------ \n");
             } else {
                 info.append(String.format("总缴电费：%.2f 元\n（总用电：", ammeter.getOldBalance() - ammeter.getNewBalance()))

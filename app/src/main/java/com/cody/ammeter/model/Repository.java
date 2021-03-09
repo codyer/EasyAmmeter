@@ -134,5 +134,10 @@ public class Repository {
         return AmmeterDatabase.getInstance().getPaymentDao().getDataSource(ammeterId);
     }
 
+    public static void clearAll() {
+        AmmeterDatabase.getInstance().getSettlementDao().delete();
+        AmmeterDatabase.getInstance().getPaymentDao().delete();
+        AmmeterDatabase.getInstance().getAmmeterDao().delete();
+    }
     /* payment end */
 }

@@ -40,65 +40,56 @@
                     android:layout_height="@dimen/dimen_normal"
                     android:background="@drawable/ic_dash_line" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        style="@style/itemStart"
-                        android:text="@string/balance" />
-
-                    <TextView
-                        style="@style/itemEnd"
-                        tools:text="204353.33 元"
-                        android:text='@{String.format("%.2f 元",viewData.oldBalance)}' />
-                </RelativeLayout>
-
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_smallest">
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
 
-                    <TextView
-                        style="@style/itemStart"
-                        android:text="@string/ammeter" />
-
-                    <TextView
-                        style="@style/itemEnd"
-                        tools:text="204353.33"
-                        android:text='@{String.format("%.2f 度",viewData.oldAmmeter)}' />
-
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_normal"
-                    android:background="@drawable/ic_dash_line" />
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_smallest">
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    <LinearLayout
                         android:id="@+id/thisBalance"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_margin="@dimen/dimen_small"
-                        android:src="@drawable/ic_balance"
-                        android:contentDescription="@string/balance" />
+                        android:orientation="vertical">
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        <TextView
+                            style="@style/itemCardSubTitle"
+                            tools:text="余额\n2353.33 元"
+                            android:text='@{String.format("余额\n%.2f 元",viewData.oldBalance)}' />
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen_small"
+                            android:src="@drawable/ic_balance"
+                            android:contentDescription="@string/balance" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/thisAmmeter"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_margin="@dimen/dimen_small"
-                        android:src="@drawable/ic_ammeter"
-                        android:contentDescription="@string/ammeter" />
+                        android:orientation="vertical">
 
-                </FrameLayout>
+                        <TextView
+                            style="@style/itemCardSubTitle"
+                            tools:text="电表\n2053.33 度"
+                            android:text='@{String.format("电表\n%.2f 度",viewData.oldAmmeter)}' />
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen_small"
+                            android:src="@drawable/ic_ammeter"
+                            android:contentDescription="@string/ammeter" />
+
+                    </LinearLayout>
+                </LinearLayout>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

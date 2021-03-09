@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">电费助手</string>
-    <string name="please_input_this_hint">请输入当前电表数据</string>
+    <string name="please_input_this_hint">请输入本次电表数据</string>
     <string name="please_input_wrong_hint">电表数据未更新或者不正确</string>
 
     <string name="last_month_balance">上次电表余额：</string>
-    <string name="this_month_balance">当前电表余额：</string>
+    <string name="this_month_balance">本次电表余额：</string>
 
     <string name="last_month">上次电表读数：</string>
-    <string name="this_month">当前电表读数：</string>
+    <string name="this_month">本次电表读数：</string>
     <string name="main_ammeter">总表</string>
     <string name="use">本次总表用电：</string>
     <string name="total_price">本次总表电费：</string>
@@ -16,6 +16,7 @@
 
     <string name="save">保存并关闭</string>
     <string name="save_and_clear">保存并复制</string>
+    <string name="clear">清空数据</string>
     <string name="history">历史结算</string>
     <string name="default_value">0度</string>
     <string name="make_ok">开始计算</string>
@@ -38,16 +39,16 @@
     <string name="check_out">退租</string>
     <string name="title_payment">缴费金额</string>
     <string name="set_balance">更新余额</string>
-    <string name="title_balance">当前余额</string>
+    <string name="title_balance">本次余额</string>
     <string name="ammeter">电表</string>
     <string name="un_set">未设置</string>
     <string name="set">已设置</string>
     <string name="set_ammeter">更新电表</string>
     <string name="used_ammeter">已用电量</string>
     <string name="title_ammeter">电表读数</string>
-    <string name="please_input_payment_hint">请输入本次缴费金额\n当前余额：%.2f 元</string>
-    <string name="please_input_balance_hint">%s上次余额\n%.2f 元</string>
-    <string name="please_input_ammeter_hint">%s上次读数\n%.2f 度</string>
+    <string name="please_input_payment_hint">请输入本次缴费金额</string>
+    <string name="please_input_balance_hint">请输入%s的余额</string>
+    <string name="please_input_ammeter_hint">请输入%s的电表读数</string>
     <string name="new_ammeter_hint">请输入新用户房间电表数据！</string>
     <string name="balance">余额</string>
     <string name="recharge_payment">充值缴费</string>
@@ -76,10 +77,9 @@
     <string name="format_yuan">%.2f 元</string>
     <string name="format_du">%.2f 度</string>
     <string name="success_set_payment">成功缴费:金额%.2f 元</string>
-    <string name="success_set_balance">当前余额:%.2f 元</string>
+    <string name="success_set_balance">本次余额:%.2f 元</string>
     <string name="success_set_ammeter">电表数据:%.2f 度</string>
     <string name="success_new_ammeter">新户入住成功，电表当前为%.2f 度</string>
-    <string name="price_used_hint">当前有%.2f 元电费未结算</string>
     <string name="only_10_count">最多只支持十位数输入</string>
     <string name="save_2_decimal">小数点后最多支持输入两位数</string>
     <string name="no_need_to_info_total">没有需要结算的金额，是否去补充缴费记录？</string>
@@ -94,4 +94,7 @@
     <string name="no_need_to">暂时没有需要结算的数据\n请确认余额和电量以及充值情况正确</string>
     <string name="please_input_data">请录入主表余额和各表数据</string>
     <string name="please_input_recharge">请记得录入每次的充值缴费</string>
+    <string name="please_input_main_balance">请输入主表本次余额</string>
+    <string name="please_input_main_ammeter">请输入主表电表读数</string>
+    <string name="please_input_main_data">总表数据输入</string>
 </resources>

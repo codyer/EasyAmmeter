@@ -12,9 +12,16 @@
             type="android.view.View.OnClickListener" />
 
         <variable
-            name="used"
+            name="balance"
             type="String" />
 
+        <variable
+            name="oldAmmeter"
+            type="String" />
+
+        <variable
+            name="newAmmeter"
+            type="String" />
     </data>
 
     <LinearLayout
@@ -46,15 +53,42 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/itemCardSubTitle"
-                    android:text="@string/please_input_recharge" />
+                    style="@style/itemCardTitle"
+                    android:text='@{balance}'
+                    tools:text="待结算：88.88元" />
 
-                <TextView
-                    style="@style/itemCardSubTitle"
-                    android:layout_marginTop="@dimen/dimen_normal"
-                    android:text="@{used}"
-                    tools:text="@string/price_used_hint" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_smallest"
+                    android:orientation="horizontal">
 
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        style="@style/itemCardSubTitle"
+                        android:text='@{oldAmmeter}'
+                        tools:text="上次电表\n88.88 度" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="2" />
+
+                    <TextView
+                        style="@style/itemCardSubTitle"
+                        android:text='@{newAmmeter}'
+                        tools:text="本次电表\n88.88 度" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
             </LinearLayout>
 
             <Button
