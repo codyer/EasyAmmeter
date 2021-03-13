@@ -10,6 +10,8 @@
     结算记录，也正好验证一下《component》组件快速开发的能力，因此才有了这个项目。
 
 # 截屏预览
+<html>
+<body>
 
 <div class="box">
 <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3a4mbj30u01t0127.jpg">
@@ -32,6 +34,9 @@
 .box{width:20%; text-align:center; font-szie:18px;display: inline-block}
 .box img {width:100%;}
 </style>
+
+</body>
+</html>
 
 # 下载地址：
   1）[蒲公英地址](https://www.pgyer.com/5Mq5)
