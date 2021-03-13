@@ -11,22 +11,7 @@
 
 # 截屏预览
 
-<div width:20%; text-align:center; font-szie:18px;display: inline-block>
-<img width:100% rc="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3a4mbj30u01t0127.jpg">
-   首页
-</div>
-<div width:20%; text-align:center; font-szie:18px;display: inline-block>
-  <img width:100% src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh2y8p0j30u01t00yo.jpg">
-   我的租客
-</div>
-<div width:20%; text-align:center; font-szie:18px;display: inline-block>
-  <img width:100% src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3smerj30u01t0aqz.jpg">
-   输入
-</div>
-<div width:20%; text-align:center; font-szie:18px;display: inline-block>
-  <img width:100% src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3izvoj30u01t0wkd.jpg">
-   历史结算
-</div>
+<div width="20%" text-align="center" font-szie="18px" display="inline-block"><img width="20%" rc="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3a4mbj30u01t0127.jpg">首页</div><div width="20%" text-align="center" font-szie="18px" display="inline-block"><img width="20%" src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh2y8p0j30u01t00yo.jpg">我的租客</div><div width="20%" text-align="center" font-szie="18px" display="inline-block"><img width="20%" src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3smerj30u01t0aqz.jpg">输入</div><div width="20%" text-align="center" font-szie="18px" display="inline-block"><img width="20%" src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3izvoj30u01t0wkd.jpg">历史结算</div>
 
 # 下载地址：
   1）[蒲公英地址](https://www.pgyer.com/5Mq5)
