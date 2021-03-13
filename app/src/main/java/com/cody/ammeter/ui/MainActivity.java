@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.cody.ammeter.BuildConfig;
 import com.cody.ammeter.R;
 import com.cody.ammeter.databinding.MainActivityBinding;
 import com.cody.ammeter.model.db.table.Ammeter;
@@ -48,7 +49,7 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.app_name);
+        setTitle(getString(R.string.app_name) + BuildConfig.VERSION_NAME);
         showLoading();
         AmmeterHelper.getMainAmmeter().observeForever(ammeter -> {
             if (ammeter == null) return;
