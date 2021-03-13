@@ -11,8 +11,8 @@
 
 # 截屏预览
 
-![avatar](main.jpg)     ![avatar](tenant.jpg)
-![avatar](input.jpg)    ![avatar](history.jpg)
+![首页](../../main.jpg)     ![我的租客](../../tenant.jpg)
+![输入](../../input.jpg)    ![历史结算](../../history.jpg)
 
 # 下载地址：
   1）[蒲公英地址](https://www.pgyer.com/5Mq5)
