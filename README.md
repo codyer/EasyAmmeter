@@ -11,8 +11,8 @@
 
 # 截屏预览
 
-![首页](https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3a4mbj30u01t0127.jpg)   ![我的租客](https://tva1.sinaimg.cn/large/008eGmZEgy1goidh2y8p0j30u01t00yo.jpg)
-![历史结算](https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3smerj30u01t0aqz.jpg) ![输入](https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3izvoj30u01t0wkd.jpg)
+<img src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3a4mbj30u01t0127.jpg" width="25%"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh2y8p0j30u01t00yo.jpg" width="25%">
+<img src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3smerj30u01t0aqz.jpg" width="25%"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3izvoj30u01t0wkd.jpg" width="25%">
 
 ![首页](main.jpg)     ![我的租客](tenant.jpg)
 ![输入](input.jpg)    ![历史结算](history.jpg)
