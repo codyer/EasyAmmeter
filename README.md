@@ -11,11 +11,27 @@
 
 # 截屏预览
 
-<img src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3a4mbj30u01t0127.jpg" width="25%"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh2y8p0j30u01t00yo.jpg" width="25%">
-<img src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3smerj30u01t0aqz.jpg" width="25%"><img src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3izvoj30u01t0wkd.jpg" width="25%">
+<div class="box">
+<img src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3a4mbj30u01t0127.jpg">
+   首页
+</div>
+<div class="box">
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh2y8p0j30u01t00yo.jpg">
+   我的租客
+</div>
+<div class="box">
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3smerj30u01t0aqz.jpg">
+   输入
+</div>
+<div class="box">
+  <img src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3izvoj30u01t0wkd.jpg">
+   历史结算
+</div>
 
-![首页](main.jpg)     ![我的租客](tenant.jpg)
-![输入](input.jpg)    ![历史结算](history.jpg)
+<style>
+.box{width:20%; text-align:center; font-szie:18px;display: inline-block}
+.box img {width:100%;}
+</style>
 
 # 下载地址：
   1）[蒲公英地址](https://www.pgyer.com/5Mq5)
