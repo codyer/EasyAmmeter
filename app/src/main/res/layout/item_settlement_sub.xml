@@ -58,14 +58,27 @@
 
                     <TextView
                         style="@style/itemStart"
-                        android:text="@string/total_price_sub" />
+                        android:text="@string/last_month" />
 
                     <TextView
                         style="@style/itemEnd"
-                        android:textColor="@color/color3"
-                        android:textStyle="bold"
-                        android:text='@{String.format("%.2f 元",(viewData.price * (viewData.sharing + viewData.newAmmeter - viewData.oldAmmeter)))}'
-                        tools:text="22.34 元" />
+                        tools:text="204353.45"
+                        android:text='@{String.format("%.2f 度",viewData.oldAmmeter)}' />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/itemStart"
+                        android:text="@string/this_month" />
+
+                    <TextView
+                        style="@style/itemEnd"
+                        tools:text="204353.45"
+                        android:text='@{String.format("%.2f 度",viewData.newAmmeter)}' />
 
                 </RelativeLayout>
 
@@ -129,27 +142,14 @@
 
                     <TextView
                         style="@style/itemStart"
-                        android:text="@string/this_month" />
+                        android:text="@string/total_price_sub" />
 
                     <TextView
                         style="@style/itemEnd"
-                        tools:text="204353.45"
-                        android:text='@{String.format("%.2f 度",viewData.newAmmeter)}' />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        style="@style/itemStart"
-                        android:text="@string/last_month" />
-
-                    <TextView
-                        style="@style/itemEnd"
-                        tools:text="204353.45"
-                        android:text='@{String.format("%.2f 度",viewData.oldAmmeter)}' />
+                        android:textColor="@color/color3"
+                        android:textStyle="bold"
+                        android:text='@{String.format("%.2f 元",(viewData.price * (viewData.sharing + viewData.newAmmeter - viewData.oldAmmeter)))}'
+                        tools:text="22.34 元" />
 
                 </RelativeLayout>
 
