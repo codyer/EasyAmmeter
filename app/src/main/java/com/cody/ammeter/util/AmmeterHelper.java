@@ -297,15 +297,14 @@ public class AmmeterHelper {
                         .append(String.format("，本次剩余应缴电费：%.2f 元", (price * (sharing + ammeter.getNewAmmeter() - ammeter.getOldAmmeter()) - ammeter.getNewBalance())))
                         .append(String.format("\n（公摊电费：%.2f 元，", price * sharing))
                         .append(String.format("分表电费：%.2f 元，", price * (ammeter.getNewAmmeter() - ammeter.getOldAmmeter())))
-                        .append("用电：")
-                        .append((ammeter.getNewAmmeter() - ammeter.getOldAmmeter())).append(" 度，本次读数：")
-                        .append(ammeter.getNewAmmeter()).append(" 度)；\n ------------ \n");
+                        .append(String.format("用电：%.2f 度，",ammeter.getNewAmmeter() - ammeter.getOldAmmeter()))
+                        .append(String.format("本次读数：%.2f 度)；\n ------------ \n",ammeter.getNewAmmeter()));
             } else {
-                info.append(String.format("总缴电费：%.2f 元\n（总用电：", ammeter.getOldBalance() - ammeter.getNewBalance()))
-                        .append(ammeter.getNewAmmeter() - ammeter.getOldAmmeter())
-                        .append(String.format(" 度，公摊度数：%.2f 度，上月总表读数：", sharing))
-                        .append(ammeter.getOldAmmeter()).append("度，本月总表读数：")
-                        .append(ammeter.getNewAmmeter()).append("度)；\n ------------ \n");
+                info.append(String.format("总缴电费：%.2f 元\n", ammeter.getOldBalance() - ammeter.getNewBalance()))
+                        .append(String.format("（总用电：%.2f 度，",ammeter.getNewAmmeter() - ammeter.getOldAmmeter()))
+                        .append(String.format(" 公摊度数：%.2f 度，", sharing))
+                        .append(String.format("上月总表读数：%.2f 度，",ammeter.getOldAmmeter()))
+                        .append(String.format("本月总表读数：%.2f 度)；\n ------------ \n",ammeter.getNewAmmeter()));
             }
         }
         return info;
