@@ -56,7 +56,7 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
             mMainAmmeter = ammeter;
             getBinding().setBalance(String.format("待结算：%.2f 元", ammeter.getOldBalance()));
             getBinding().setOldAmmeter(String.format("总表上次\n%.2f 度", ammeter.getOldAmmeter()));
-            getBinding().setNewAmmeter(String.format("总表本次\n%.2f 度", ammeter.getNewAmmeter()));
+            getBinding().setNewAmmeter(String.format("总表当前\n%.2f 度", ammeter.getNewAmmeter()));
             AmmeterHelper.setUnSettlementMoney(ammeter.getOldBalance());
             hideLoading();
         });

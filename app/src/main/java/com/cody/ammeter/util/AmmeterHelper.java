@@ -87,11 +87,11 @@ public class AmmeterHelper {
             List<Settlement> settlements = new ArrayList<>();
             for (Ammeter ammeter : ammeters) {
                 settlements.add(createSettlement(ammeter, sharing, price, time));
-                ammeter.setOldAmmeter(ammeter.getNewAmmeter());
                 ammeter.setOldBalance(ammeter.getNewBalance());
                 if (ammeter.getId() != Ammeter.UN_TENANT_ID) {//分表
                     ammeter.setNewBalance(ammeter.getNewBalance() - price * (sharing + ammeter.getNewAmmeter() - ammeter.getOldAmmeter()));
                 }
+                ammeter.setOldAmmeter(ammeter.getNewAmmeter());
             }
             Repository.insertSettlement(settlements);
             Repository.updateAmmeters(ammeters);
