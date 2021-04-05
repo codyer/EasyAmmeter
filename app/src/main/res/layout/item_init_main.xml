@@ -57,7 +57,7 @@
                         <TextView
                             style="@style/itemCardSubTitle"
                             tools:text="余额\n2353.33 元"
-                            android:text='@{String.format("余额\n%.2f 元",viewData.oldBalance)}' />
+                            android:text='@{String.format("余额\n%.2f 元",viewData.newBalance)}' />
 
                         <com.google.android.material.floatingactionbutton.FloatingActionButton
                             android:layout_width="wrap_content"
@@ -79,7 +79,7 @@
                         <TextView
                             style="@style/itemCardSubTitle"
                             tools:text="电表\n2053.33 度"
-                            android:text='@{String.format("电表\n%.2f 度",viewData.oldAmmeter)}' />
+                            android:text='@{String.format("电表\n%.2f 度",viewData.newAmmeter)}' />
 
                         <com.google.android.material.floatingactionbutton.FloatingActionButton
                             android:layout_width="wrap_content"
