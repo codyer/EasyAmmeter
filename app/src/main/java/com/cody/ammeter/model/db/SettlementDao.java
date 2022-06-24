@@ -45,7 +45,7 @@ public interface SettlementDao {
     @Query("select * from settlements WHERE time =:time order by id ASC")
     DataSource.Factory<Integer, Settlement> getDataSource(Date time);
 
-    @Query("select * from settlements WHERE ammeterId =:ammeterId order by id ASC")
+    @Query("select * from settlements WHERE ammeterId =:ammeterId order by id DESC")
     DataSource.Factory<Integer, Settlement> getDataSource(long ammeterId);
 
     @Query("SELECT count(*) FROM settlements WHERE time =:time")

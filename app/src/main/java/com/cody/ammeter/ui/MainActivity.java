@@ -110,13 +110,13 @@ public class MainActivity extends BaseActionbarActivity<MainActivityBinding> {
                 InitListActivity.start(this);
                 break;
             case R.id.rechargePayment:
-                InputActivity.start(this, InputActivity.INPUT_TYPE_PAYMENT, Ammeter.UN_TENANT_NAME);
+                InputActivity.start(this, InputActivity.INPUT_TYPE_PAYMENT, Ammeter.UN_TENANT_NAME, mMainAmmeter.getOldBalance());
                 break;
             case R.id.paymentRecord:
                 PaymentListActivity.start(this, Ammeter.UN_TENANT_ID);
                 break;
             case R.id.checkIn:
-                InputActivity.start(this, InputActivity.INPUT_TYPE_NEW_TENANT, Ammeter.UN_TENANT_NAME);
+                InputActivity.start(this, InputActivity.INPUT_TYPE_NEW_TENANT, Ammeter.UN_TENANT_NAME, 0);
                 break;
             case R.id.myTenant:
                 TenantListActivity.start(this);

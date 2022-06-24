@@ -20,14 +20,16 @@ public class InputActivity extends BaseActionbarActivity<InputActivityBinding> {
     public final static int INPUT_TYPE_AMMETER = 0x02;// 电表输入
     public final static int INPUT_TYPE_NEW_TENANT = 0x03;// 新户入住
     public final static int INPUT_TYPE_PAYMENT = 0x04;// 充值缴费
+    private final static String LAST_VALUE = "last_value";
     private final static String VALUE = "value";
     private final static String NAME = "name";
     private final static String TYPE = "type";
 
-    public static void start(Activity activity, int type, String name) {
+    public static void start(Activity activity, int type, String name, final double lastValue) {
         Intent intent = new Intent(activity, InputActivity.class);
         intent.putExtra(TYPE, type);
         intent.putExtra(NAME, name);
+        intent.putExtra(LAST_VALUE, lastValue);
         activity.startActivityForResult(intent, type);
     }
 
@@ -48,29 +50,35 @@ public class InputActivity extends BaseActionbarActivity<InputActivityBinding> {
         super.onBaseReady(savedInstanceState);
         String name = Ammeter.UN_TENANT_NAME;
         int type = INPUT_TYPE_AMMETER;
+        double lastValue = 0;
         if (getIntent() != null) {
             name = getIntent().getStringExtra(NAME);
             type = getIntent().getIntExtra(TYPE, INPUT_TYPE_AMMETER);
+            lastValue = getIntent().getDoubleExtra(LAST_VALUE, 0);
         }
         getBinding().setViewData(mValue);
         switch (type) {
             case INPUT_TYPE_BALANCE:
                 setTitle(name + getString(R.string.title_balance));
+                getBinding().setLast(String.format(getString(R.string.last_month_balance_format), name, lastValue));
                 getBinding().setHint(String.format(getString(R.string.please_input_balance_hint), name));
                 getBinding().setUnit(getString(R.string.yuan));
                 break;
             case INPUT_TYPE_AMMETER:
                 setTitle(name + getString(R.string.title_ammeter));
-                getBinding().setHint(String.format(getString(R.string.please_input_ammeter_hint),name));
+                getBinding().setLast(String.format(getString(R.string.last_month_format), name, lastValue));
+                getBinding().setHint(String.format(getString(R.string.please_input_ammeter_hint), name));
                 getBinding().setUnit(getString(R.string.degree));
                 break;
             case INPUT_TYPE_NEW_TENANT:
                 setTitle(getString(R.string.ammeter_check_in));
+                getBinding().setLast("");
                 getBinding().setHint(getString(R.string.new_ammeter_hint));
                 getBinding().setUnit(getString(R.string.degree));
                 break;
             case INPUT_TYPE_PAYMENT:
                 setTitle(name + getString(R.string.title_payment));
+                getBinding().setLast(String.format(getString(R.string.last_month_balance_format), name, lastValue));
                 getBinding().setHint(getString(R.string.please_input_payment_hint));
                 getBinding().setUnit(getString(R.string.yuan));
                 break;

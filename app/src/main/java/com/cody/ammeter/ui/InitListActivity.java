@@ -151,12 +151,12 @@ public class InitListActivity extends BaseActionbarActivity<SettlementLitActivit
             // 设置当前余额
             mItemBinding.thisBalance.setOnClickListener(v -> {
                 mClickedAmmeter = ammeter;
-                InputActivity.start(InitListActivity.this, InputActivity.INPUT_TYPE_BALANCE, ammeter.getName());
+                InputActivity.start(InitListActivity.this, InputActivity.INPUT_TYPE_BALANCE, ammeter.getName(), ammeter.getOldBalance());
             });
             // 设置当前电表
             mItemBinding.thisAmmeter.setOnClickListener(v -> {
                 mClickedAmmeter = ammeter;
-                InputActivity.start(InitListActivity.this, InputActivity.INPUT_TYPE_AMMETER, ammeter.getName());
+                InputActivity.start(InitListActivity.this, InputActivity.INPUT_TYPE_AMMETER, ammeter.getName(), ammeter.getOldAmmeter());
             });
         }
     }
@@ -187,7 +187,7 @@ public class InitListActivity extends BaseActionbarActivity<SettlementLitActivit
             mItemBinding.setLifecycleOwner(lifecycleOwner);
             itemView.setOnClickListener(v -> {
                 mClickedAmmeter = ammeter;
-                InputActivity.start(InitListActivity.this, InputActivity.INPUT_TYPE_AMMETER, ammeter.getName());
+                InputActivity.start(InitListActivity.this, InputActivity.INPUT_TYPE_AMMETER, ammeter.getName(), ammeter.getOldAmmeter());
             });
         }
     }

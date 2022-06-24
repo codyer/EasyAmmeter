@@ -64,10 +64,10 @@ public class MainAmmeterActivity extends BaseActionbarActivity<MainAmmeterActivi
         if (mMainAmmeter == null) return;
         switch (v.getId()) {
             case R.id.thisBalance:
-                InputActivity.start(this, InputActivity.INPUT_TYPE_BALANCE, mMainAmmeter.getName());
+                InputActivity.start(this, InputActivity.INPUT_TYPE_BALANCE, mMainAmmeter.getName(), mMainAmmeter.getOldBalance());
                 break;
             case R.id.thisAmmeter:
-                InputActivity.start(this, InputActivity.INPUT_TYPE_AMMETER, mMainAmmeter.getName());
+                InputActivity.start(this, InputActivity.INPUT_TYPE_AMMETER, mMainAmmeter.getName(), mMainAmmeter.getOldAmmeter());
                 break;
             case R.id.next:
                 SettlementListActivity.start(MainAmmeterActivity.this);

@@ -96,7 +96,7 @@ public class TenantListActivity extends AbsPageListActivity<ToolbarLitActivityBi
                 if (item != null) {
                     if (id == R.id.rechargePayment) {
                         mTenant = item;
-                        InputActivity.start(this, InputActivity.INPUT_TYPE_PAYMENT, item.getName());
+                        InputActivity.start(this, InputActivity.INPUT_TYPE_PAYMENT, item.getName(), item.getNewBalance());
                     } else {
                         TenantActivity.start(this, item.getId(), item.getName());
                     }

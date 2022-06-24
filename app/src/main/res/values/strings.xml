@@ -3,6 +3,9 @@
     <string name="please_input_this_hint">请输入本次电表数据</string>
     <string name="please_input_wrong_hint">电表数据未更新或者不正确</string>
 
+    <string name="last_month_balance_format">上次%s余额:%.2f 元</string>
+    <string name="last_month_format">上次%s电表读数:%.2f 度</string>
+
     <string name="last_month_balance">上次电表余额：</string>
     <string name="this_month_balance">本次电表余额：</string>
 
@@ -23,7 +26,6 @@
     <string name="share">分享</string>
     <string name="edit">编辑</string>
     <string name="waiting">请等待…</string>
-
 
     <string name="use_sub">本次分表用电：</string>
 

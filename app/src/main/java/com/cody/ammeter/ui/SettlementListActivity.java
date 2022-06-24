@@ -305,7 +305,7 @@ public class SettlementListActivity extends BaseActionbarActivity<SettlementLitA
             mItemBinding.setLifecycleOwner(lifecycleOwner);
             itemView.setOnClickListener(v -> {
                 mClickedAmmeter = ammeter;
-                InputActivity.start(SettlementListActivity.this, InputActivity.INPUT_TYPE_AMMETER, ammeter.getName());
+                InputActivity.start(SettlementListActivity.this, InputActivity.INPUT_TYPE_AMMETER, ammeter.getName(), ammeter.getOldAmmeter());
             });
         }
     }

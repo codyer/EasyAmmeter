@@ -16,6 +16,10 @@
             type="com.cody.component.handler.livedata.StringLiveData" />
 
         <variable
+            name="last"
+            type="java.lang.String" />
+
+        <variable
             name="hint"
             type="java.lang.String" />
 
@@ -49,6 +53,17 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/uiColorGray6"
+                android:textSize="@dimen/ui_font_big"
+                tools:text="@string/last_month"
+                android:text="@{last}"
+                tools:ignore="NestedWeights" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="center"
                 android:textColor="@color/color3"
                 android:textSize="@dimen/ui_font_biggest"
                 tools:text="@string/new_ammeter_hint"
@@ -58,7 +73,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="4"
                 android:gravity="center_horizontal"
                 android:textSize="50sp"
                 android:textColor="@color/uiColorGray3"

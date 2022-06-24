@@ -108,11 +108,11 @@ public class TenantActivity extends BaseActionbarActivity<TenantActivityBinding>
         if (mTenantAmmeter == null)return;
         switch (v.getId()) {
             case R.id.updateAmmeter:
-                InputActivity.start(this, InputActivity.INPUT_TYPE_AMMETER, mTenantAmmeter.getName());
+                InputActivity.start(this, InputActivity.INPUT_TYPE_AMMETER, mTenantAmmeter.getName(), mTenantAmmeter.getOldAmmeter());
                 break;
             case R.id.newBalance:
             case R.id.rechargePayment:
-                InputActivity.start(this, InputActivity.INPUT_TYPE_PAYMENT, mTenantAmmeter.getName());
+                InputActivity.start(this, InputActivity.INPUT_TYPE_PAYMENT, mTenantAmmeter.getName(), mTenantAmmeter.getNewBalance());
                 break;
             case R.id.paymentRecord:
                 PaymentListActivity.start(this, mTenantAmmeter.getId());
