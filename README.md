@@ -6,8 +6,10 @@
     VM  ->  ViewModel
 
 # 背景
+    -- 来自年迈老妈的需求 --
     合租房时，需要分表记录电表数据，公摊电费，每次都要计算，实际都是固定计算方式，为了更便捷计算，且可以查到每次
     结算记录，也正好验证一下《component》组件快速开发的能力，因此才有了这个项目。
+    -- 字要大，操作要简单 --
 
 # 截屏预览
 <img width="20%" src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3a4mbj30u01t0127.jpg"> <img width="20%" src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh2y8p0j30u01t00yo.jpg"> <img width="20%" src="https://tva1.sinaimg.cn/large/008eGmZEgy1goidh3smerj30u01t0aqz.jpg"> 
